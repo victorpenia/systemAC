@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="<?php echo $this->basePath() ?>/users/user/add" style="color:#178acc"><span class="glyphicon glyphicon-plus-sign"></span> Registrar nuevo usuario</a>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>                                
+                                <th>Usuario</th>
+                                <th>Rol</th>
+                                <th>Parroquia</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($this->data as $data_item){ ?>                           
+                            <tr class="gradeC"> 
+                                
+                                <td><strong><?php echo  $data_item['charge']?></strong><?php echo " ".$data_item['firstName']." ".$data_item['lastName']?></td>
+                                <td><?php echo  $data_item['nameRole']?></td>
+                                <?php if (empty($data_item['parishName'])){?>
+                                <td><?php echo "Arzobispado de Cochabamba" ?></td>
+                                <?php }else{ ?>
+                                <td><?php echo  $data_item['parishName']?></td>                                
+                                <?php }?>
+                                <td>
+                                <a href="<?php echo $this->basePath() ?>/users/user/view/<?php echo  $data_item['id'] ?>" title="Ver" style="color:#178acc"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                <a href="<?php echo $this->basePath() ?>/users/user/edit/<?php echo  $data_item['id'] ?>" title="Editar" style="color:#178acc"><span class="glyphicon glyphicon-edit"></span></a>
+                                <?php if(!empty($data_item['serialNumber'])){ ?>
+                                <a href="#" title="Certificado: <?php echo $data_item['serialNumber'] ?>" style="color:#178acc"><span class="glyphicon glyphicon-file"></span></a>
+                                <?php }else { ?>
+                                <a href="<?php echo $this->basePath() ?>/users/certificate/load/<?php echo  $data_item['id'] ?>" title="Cargar certificado" style="color:#ff0000"><span class="glyphicon glyphicon-file"></span></a>
+                                <?php } ?>
+                                <!--<a href="#" title="Eliminar" style="color:#178acc"><span class="glyphicon glyphicon-trash"></span></a>-->
+                                </td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->                
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

@@ -1,0 +1,486 @@
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc">GUÍA DE USUARIO DEL SISTEMA</h2>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#178acc">
+                Guía de usuario
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            Sección
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li><a href="#helper-system">Acceso al sistema</a>
+                            </li>
+                            <?php if ($this->idRol == '1') { ?>
+                                <li><a href="#helper-user">Usuarios</a>
+                                </li>
+                            <?php } ?>
+                            <li><a href="#helper-vicarious">Vicarías</a>
+                            </li>
+                            <li><a href="#helper-parish">Parroquias</a>
+                            </li>
+                            <li><a href="#helper-book">Libros parroquiales</a>
+                            </li>
+                            <li><a href="#helper-baptism">Bautismos</a>
+                            </li>
+                            <li><a href="#helper-confirmations">Confirmaciones</a>
+                            </li>
+                            <li><a href="#helper-marriages">Matrimonios</a>
+                            </li>
+                            
+                            <!--                            <li><a href="#helper-person">Personas</a>
+                                                        </li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <h2 class="text-center" style="color:#178acc">INTRODUCCI&Oacute;N</h2>
+                <p class="text-alien">El presente manual de usuario, tiene como finalidad dar a conocer de una manera detallada y sencilla la estructura de la página Web
+                    de la institución <a href="#" class="text-primary" >Arzobispado de Cochabamba</a> para que los usuarios puedan sacar el máximo provecho de la misma. 
+                    El sitio fue diseñado para que el usuario pueda, de una forma intuitiva y sin mayor capacitación, realizar las distintas funcionalidades y tareas del sistema.</p>
+                <p>
+                <h3 style="color:#178acc">Requerimientos</h3>
+                <p>El sitio Web para una mayor funcionalidad y facilidad en el uso se requiere:</p>
+                <ul>
+                    <li>Contar por lo menos con una computadora en cada parroquia.</li>
+                    <li>Tener acceso a Internet en las computadoras. </li>
+                    <li>Utilizar Google Chrome 4 o superior, Mozilla Firefox 3 o superior, Internet Explorer 10 o superior.</li>                    
+                    <li>Contar con una persona que tenga conocimientos m&iacute;nimos de uso de computadoras.</li>
+                </ul>
+                <h3 style="color:#178acc">Estructura de las páginas</h3>
+                <p>Para acceder a la página Web indicarle a nuestro navegador la dirección <a href="#" class="text-primary">www.arzobispado-cochabamba.com</a></p>
+                <h3 class="page-header" id="helper-system" style="color:#178acc">Acceso al sistema</h3>
+                <p>Al acceder al sistema Web se mostrará un formulario de autenticación en el cual debe introducir su email (correo electrónico) y su contraseña 
+                    que le asignó el administrador del sistema para luego presionar el botón “Entrar”.</p>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/login.png" alt="..." class="img-rounded" /></center>
+                <br/>
+                <p class="lead" style="color:#178acc">Página princial</p>
+                <p>Una vez que el usuario ingresa al sistema, lo primero que visualizará es la página principal del sistema de acuerdo al rol que se le asignó.</p>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/main.png" alt="..." class="img-rounded" width="700" height="350"/></center>
+                <br />
+                <p>Como se puede apreciar en la imagen, la página principal del sistema se ha estructurado en 3 partes básicas bien localizadas.</p>
+                <ul>
+                    <li>Cabecera en la parte superior y menú de usuario.</li>
+                    <li>Menú principal de navegación en la parte izquierda.</li>
+                    <li>Contenidos o cuerpos en la parte central-derecha.</li> 
+                </ul>
+                <p class="lead" style="color:#178acc">Olvidó su contraseña</p>
+                <p>En ocasiones cuando su contraseña es olvidada es necesario generar una nueva contraseña para su usuario, debe presionar el link “Olvidó su contraseña?”.</p>
+                <p>En la ventana emergente debe introducir su email (correo electrónico) que le asignó el administrador del sistema y luego presionar el botón “Enviar”.</p>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/forgotPassword.png" alt="..." class="img-rounded" /></center>
+                <br />
+                <p>El sistema genera  su nueva contraseña el cual enviará al email (correo electrónico) ingresado por el usuario, finalmente el sistema muestra un mensaje de confirmación de cambio de contraseña.</p>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/messagePassword.png" alt="..." class="img-rounded" /></center>
+                <br />
+                <p class="text-danger">En caso que el email (correo electrónico) no exista o no esta activa el sistema mostrará un mensaje de error.</p>
+                <p class="lead" style="color:#178acc">Búsquedas en el sistema</p>
+                <p>La búsqueda de datos en todo el sistema tiene el siguiente formato visualizado en la figura siguiente.</p>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/search.png" alt="..." class="img-rounded" /></center>
+                <br/>
+                <p>A medida que se va llenado en el campo de texto la información que se requiere buscar, la búsqueda se realiza por todos los criterios que se encuentran en la lista, como por ejemplo en la figura 
+                    de arriba se buscaría por nombre, apellido paterno, apellido materno del usuario, rol que fue asignado, parroquia al que pertenece, etc.</p>
+                <p>Los resultados de la búsqueda se van generando  a medida que se llena el campo de texto y se obtiene  una serie de registros que concuerdan con el texto introducido.</p>
+                <p class="lead" style="color:#178acc">Paginación de las vistas</p>
+                <p>La paginación de las vistas de los datos en todo el sistema tiene el siguiente formato mostrado en la figura siguiente.</p>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/pagination.png" alt="..." class="img-rounded" /></center>
+                <br/>
+                <p>Por defecto se muestran los 10 primeros registros ordenados alfabéticamente, y se puede ir aumentando de 25, 50, hasta 100 registros por página. La paginación se encuentra en la 
+                    parte inferior de la vista donde indica la cantidad de páginas y registros que se encuentran suscritos y haciendo click en “Siguiente” se muestra la página siguiente.</p>
+                <!--Guia Usuarios-->
+                <?php if ($this->idRol == '1') { ?>
+                    <h3 class="page-header" id="helper-user" style="color:#178acc">Usuarios</h3>
+                    <p>Los usuarios del sistema son personas que se conectan al sistema para hacer uso de los servicios que el sistema ofrece. Dentro de los usuarios del 
+                        sistema podemos distinguir diferentes roles de usuario, y dependiendo del rol se asigna privilegios en el sistema, estos roles son:</p>
+                    <ul>
+                        <li>Administrador Arzobispado.</li>
+                        <li>Administrador Archivos.</li>
+                        <li>Administrador Parroquia.</li>
+                        <li>Ayudante Parroquia.</li> 
+                    </ul>
+                    <p>Un usuario con los privilegios necesarios (Administrador Arzobispado) dentro del sistema puede crear, ver y modificar los datos personales de un usuario, 
+                        puede asignarle un rol, una parroquia, como también puede crear certificados digitales para ese usuario y cargar los certificados digitales en el sistema 
+                        para que el usuario pueda firmar los documentos que se generan.</p>
+                    <p class="lead" style="color:#178acc">Registrar nuevo usuario</p>
+                    <p>A continuación se indica el proceso para la creación de un nuevo usuario:</p>
+                    <ul>
+                        <li>Seleccione la opción “Nuevo Usuario” en el menú principal.</li>
+                        <li>Llene todos los campos requeridos en el formulario.</li>
+                        <li>Asígnele un rol al usuario.</li>
+                        <li>Si el rol es igual a “Administrador Parroquia” o “Ayudante Parroquia” Asígnele una parroquia al usuario.</li>                    
+                        <li>Presiones el botón “Registrar” para crear el nuevo usuario. </li>                    
+                    </ul>
+                    <center><img src="<?php echo $this->basePath() ?>/img/images/addUser.png" alt="..." class="img-rounded"/></center>
+                    <br/>
+                    <p class="text-danger">En caso que exista errores en el llenado de los datos el sistema mostrará mensajes de error en los campos erróneos.</p>
+                    <p class="text-danger">En caso que el email (correo electrónico)  ya esté siendo usado por otro usuario el sistema mostrará un mensaje de error.</p>                
+                    <p class="lead" style="color:#178acc">Ver usuarios</p>
+                    <p>A continuación se indica el proceso para ver los usuarios registrados en el sistema, y la información detallada de los mismos:</p>
+                    <ul>
+                        <li>Seleccione la opción “Ver Usuario” en el menú principal.</li>  
+                    </ul>                
+                    <center><img src="<?php echo $this->basePath() ?>/img/images/viewUsers.png" alt="..." class="img-rounded"/></center>
+                    <br/>
+                    <ul>
+                        <li>Ingrese el nombre, apellido del usuario o ambos en los filtros de búsqueda y se visualizará los resultados.</li>
+                        <li>Presione el botón “Ver” para ver la información detallada del usuario.</li>
+                    </ul>
+                    <center><img src="<?php echo $this->basePath() ?>/img/images/view2User.png" alt="..." class="img-rounded"/></center>
+                    <br/>
+                    <p class="lead" style="color:#178acc">Modificar un usuario</p>
+                    <p>A continuación se indica el proceso para la modificación de los datos de un usuario:</p>
+                    <ul>
+                        <li>Seleccione la opción “Ver Usuarios” en el menú principal.</li>
+                        <li>Ingrese el nombre, apellido del usuario o ambos en los filtros de búsqueda y se visualizará los resultados.</li>
+                        <li>Presione el botón “Editar Usuario” para ir al formulario de edición de datos.</li>
+                        <li>Modifique los campos necesarios del usuario como datos personales, cambiar de rol, cambiar de parroquia o desactivar la cuenta del usuario.</li>                    
+                        <li>Presione el botón “Guardar Cambios” para guardar los cambios realizados en el formulario usuarios.</li>                    
+                    </ul>
+                    <p class="text-danger">En caso que exista errores en el llenado de los datos el sistema mostrará mensajes de error en los campos erróneos.</p>        
+                    <p class="lead" style="color:#178acc">Cargar certificado digital a un usuario</p>
+                    <p>A continuación se indica el proceso para la carga de certificados digitales a un usuario del sistema:</p>
+                    <ul>
+                        <li>Seleccione la opción “Ver Usuarios” en el menú principal.</li>
+                        <li>Ingrese el nombre, apellido del usuario o ambos en los filtros de búsqueda y se visualizará los resultados.</li>
+                        <li>Presione el botón “Cargar Certificado” para ir al formulario de carga de certificados para el usuario seleccionado.</li>                    
+                        <li>Cargar los certificados digitales (El certificado y la clave privada del certificado con extensión .crt y .key respectivamente) del usuario seleccionado.</li>
+                        <li>Presiones el botón “Cargar” para cargar los certificados digitales del usuario seleccionado.</li>
+                    </ul>
+                    <center><img src="<?php echo $this->basePath() ?>/img/images/loadCertificate.png" alt="..." class="img-rounded"/></center>
+                    <br/>
+                    <p class="text-danger">En caso que exista errores en la carga de los certificados digitales el sistema mostrará mensajes de error.</p>
+                    <p class="text-danger">En caso que los certificados digitales ya estén siendo usados por otro usuario el sistema mostrará un mensaje de error.</p>
+                    <p class="lead" style="color:#178acc">Ver certificados</p>
+                    <p>A continuación se indica el proceso para ver los certificados digitales cargados en el sistema, la información detallada del certificado y a que usuario pertenece:</p>
+                    <ul>
+                        <li>Seleccione la opción “Certificados” en el menú principal.</li>  
+                    </ul>                
+                    <center><img src="<?php echo $this->basePath() ?>/img/images/viewCertificate.png" alt="..." class="img-rounded"/></center>
+                    <br/>
+                    <ul>
+                        <li>Ingrese el nombre, apellido del usuario o ambos en los filtros de búsqueda y se visualizará los resultados.</li>
+                        <li>Presione el botón “Ver” para ver la información detallada del certificado digital.</li>
+                    </ul>
+                    <center><img src="<?php echo $this->basePath() ?>/img/images/viewDetailCertificate.png" alt="..." class="img-rounded"/></center>
+                    <br/>
+                <?php } ?>
+                <!--Guia Vicarias-->
+                <h3 id="helper-vicarious" class="page-header" style="color:#178acc">Vicarías</h3>
+                <p>Las vicarías son zonas geográficas donde el Arzobispado de Cochabamba ejerce jurisdicción espiritual, 
+                    donde se encuentran un conjunto de parroquias.</p>  
+                <p>Donde un usuario con los privilegios necesarios (Administrador Arzobispado) dentro del sistema puede crear, ver y modificar una vicaría.</p> 
+                <?php if ($this->idRol == '1') { ?>
+                <p class="lead" style="color:#178acc">Registrar nueva vicaría</p>
+                <p>A continuación se indica el proceso para la creación de una nueva vicaría:</p>
+                <ul>
+                    <li>Seleccione la opción “Nueva Vicaría” en el menú principal.</li>
+                    <li>Llene todos los campos requeridos en el formulario.</li>
+                    <li>Presiones el botón “Registrar” para crear la nueva vicaría.</li>                   
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/addVicarious.png" alt="..." class="img-rounded"/></center>
+                <br/>                
+                <p class="text-danger">En caso que exista errores en el llenado de los datos el sistema mostrará mensajes de error en los campos erróneos.</p>
+                <?php } ?>
+                <p class="lead" style="color:#178acc">Ver vicarías </p>
+                <p>A continuación se indica el proceso para ver las vicarías registradas en el sistema, y la información detallada de los mismos:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Vicarías” en el menú principal.</li>  
+                </ul>                
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewAllVicarious.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <ul>
+                    <li>Ingrese el nombre, ubicación de la vicaría en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Ver” para ver la información detallada de la vicaría.</li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewDetailVicarious.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <?php if ($this->idRol == '1') { ?>
+                <p class="lead" style="color:#178acc">Modificar una vicaría</p>
+                <p>A continuación se indica el proceso para la modificación de los datos de una vicaría:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Vicarías” en el menú principal.</li>
+                    <li>Ingrese el nombre, ubicación de la vicaría en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Editar Vicaría” para ir al formulario de edición de datos.</li>      
+                    <li>Modifique los campos necesarios de la vicaría.</li>      
+                    <li>Presione el botón “Guardar Cambios” para guardar los cambios realizados en el formulario vicarías.</li>                    
+                </ul>
+                <p class="text-danger">En caso que exista errores en el llenado de los datos el sistema mostrará mensajes de error en los campos erróneos.</p>
+                <?php } ?>
+                <!--Guia parroquias-->
+                <h3 id="helper-parish" class="page-header" style="color:#178acc">Parroquias</h3>
+                <p>Las parroquias son centros espirituales donde la gente asiste para fortalecer su fe a Dios.</p>
+                <p>Donde un usuario con los privilegios necesarios (Administrador Arzobispado) dentro del sistema puede crear, ver y modificar una parroquia.</p>
+                <?php if ($this->idRol == '1') { ?>
+                <p class="lead" style="color:#178acc">Registrar nueva parroquia</p>
+                <p>A continuación se indica el proceso para la creación de una nueva parroquia:</p>
+                <ul>
+                    <li>Seleccione la opción “Nueva Parroquia” en el menú principal.</li>
+                    <li>Llene todos los campos requeridos en el formulario.</li>
+                    <li>Asígnarle una vicaría a la parroquia.</li>
+                    <li>Presiones el botón “Registrar” para crear la nueva parroquia. </li>              
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/addParish.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="text-danger">En caso que exista errores en el llenado de los datos el sistema mostrará mensajes de error en los campos erróneos.</p>
+                <?php } ?>
+                <p class="lead" style="color:#178acc">Ver parroquias</p>
+                <p>A continuación se indica el proceso para ver las parroquias registradas en el sistema, y la información detallada de los mismos:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Parroquias” en el menú principal.</li>  
+                </ul>                
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewParishes.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <ul>
+                    <li>Ingrese el nombre de la parroquia en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Ver” para ver la información detallada de la parroquia.</li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewDetailParish.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <?php if ($this->idRol == '1') { ?>
+                <p class="lead" style="color:#178acc">Modificar una parroquia</p>
+                <p>A continuación se indica el proceso para la modificación de los datos de una parroquia:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Parroquias” en el menú principal.</li>
+                    <li>Ingrese el nombre de la parroquia en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Editar Parroquia” para ir al formulario de edición de datos.</li>
+                    <li>Modifique los campos necesarios de la parroquia, como también puede cambiar de vicaría a la parroquia.</li>                    
+                    <li>Presione el botón “Guardar Cambios” para guardar los cambios realizados en el formulario parroquias.</li>                    
+                </ul>
+                <p class="text-danger">En caso que exista errores en el llenado de los datos el sistema mostrará mensajes de error en los campos erróneos.</p>
+                <?php } ?>
+                <!--Guia Libros parroquiales-->
+                <h3 id="helper-book" class="page-header" style="color:#178acc">Libros parroquiales</h3>
+                <p>Los libros parroquiales son libros donde se registran todos los sacramentos (Bautismo, matrimonio, confirmación) realizados las parroquias a las personas.</p>
+                <p>Donde un usuario con los privilegios necesarios (Administrador Parroquia y Ayudante Parroquia) dentro del sistema puede crear, 
+                    ver y modificar un libro parroquial para su parroquia.</p>
+                <p class="lead" style="color:#178acc">Registrar nuevo libro</p>
+                <p>A continuación se indica el proceso para la creación de un nuevo libro:</p>
+                <ul>
+                    <li>Seleccione la opción “Nuevo Libro” en el menú principal.</li>
+                    <li>Llene todos los campos requeridos en el formulario.</li>                    
+                    <li>Presiones el botón “Registrar” para crear el nuevo libro.</li>                    
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/addBook.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="text-danger">En caso que exista errores en el llenado de los datos el sistema mostrará mensajes de error en los campos erróneos.</p>
+                <p class="lead" style="color:#178acc">Ver libros parroquiales</p>
+                <p>A continuación se indica el proceso para ver los libros registrados en el sistema, y la información detallada de los mismos:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Libros” en el menú principal.</li>  
+                </ul>                
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewAllBook.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <ul>
+                    <li>Ingrese el código, sacramento o fecha de creación del libro en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Ver” para ver la información detallada del libro.</li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewDetailBook.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="lead" style="color:#178acc">Modificar un libro</p>
+                <p>A continuación se indica el proceso para la modificación de los datos de un libro:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Libros” en el menú principal.</li>
+                    <li>Ingrese el código, sacramento o fecha de creación del libro en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Editar Libro” para ir al formulario de edición de datos.</li> 
+                    <li>Modifique los campos necesarios del libro.</li> 
+                    <li>Presione el botón “Guardar Cambios” para guardar los cambios realizados en el formulario libros.</li>                    
+                </ul>
+                <p class="text-danger">En caso que exista errores en el llenado de los datos el sistema mostrará mensajes de error en los campos erróneos.</p>
+                <!--Guia Bautismos-->
+                <h3 id="helper-baptism" class="page-header" style="color:#178acc">Sacramento de bautismo</h3>
+                <p>El sacramento de bautismo es donde la persona se incorpora a la comunidad como nuevo miembro de la iglesia y a la fe a Dios como hijos de él.</p>
+                <p>Donde un usuario con los privilegios necesarios (Administrador Parroquia y Administrador Archivos) dentro del sistema puede crear, ver, modificar, 
+                    firmar el registro e imprimir un bautismo, como también debe verificar que la persona cumpla con los requisitos mínimos que exige este sacramento.</p>
+                <p class="lead" style="color:#178acc">Registrar nuevo bautismo</p>
+                <p>A continuación se indica el proceso para la creación de un nuevo bautismo:</p>
+                <ul>
+                    <li>Seleccione la opción “Nuevo Bautismo” en el menú principal.</li>
+                    <li>Llene todos los campos requeridos en el formulario.</li>
+                    <ul>
+                        <li>Datos personales de la persona quien realizará el bautismo.</li>
+                        <li>Datos del certificado de nacimiento de la persona.</li>                    
+                        <li>Datos personales de los padres.</li>
+                        <li>Datos personales de los padrinos.</li>                    
+                        <li>Datos del bautismo.</li>                    
+                    </ul>
+                    <li>Presiones el botón “Registrar” para crear el nuevo bautismo.</li>                  
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/addBaptism.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="text-danger">En caso que exista errores en el llenado de los datos el sistema mostrará mensajes de error en los campos erróneos.</p>
+                <p class="text-danger">En caso que la persona ya fue bautizada anteriormente el sistema no permitirá registrar el bautismo el sistema mostrará un mensaje de error.</p>                
+                <p class="lead" style="color:#178acc">Ver bautismos </p>
+                <p>A continuación se indica el proceso para ver los bautismos registrados en el sistema, y la información detallada de los mismos:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Bautismos” en el menú principal.</li>  
+                </ul>                
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewAllBaptism.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <ul>
+                    <li>Ingrese el nombre, apellido paterno o apellido materno de la persona en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Ver” para ver la información detallada del bautismo.</li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewDetailBaptism.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="lead" style="color:#178acc">Firmar un documento de bautismo</p>
+                <p>A continuación se indica el proceso para firmar un documento de bautismo:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Bautismos” en el menú principal.</li>
+                    <li>Ingrese el nombre, apellido paterno o apellido materno de la persona en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Firmar Registro” para poder firmar el documento seleccionado.</li>                    
+                    <li>Ingrese su contraseña de inicio de sesión en el campo de texto.</li>
+                    <li>Presione el botón “Firmar” para poder firmar el documento. </li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/firma.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="text-danger">En caso que exista errores en la contraseña el sistema mostrará un mensaje de error.</p>
+                <p class="text-danger">En caso que el usuario no tenga los privilegios necesarios esta opción no estará disponible.</p>
+                <p class="lead" style="color:#178acc">Imprimir un documento de bautismo</p>
+                <p>A continuación se indica el proceso para imprimir un documento de bautismo:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Bautismos” en el menú principal.</li>
+                    <li>Ingrese el nombre, apellido paterno o apellido materno de la persona en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Imprimir Registro” para poder imprimir el registro de bautismo.</li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/baptismPdf.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="text-danger">En caso que el registro no esté firmado esta opción no estará disponible.</p>
+                <!--Guia Confirmaciones-->
+                <h3 id="helper-confirmations" class="page-header" style="color:#178acc">Sacramento de confirmación</h3>
+                <p>El sacramento de confirmación es donde la persona  confirma su fe a Dios y da testimonio de su existencia.</p>
+                <p>Donde un usuario con los privilegios necesarios (Administrador Parroquia y Administrador Archivos) dentro del sistema puede crear, ver, modificar, 
+                   firmar el registro e imprimir una confirmación, como también debe verificar que la persona cumpla con los requisitos mínimos que exige este sacramento.</p>
+                <p class="lead" style="color:#178acc">Registrar nueva confirmación</p>
+                <p>A continuación se indica el proceso para la creación de una nueva confirmación:</p>
+                <ul>
+                    <li>Seleccione la opción “Nuevo Confirmación” en el menú principal.</li>
+                    <li>Llene todos los campos requeridos en el formulario.</li>
+                    <ul>
+                        <li>Datos personales de la persona quien realizará la confirmación.</li>
+                        <li>Datos personales de los padres.</li>
+                        <li>Datos personales de los padrinos.</li>
+                        <li>Datos de la confirmación.</li>                  
+                    </ul>
+                    <li>Presiones el botón “Registrar” para crear la nueva confirmación. </li>                  
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/addConfirmation.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="text-danger">En caso que exista errores en el llenado de los datos el sistema mostrará mensajes de error en los campos erróneos.</p>
+                <p class="text-danger">En caso que la persona ya fue confirmada anteriormente el sistema no le permitirá registrar la confirmación el sistema mostrará un mensaje de error.</p>                
+                <p class="lead" style="color:#178acc">Ver confirmaciones</p>
+                <p>A continuación se indica el proceso para ver las confirmaciones registradas en el sistema, y la información detallada de los mismos:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Confirmaciones” en el menú principal.</li>  
+                </ul>                
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewAllConfirmation.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <ul>
+                    <li>Ingrese el nombre, apellido paterno o apellido materno de la persona en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Ver” para ver la información detallada de la confirmación.</li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewDetailConfirmation.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="lead" style="color:#178acc">Firmar un documento de confirmación</p>
+                <p>A continuación se indica el proceso para firmar un documento de confirmación:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Confirmaciones” en el menú principal.</li>
+                    <li>Ingrese el nombre, apellido paterno o apellido materno de la persona en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Firmar Registro” para poder firmar el documento seleccionado.</li>                    
+                    <li>Ingrese su contraseña de inicio de sesión en el campo de texto.</li>
+                    <li>Presione el botón “Firmar” para poder firmar el documento. </li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/firma.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="text-danger">En caso que exista errores en la contraseña el sistema mostrará un mensaje de error.</p>
+                <p class="text-danger">En caso que el usuario no tenga los privilegios necesarios esta opción no estará disponible. </p>
+                <p class="lead" style="color:#178acc">Imprimir un documento de confirmación</p>
+                <p>A continuación se indica el proceso para imprimir un documento de confirmación:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Confirmaciones” en el menú principal.</li>
+                    <li>Ingrese el nombre, apellido paterno o apellido materno de la persona en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Imprimir Registro” para poder imprimir el registro de confirmación.</li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/confirmationPdf.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="text-danger">En caso que el registro no esté firmado esta opción no estará disponible.</p>
+                <!--Guia Matrimonios-->
+                <h3 id="helper-marriages" class="page-header" style="color:#178acc">Sacramento de matrimonio</h3>
+                <p>El sacramento de matrimonio es la unión santa entre un nombre y una mujer, dándoles la gracia de amarse 
+                   fielmente y de educar cristianamente a sus hijos.</p>
+                <p>Donde un usuario con los privilegios necesarios (Administrador Parroquia y Administrador Archivos)
+                   dentro del sistema puede crear, ver, modificar, firmar el registro e imprimir un matrimonio, como también debe verificar que la persona cumpla con los requisitos mínimos que exige este sacramento.</p>
+                <p class="lead" style="color:#178acc">Registrar nuevo matrimonio</p>
+                <p>A continuación se indica el proceso para la creación de un nuevo matrimonio:</p>
+                <ul>
+                    <li>Seleccione la opción “Nuevo Matrimonio” en el menú principal.</li>
+                    <li>Llene todos los campos requeridos en el formulario.</li>
+                    <ul>
+                        <li>Datos personales de la persona (Esposo y la esposa quienes realizarán el matrimonio).</li>
+                        <li>Datos personales de los padres del esposo.</li>
+                        <li>Datos personales de los padres de la esposa.</li>
+                        <li>Datos de los padrinos de información.</li>                    
+                        <li>Datos de los padrinos presenciales.</li>                    
+                        <li>Datos de la matrimonio.</li>                    
+                    </ul>
+                    <li>Presiones el botón “Registrar” para crear el nuevo matrimonio.</li>                  
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/addMarriage.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="text-danger">En caso que exista errores en el llenado de los datos el sistema mostrará mensajes de error en los campos erróneos.</p>
+                <p class="text-danger">En caso que la persona ya contrajo matrimonio anteriormente el sistema no le permitirá registrar el matrimonio el sistema mostrará un mensaje de error.</p>                
+                <p class="lead" style="color:#178acc">Ver matrimonios</p>
+                <p>A continuación se indica el proceso para ver los matrimonios registrados en el sistema, y la información detallada de los mismos:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Matrimonios” en el menú principal.</li>  
+                </ul>                
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewAllMarriage.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <ul>
+                    <li>Ingrese el nombre, apellido paterno o apellido materno de la persona (Esposo o esposa) en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Ver” para ver la información detallada del matrimonio.</li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/viewDetailMarriage.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="lead" style="color:#178acc">Firmar un documento de matrimonio</p>
+                <p>A continuación se indica el proceso para firmar un documento de matrimonio:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Matrimonios” en el menú principal.</li>
+                    <li>Ingrese el nombre, apellido paterno o apellido materno de la persona (Esposo o esposa) en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Firmar Registro” para poder firmar el documento seleccionado.</li>                    
+                    <li>Ingrese su contraseña de inicio de sesión en el campo de texto.</li>
+                    <li>Presione el botón “Firmar” para poder firmar el documento. </li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/firma.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="text-danger">En caso que exista errores en la contraseña el sistema mostrará un mensaje de error.</p>
+                <p class="text-danger">En caso que el usuario no tenga los privilegios necesarios esta opción no estará disponible.</p>
+                <p class="lead" style="color:#178acc">Imprimir un documento de matrimonio</p>
+                <p>A continuación se indica el proceso para imprimir un documento de matrimonio:</p>
+                <ul>
+                    <li>Seleccione la opción “Ver Matrimonios” en el menú principal.</li>
+                    <li>Ingrese el nombre, apellido paterno o apellido materno de la persona (Esposo o esposa) en los filtros de búsqueda y se visualizará los resultados.</li>
+                    <li>Presione el botón “Imprimir Registro” para poder imprimir el registro de matrimonio.</li>
+                </ul>
+                <center><img src="<?php echo $this->basePath() ?>/img/images/marriagePdf.png" alt="..." class="img-rounded"/></center>
+                <br/>
+                <p class="text-danger">En caso que el registro no esté firmado esta opción no estará disponible.</p>                
+                <br/> 
+                <br/>
+                <br/>
+                <p class="text-right text-warning">Arzobispado de Cochabamba.</p>
+            </div>
+            <!-- /.panel-body -->
+        </div>            
+    </div>
+    <!-- /.col-lg-8 -->        
+</div>
+<!-- /.row -->

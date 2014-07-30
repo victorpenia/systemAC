@@ -1,0 +1,73 @@
+<?php 
+$state = "label label-warning";
+if($this->data->status == 'Activo'){
+      $state = "label label-success";  
+}
+if($this->data->status == 'Inactivo'){
+      $state = "label label-danger";  
+}
+?>
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <?php if($this->idRoles == '1'){?>
+                <a href="<?php echo $this->basePath() ?>/users/user/index" style="color:#178acc"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atr&aacute;s</a>
+                <?php }else{?>
+                <a href="<?php echo $this->basePath() ?>/archdiocese/parishes/index" style="color:#178acc"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atr&aacute;s</a>
+                <?php }?>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+<!--                <div class="col-lg-2">
+                    <img data-src="holder.js/140x140" class="img-rounded" alt="140x140" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" style="width: 140px; height: 140px;">                
+                </div>-->
+                <div class="col-md-6">
+                    <h3 style="color:#178acc">Informaci&oacute;n b&aacute;sica</h3>
+                    <p>Nombre: <strong><?php echo $this->data->charge." ".$this->data->firstName." ".$this->data->lastName?></strong></p>
+                    <p>Direcci&oacute;n: <strong><?php echo $this->data->address ?></strong></p>
+                    <p>Tel&eacute;fono: <strong><?php echo $this->data->phone ?></strong></p>
+                    <p>Celular: <strong><?php echo $this->data->cellPhone ?></strong></p>
+                    <p>Email:<strong><a href="#" style="color:#178acc"> <?php echo $this->data->email ?></a></strong></p>                    
+                    <?php if(!empty($this->data->parishName)){?>
+                    <p>Parroquia: <strong><?php echo $this->data->parishName ?></strong></p>
+                    <?php }else{?>
+                    <p>Instituci&oacute;n: <strong>Arzobispado de Cochabamba</strong></p>
+                    <?php } ?>                    
+                </div>
+                <div class="col-md-6">
+                    <h3 style="color:#178acc">Informaci&oacute;n usuario</h3>
+                    <p>Rol: <strong><?php echo $this->data->nameRole ?></strong></p>
+                    <?php if($this->idRoles == '1'){
+                    if(!empty($this->data->certificateName)){
+                    ?>
+                    <p>Certificado: <strong><a href="<?php echo $this->basePath() ?>/users/certificate/view/<?php echo $this->data->idCertificate ?>" style="color:#178acc"><?php echo $this->data->certificateName ?></a></strong></p>
+                    <?php }else{?>
+                    <p>Certificado: <strong>No</strong></p>
+                    <?php }
+                    }
+                    ?>
+                    <?php if($this->idRoles == '1'){?>
+                    <p>Estado: <span class="<?php echo $state?>"><?php echo $this->data->status ?></span></p>
+                    <p>Fecha creaci&oacute;n: <strong><?php echo $this->data->createdDate ?></strong></p>
+                    <p>Fecha modificaci&oacute;n: <strong><?php echo $this->data->modifiedDate ?></strong></p>
+                    <a href="<?php echo $this->basePath() ?>/users/user/edit/<?php echo  $this->data->id ?>" class="btn btn-primary" role="button">Editar</a>
+                    <?php if(empty($this->data->certificateName)){ ?>
+                    <a href="<?php echo $this->basePath() ?>/users/certificate/load/<?php echo  $this->data->id ?>" class="btn btn-primary" role="button">Cargar Certificado</a>
+                    <?php } 
+                    }?>
+                </div>
+                
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

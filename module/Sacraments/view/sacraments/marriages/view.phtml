@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<?php setlocale(LC_TIME, "spanish"); ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/index" style="color:#178acc"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atr&aacute;s</a>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">                
+                <div class="col-md-6">
+                    <h3 style="color:#178acc">Informaci&oacute;n esposo</h3>
+                    <p>Persona: <strong><?php echo $this->personMale->firstName." ".$this->personMale->firstSurname." ".$this->personMale->secondSurname?></strong></p>
+                    <p>Ci/Rua: <strong><?php echo $this->personMale->ci ?></strong></p>
+                    <p>Fecha nacimiento: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->personMale->birthDate)) ?></strong></p>                    
+                    <p>Estado civil: <strong><?php echo $this->personMale->maritalStatus ?></strong></p>
+                    <p>Parroquia bautismo: <strong><?php echo $this->data->baptismParishMale ?></strong></p>
+                    <p>Padre: <strong><?php echo $this->personMale->fatherName." ".$this->personMale->fatherFirstSurname." ".$this->personMale->fatherSecondSurname?></strong></p>
+                    <p>Madre: <strong><?php echo $this->personMale->matherName." ".$this->personMale->matherFirstSurname." ".$this->personMale->matherSecondSurname ?></strong></p>
+                    <h3 style="color:#178acc">Informaci&oacute;n esposa</h3>
+                    <p>Persona: <strong><?php echo $this->personFemale->firstName." ".$this->personFemale->firstSurname." ".$this->personFemale->secondSurname?></strong></p>
+                    <p>Ci/Rua: <strong><?php echo $this->personFemale->ci ?></strong></p>
+                    <p>Fecha nacimiento: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->personFemale->birthDate)) ?></strong></p>                    
+                    <p>Estado civil: <strong><?php echo $this->personFemale->maritalStatus ?></strong></p>
+                    <p>Parroquia bautismo: <strong><?php echo $this->data->baptismParishFemale ?></strong></p>
+                    <p>Padre: <strong><?php echo $this->personFemale->fatherName." ".$this->personFemale->fatherFirstSurname." ".$this->personFemale->fatherSecondSurname ?></strong></p>
+                    <p>Madre: <strong><?php echo $this->personFemale->matherName." ".$this->personFemale->matherFirstSurname." ".$this->personFemale->matherSecondSurname ?></strong></p>
+                    <h3 style="color:#178acc"> Informaci&oacute;n padrinos</h3>
+                    <p>Padrinos de informaci&oacute;n:</p>
+                    <p><strong><?php echo $this->data->godfatherNameOneInformation." ".$this->data->godfatherSurnameOneInformation ?></strong></p>
+                    <p><strong><?php echo $this->data->godfatherNameTwoInformation." ".$this->data->godfatherSurnameTwoInformation ?></strong></p>
+                    <p>Padrinos Presenciales:</p>                    
+                    <p><strong><?php echo $this->data->godfatherNameOnePresence." ".$this->data->godfatherSurnameOnePresence ?></strong></p>
+                    <p><strong><?php echo $this->data->godfatherNameTwoPresence." ".$this->data->godfatherSurnameTwoPresence ?></strong></p>
+                </div>
+                <div class="col-md-6">
+                    <h3 style="color:#178acc">Informaci&oacute;n libro</h3>
+                    <p>C&oacute;digo del libro: <strong><?php echo $this->data->code ?></strong></p>
+                    <p>Libro: <strong><?php echo $this->data->book ?></strong></p>
+                    <p>P&aacute;gina: <strong><?php echo $this->data->page ?></strong></p>
+                    <p>Partida: <strong><?php echo $this->data->item ?></strong></p>
+                    <h3 style="color:#178acc">Informaci&oacute;n matrimonio</h3>
+                    <p>Parroquia: <strong><?php echo $this->data->parishName ?></strong></p>
+                    <p>Fecha matrimonio: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->data->marriageDate)) ?></strong></p>
+                    <p>Párroco que realizó el matrimonio: <strong><?php echo $this->data->marriagePriest ?></strong></p>
+                    <p>Párroco que da fe: <strong><?php echo $this->data->attestPriest ?></strong></p>                    
+                    <p>Observaciones: <strong><?php echo $this->data->observation ?></strong></p>
+                    <a href="<?php echo $this->basePath() ?>/sacraments/marriages/edit/<?php echo  $this->data->id ?>" class="btn btn-primary" role="button">Editar</a>
+                    <a href="<?php echo $this->basePath() ?>/sacraments/marriages/print/<?php echo  $this->data->id ?>" class="btn btn-primary" role="button">Imprimir PDF</a>
+                </div>
+                
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

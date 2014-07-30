@@ -1,0 +1,112 @@
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/addp" style="color:#178acc"><span class="glyphicon glyphicon-plus-sign"></span> Registrar nuevo matrimonio</a>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>                                
+                                <th>Hombre</th>
+                                <th>Mujer</th>
+                                <th>Libro</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($this->data as $data_item){ ?>                           
+                            <tr class="gradeC"> 
+                                <td><?php echo  $data_item->firstName." ".$data_item->firstSurname." ".$data_item->secondSurname?></td>
+                                <td><?php echo  $data_item->firstName." ".$data_item->firstSurname." ".$data_item->secondSurname?></td>
+                                <td><?php echo  "Libro Nº: <strong>".$data_item->book."</strong>" ?></td>
+                                <td>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/viewp/<?php echo  $data_item->id?>" title="Ver" style="color:#178acc"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/editp/<?php echo  $data_item->id?>" title="Editar" style="color:#178acc"><span class="glyphicon glyphicon-edit"></span></a>
+                                <?php if($data_item->idUserCertificate == '0'){ 
+                                      if($this->idRol == '3'){
+                                ?>                                
+                                <a data-toggle="modal" data-target="#myModal" title="Firmar Registro" style="color:#178acc" data-id="<?php echo  $data_item->id?>" class="open-AddBookDialog"><span class="glyphicon glyphicon-pencil"></span></a>                                
+                                <?php } }else{?>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/printp/<?php echo  $data_item->id?>" title="Imprimir" style="color:#178acc" target="_blank"><span class="glyphicon glyphicon-print"></span></a>
+                                <?php }  ?>
+                                </td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->                
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel" style="color:#178acc" >Firmar Registro</h4>
+      </div>
+      <div class="modal-body">
+          <form id="myform"> 
+            <div class="form-group">
+                <input type="hidden" name="bookId" id="bookId" value="" />
+                <label>* Contraseña:</label>
+                <input name="mypassword" type="password" maxlength="30" class="form-control" id="inputPassword" placeholder="Contraseña">
+                <div  id="mymessage" style="color:#ff0000"></div>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="buttonSubmit">Firmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    
+$(document).on("click", ".open-AddBookDialog", function () {
+     var myBookId = $(this).data('id');
+     $(".modal-body #bookId").val( myBookId );
+     // As pointed out in comments, 
+     // it is superfluous to have to manually call the modal.
+     // $('#addBookDialog').modal('show');
+});    
+    
+$(function() {
+    $("#buttonSubmit").click(function(){
+        $.ajax({
+    	type: "POST",
+	url: "<?php echo $this->url . '/sacraments/marriages/signDocument'; ?>",
+	data: $('form#myform').serialize(),
+        success: function(msg){
+            if(msg){
+                $("#myModal").modal('hide');
+                location.reload();
+            }else{
+               $("#mymessage").html('contraseña incorecta.');
+            }
+            	
+ 	},
+	error: function(){
+            alert("failure");
+	}
+      	});
+    });
+});
+</script>

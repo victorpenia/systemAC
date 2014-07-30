@@ -1,0 +1,163 @@
+<?php
+$form = $this->form;
+
+$form->setAttributes(array(
+    'action' => $this->url.'/users/information/edit/'.$this->id,
+    //'id' => $this->id,
+    'method' => 'post',
+    'name'   => 'myForm',
+    'id'  => 'defaultForm'
+));
+$form->prepare();
+?>
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#178acc">
+                Registro de editar informaci&oacute;n b&aacute;sica
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <?php echo $this->form()->openTag($form)?>
+                    <div class="col-md-6">
+                        <h3>Informaci&oacute;n b&aacute;sica</h3> 
+                            <?php $id= $form->get('id');
+                                echo $this->formInput($id);
+                            ?>
+                            <div class="form-group">
+                                <label>* Jerarqu&iacute;a:</label>
+                                <?php $charge= $form->get('charge');
+                                    echo $this->formSelect($charge);
+                                    echo $this->formElementErrors($charge);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Nombres:</label>
+                                <?php $firstName= $form->get('firstName');
+                                    echo $this->formInput($firstName);
+                                    echo $this->formElementErrors($firstName);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Apellidos:</label>
+                                <?php $lastName= $form->get('lastName');
+                                    echo $this->formInput($lastName);
+                                    echo $this->formElementErrors($lastName);
+                                ?> 
+                            </div>
+                            <div class="form-group">
+                                <label>Tel&eacute;fono:</label>
+                                <?php $phone= $form->get('phone');
+                                    echo $this->formInput($phone);
+                                ?> 
+                            </div>
+                            <div class="form-group">
+                                <label>Celular:</label>
+                                <?php $cellPhone= $form->get('cellPhone');
+                                    echo $this->formInput($cellPhone);
+                                ?> 
+                            </div>
+                            <div class="form-group">
+                                <label>Direcci&oacute;n:</label>
+                                <?php $address= $form->get('address');
+                                    echo $this->formInput($address);
+                                    echo $this->formElementErrors($address);
+                                ?>
+                            </div>
+                            <?php echo $this->formElement($form->get('modify')) ?>
+                            <a href="<?php echo $this->basePath() ?>/application/dashboard/index" class="btn btn-default" role="button">Cancelar</a>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->                    
+                    <?php echo $this->form()->closeTag() ?>
+                </div>
+                <!-- /.row (nested) -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<script type="text/javascript">
+   
+
+$(document).ready(function() {
+    $('#defaultForm').bootstrapValidator({
+//        live: 'disabled',
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            firstName: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo nombre es obligatorio.'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 30,
+                        message: 'El campo nombre debe ser una cadena de texto mayor a 3 caracteres.'
+                    }
+                }
+            },
+            lastName: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo apellido es obligatorio.'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 30,
+                        message: 'El campo apellido debe ser una cadena de texto mayor a 3 caracteres.'
+                    }
+                }
+            },
+            phone: {
+                validators: {                    
+                    stringLength: {
+                        min: 7,
+                        max: 15,
+                        message: 'El campo teléfono debe ser una cadena de texto mayor a 6 caracteres.'
+                    },
+                    regexp: {
+                        regexp: /^[0-9\-]*$/,
+                        message: 'El teléfono solo puede contener números enteros y [-].'
+                    }
+                }
+            },
+            cellPhone: {
+                validators: {
+                    stringLength: {
+                        min: 7,
+                        max: 15,
+                        message: 'El campo celular debe ser una cadena de texto mayor a 6 caracteres.'
+                    },
+                    regexp: {
+                        regexp: /^[0-9\-]*$/,
+                        message: 'El celular solo puede contener números enteros y [-].'
+                    }
+                }
+            }
+        }
+    });
+
+    // Validate the form manually
+    $('#validateBtn').click(function() {
+        $('#defaultForm').bootstrapValidator('validate');
+    });
+
+    $('#resetBtn').click(function() {
+        $('#defaultForm').data('bootstrapValidator').resetForm(true);
+    });
+});
+</script>

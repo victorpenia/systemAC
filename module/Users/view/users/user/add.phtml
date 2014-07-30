@@ -1,0 +1,215 @@
+<?php
+$form = $this->form;
+$form->setAttributes(array(
+    'action' => $this->url.'/users/user/add',
+    'method' => 'post',
+    'name'   => 'myForm',
+    'id'  => 'defaultForm'
+));
+$form->prepare();
+?>
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#178acc">
+                Registro de nuevo usuario
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <?php echo $this->form()->openTag($form)?>
+                    <div class="col-md-6">
+                        <h3 style="color:#178acc">Informaci&oacute;n b&aacute;sica</h3>                        
+                            <div class="form-group">
+                                <label>* Jerarqu&iacute;a:</label>
+                                <?php $charge= $form->get('charge');
+                                    echo $this->formSelect($charge);
+                                    echo $this->formElementErrors($charge);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Nombres:</label>
+                                <?php $firstName= $form->get('firstName');
+                                    echo $this->formInput($firstName);
+                                    echo $this->formElementErrors($firstName);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Apellidos:</label>
+                                <?php $lastName= $form->get('lastName');
+                                    echo $this->formInput($lastName);
+                                    echo $this->formElementErrors($lastName);
+                                ?> 
+                            </div>
+                            <div class="form-group">
+                                <label>Tel&eacute;fono:</label>
+                                <?php $phone= $form->get('phone');
+                                    echo $this->formInput($phone);
+                                ?> 
+                            </div>
+                            <div class="form-group">
+                                <label>Celular:</label>
+                                <?php $cellPhone= $form->get('cellPhone');
+                                    echo $this->formInput($cellPhone);
+                                ?> 
+                            </div>
+                            <div class="form-group">
+                                <label>Direcci&oacute;n:</label>
+                                <?php $address= $form->get('address');
+                                    echo $this->formInput($address);
+                                    echo $this->formElementErrors($address);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Email:</label>
+                                <?php $email= $form->get('email');
+                                    echo $this->formInput($email);
+                                    echo $this->formElementErrors($email);
+                                    echo $this->messages;
+                                ?>
+                            </div>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                    <div class="col-md-6">
+                        <h3 style="color:#178acc">Informaci&oacute;n Usuario</h3>  
+                        <div class="form-group">
+                                <label>* Estado:</label>
+                                <?php $status= $form->get('status');
+                                    echo $this->formSelect($status);
+                                ?>
+                        </div>
+                        <div class="form-group">
+                                <label>* Rol:</label>
+                                <?php $idRoles= $form->get('idRoles');
+                                    echo $this->formSelect($idRoles);
+                                    echo $this->formElementErrors($idRoles);
+                                ?>
+                        </div>
+                        <div id="disabledParish" style="display: none">
+                        <div class="form-group">
+                                <label >* Parroquia:</label>
+                                <?php $idParishes = $form->get('idParishes');
+                                    echo $this->formSelect($idParishes);
+                                    echo $this->formElementErrors($idParishes);
+                                ?>
+                        </div>
+                        </div>    
+                        <?php echo $this->formElement($form->get('register')) ?>
+                        <a href="<?php echo $this->basePath() ?>/users/user/index" class="btn btn-default" role="button">Cancelar</a>
+                    </div>                    
+                    <!-- /.col-lg-6 (nested) -->
+                    <?php echo $this->form()->closeTag() ?>
+                </div>
+                <!-- /.row (nested) -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+$('#inputSelectRole').change(function(){
+    if($(this).val() === '1' || $(this).val() === '2'){
+        $('#disabledParish').css('display' , 'none');
+//        $('#inputSelectParish').val('0');
+    }else{
+        $('#disabledParish').css("display", "block")
+//        $('#inputSelectParish').val('1');
+    }
+});
+
+});
+
+$(document).ready(function() {
+    $('#defaultForm').bootstrapValidator({
+//        live: 'disabled',
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            firstName: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo nombre es obligatorio.'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 30,
+                        message: 'El campo nombre debe ser una cadena de texto mayor a 3 caracteres.'
+                    }
+                }
+            },
+            lastName: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo apellido es obligatorio.'
+                    },
+                    stringLength: {
+                        min: 3,
+                        max: 30,
+                        message: 'El campo apellido debe ser una cadena de texto mayor a 3 caracteres.'
+                    }
+                }
+            },
+            phone: {
+                validators: {                    
+                    stringLength: {
+                        min: 7,
+                        max: 15,
+                        message: 'El campo teléfono debe ser una cadena de texto mayor a 6 caracteres.'
+                    },
+                    regexp: {
+                        regexp: /^[0-9\-]*$/,
+                        message: 'El teléfono solo puede contener números enteros y [-].'
+                    }
+                }
+            },
+            cellPhone: {
+                validators: {
+                    stringLength: {
+                        min: 7,
+                        max: 15,
+                        message: 'El campo celular debe ser una cadena de texto mayor a 6 caracteres.'
+                    },
+                    regexp: {
+                        regexp: /^[0-9\-]*$/,
+                        message: 'El celular solo puede contener números enteros y [-].'
+                    }
+                }
+            },
+            email: {
+                validators: {                    
+                    notEmpty: {
+                        message: 'El campo email es obligatorio.'
+                    },                    
+                    emailAddress: {
+                        message: 'El campo email debe contener una dirección de email válida.'
+                    }
+                }
+            }
+        }
+    });
+
+    // Validate the form manually
+    $('#validateBtn').click(function() {
+        $('#defaultForm').bootstrapValidator('validate');
+    });
+
+    $('#resetBtn').click(function() {
+        $('#defaultForm').data('bootstrapValidator').resetForm(true);
+    });
+});
+</script>

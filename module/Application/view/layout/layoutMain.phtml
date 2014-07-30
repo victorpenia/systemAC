@@ -1,0 +1,43 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('AC '. $this->translate('System'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/img.ico'))
+            ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
+            ->prependStylesheet($this->basePath() . 'font-awesome/css/font-awesome.css')
+            ->prependStylesheet($this->basePath() . '/css/sb-admin.css') ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/js/jquery-1.10.2.js')
+            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+            ->prependFile($this->basePath() . '/js/sb-admin.js')
+            ->prependFile($this->basePath() . '/js/plugins/metisMenu/jquery.metisMenu.js') ?>   
+    </head>
+  <body>
+    <div class="container">
+      <!-- Body -->
+      
+      <?php echo $this->content; ?>
+      <!-- end Body-->
+      
+    </div> <!-- /container -->  
+    <footer class="bs-footer">
+        <div class="container">
+          <div class="text-center">  
+          <footer>Powered by <a href="http://www.ucbcba.edu.bo" style="color:#178acc">UCB</a></footer>
+          <footer>Designed and built <a href ="https://www.facebook.com/victor.pena.96155" style="color:#178acc"> Victor Pe&ntilde;a</a></footer>       
+          </div>
+        </div>
+    </footer>
+  </body>
+</html>

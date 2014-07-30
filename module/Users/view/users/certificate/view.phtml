@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="<?php echo $this->basePath() ?>/users/certificate/index" style="color:#178acc"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atr&aacute;s</a>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+<!--                <div class="col-lg-2">
+                    <img data-src="holder.js/140x140" class="img-rounded" alt="140x140" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" style="width: 140px; height: 140px;">                
+                </div>-->
+                <div class="col-md-8">
+                    <h3 style="color:#178acc">Informaci&oacute;n b&aacute;sica</h3>
+                    <p>Usuario: <strong><a href="<?php echo $this->basePath() ?>/users/user/view/<?php echo $this->data->idUser ?>" style="color:#178acc"><?php echo $this->data->charge." ".$this->data->firstName." ".$this->data->lastName?></a></strong></p>
+                    <p>Certificado: <strong><?php echo $this->data->certificateName ?></strong></p>
+                    <p>Fecha expedido:<strong><?php echo $this->data->createDate ?></strong></p>
+                    <p>Fecha expiraci&oacute;n: <strong><?php echo $this->data->expirationDate ?></strong></p>
+                    <p>Autoridad certificadora (AC): <strong><?php echo $this->data->ca?></strong></p>
+                    <p>Versi&oacute;n: <strong><?php echo $this->data->version ?></strong></p>
+                    <p>Serial: <strong><?php echo $this->data->serialNumber ?></strong></p>
+                </div>
+                
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

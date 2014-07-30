@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="<?php echo $this->basePath() ?>/sacraments/books/add" style="color:#178acc"><span class="glyphicon glyphicon-plus-sign"></span> Registrar nuevo libro</a>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Sacramento</th>  
+                                <th>Libro</th>
+                                <th>Parroquia</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($this->data as $data_item){ ?>                           
+                            <tr class="gradeC">
+                                <td><?php echo  $data_item['code']?></td>
+                                <td><?php echo  $data_item['sacramentName']?></td>
+                                <td><?php echo  $data_item['book']?></td>
+                                <td><?php echo  $data_item['parishName']?></td>
+                                <td>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/books/view/<?php echo  $data_item->id?>" title="Ver" style="color:#178acc"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/books/edit/<?php echo  $data_item->id?>" title="Editar" style="color:#178acc"><span class="glyphicon glyphicon-edit"></span></a>
+                                <!--<a href="<?php echo $this->basePath() ?>/sacraments/books/delete/<?php echo  $data_item->id?>" onclick="return eliminarVariable('Esta seguro que desea eliminar el registro?')" title="Eliminar" style="color:#178acc"><span class="glyphicon glyphicon-trash"></span></a>--> 
+                                </td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->                
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

@@ -1,0 +1,479 @@
+
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttributes(array(
+    'action' => $this->url.'/sacraments/baptisms/add',
+    'method' => 'post',
+    'name'   => 'myForm',
+    'id'  => 'defaultForm'
+));
+?>
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#178acc">
+                Registro de nuevo bautismo
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <?php echo $this->form()->openTag($form)?>
+                    <div class="col-md-6">
+                        <h3 style="color:#178acc">Informaci&oacute;n bautismo</h3>                            
+                            <div class="form-group">
+                                <label>* Parroquia:</label>
+                                <?php $idParishes= $form->get('idParishes');
+                                    echo $this->formSelect($idParishes);
+                                    echo $this->formElementErrors($idParishes);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Libro:</label>
+                                <?php $idBookofsacraments= $form->get('idBookofsacraments');
+                                    echo $this->formSelect($idBookofsacraments);
+                                    echo $this->formElementErrors($idBookofsacraments);                                    
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* P&aacute;gina:</label>
+                                <?php $page= $form->get('page');
+                                    echo $this->formSelect($page);
+                                    echo $this->formElementErrors($page);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Partida:</label>
+                                <?php $item= $form->get('item');
+                                    echo $this->formSelect($item);
+                                    echo $this->formElementErrors($item);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Fecha bautismo:</label>
+                                <?php $baptismDate= $form->get('baptismDate');
+                                    echo $this->formInput($baptismDate);
+                                    echo $this->formElementErrors($baptismDate);
+                                ?> 
+                            </div>                            
+                            <div class="form-group">
+                                <label>* P&aacute;rroco:</label>
+                                <?php $baptismPriest= $form->get('baptismPriest');
+                                    echo $this->formSelect($baptismPriest);
+                                    echo $this->formElementErrors($baptismPriest);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <?php $baptismPriestOthers= $form->get('baptismPriestOthers');
+                                    echo $this->formInput($baptismPriestOthers);
+                                    echo $this->formElementErrors($baptismPriestOthers);
+                                ?>
+                            </div>
+                            <h3 style="color:#178acc">Informaci&oacute;n persona</h3>
+                            <div class="form-group">
+                                <label>CI/Rua:</label>
+                                <?php $ci= $form->get('ci');
+                                    echo $this->formInput($ci);
+                                    echo $this->formElementErrors($ci);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Nombres:</label>
+                                <?php $firstName= $form->get('firstName');
+                                    echo $this->formInput($firstName);
+                                    echo $this->formElementErrors($firstName);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido paterno:</label>
+                                <?php $firstSurname= $form->get('firstSurname');
+                                    echo $this->formInput($firstSurname);
+                                    echo $this->formElementErrors($firstSurname);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido materno:</label>
+                                <?php $secondSurname= $form->get('secondSurname');
+                                    echo $this->formInput($secondSurname);
+                                    echo $this->formElementErrors($secondSurname);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Nacido en:</label>
+                                <?php  $bornIn= $form->get('bornIn');
+                                    echo $this->formSelect($bornIn);
+                                    echo $this->formElementErrors($bornIn);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <?php $bornInProvince= $form->get('bornInProvince');
+                                    echo $this->formSelect($bornInProvince);
+                                    echo $this->formElementErrors($bornInProvince);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <?php $bornInOthers= $form->get('bornInOthers');
+                                    echo $this->formInput($bornInOthers);
+                                    echo $this->formElementErrors($bornInOthers);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Fecha nacimiento:</label>
+                                <?php $birthDate= $form->get('birthDate');
+                                    echo $this->formInput($birthDate);
+                                    echo $this->formElementErrors($birthDate);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>Nombres del padre:</label>
+                                <?php $fatherName= $form->get('fatherName');
+                                    echo $this->formInput($fatherName);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido paterno del padre:</label>
+                                <?php $fatherFirstSurname= $form->get('fatherFirstSurname');
+                                    echo $this->formInput($fatherFirstSurname);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido materno del padre:</label>
+                                <?php $fatherSecondSurname= $form->get('fatherSecondSurname');
+                                    echo $this->formInput($fatherSecondSurname);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>Nombres de la madre:</label>
+                                <?php $matherName= $form->get('matherName');
+                                    echo $this->formInput($matherName);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido paterno de la madre:</label>
+                                <?php $matherFirstSurname= $form->get('matherFirstSurname');
+                                    echo $this->formInput($matherFirstSurname);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido materno de la madre:</label>
+                                <?php $matherSecondSurname= $form->get('matherSecondSurname');
+                                    echo $this->formInput($matherSecondSurname);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* Feligreses de:</label>
+                                <?php $congregation= $form->get('congregation');
+                                    echo $this->formSelect($congregation);
+                                    echo $this->formElementErrors($congregation);
+                                ?>
+                            </div>                      
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                    <div class="col-md-6">
+                        <h3 style="color:#178acc">Informaci&oacute;n padrinos</h3>
+                        <div class="form-group">
+                            <label>* Nombres del padrino(a) 1:</label>
+                            <?php $godfatherNameOne= $form->get('godfatherNameOne');
+                                echo $this->formInput($godfatherNameOne);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label>* Apellidos del padrino(a) 1:</label>
+                            <?php $godfatherSurnameOne= $form->get('godfatherSurnameOne');
+                                echo $this->formInput($godfatherSurnameOne);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombres del padrino(a) 2:</label>
+                            <?php $godfatherNameTwo = $form->get('godfatherNameTwo');
+                                echo $this->formInput($godfatherNameTwo);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label>Apellidos del padrino(a) 2:</label>
+                            <?php $godfatherSurnameTwo = $form->get('godfatherSurnameTwo');
+                                echo $this->formInput($godfatherSurnameTwo);
+                            ?>
+                        </div>
+                        <h3 style="color:#178acc">Informaci&oacute;n administrativa</h3>
+                        <div class="form-group">
+                            <label>Oficialia R.C.Nº.:</label>
+                            <?php $oficialiaRC= $form->get('oficialiaRC');
+                                echo $this->formInput($oficialiaRC);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label>Libro Nº.:</label>
+                            <?php $bookLN= $form->get('bookLN');
+                                echo $this->formInput($bookLN);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label>Partida Nº.:</label>
+                            <?php $departure= $form->get('departure');
+                                echo $this->formInput($departure);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label>Folio Nº.:</label>
+                            <?php $folioFS= $form->get('folioFS');
+                                echo $this->formInput($folioFS);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label>* Doy fe p&aacute;rroco:</label>                            
+                            <?php $attestPriest= $form->get('attestPriest');
+                                echo $this->formSelect($attestPriest);
+                                echo $this->formElementErrors($attestPriest);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <?php $attestPriestOthers= $form->get('attestPriestOthers');
+                                echo $this->formInput($attestPriestOthers);
+                                echo $this->formElementErrors($attestPriestOthers);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label>Observaciones:</label>
+                            <?php $observation= $form->get('observation');
+                                echo $this->formTextArea($observation);
+                                echo $this->formElementErrors($observation);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <?php 
+                                echo $this->messages;
+                            ?>
+                        </div>
+                        <?php echo $this->formElement($form->get('register')) ?>
+                        <a href="<?php echo $this->basePath() ?>/sacraments/baptisms/index" class="btn btn-default" role="button">Cancelar</a>
+                    </div>
+                    <?php echo $this->form()->closeTag() ?>
+                </div>
+                <!-- /.row (nested) -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<script type="text/javascript">
+$(document).ready(function() {
+    $( "#inputBaptismDate" ).datepicker();
+});
+$(document).ready(function() {
+    $( "#inputBirthDate" ).datepicker();
+});  
+
+$(document).ready(function () {
+    $("#inputFirstSurname").keyup(function () {
+        var value = $(this).val();
+//        console.debug(value);
+        $("#inputFatherFirstSurname").val(value);
+    });
+});
+
+$(document).ready(function () {
+    $("#inputSecondSurname").keyup(function () {
+        var value = $(this).val();
+//        console.debug(value);
+        $("#inputMatherFirstSurname").val(value);
+    });
+});
+
+$(document).ready(function () {
+    $("#inputSelectBaptismPriest").change(function () {
+        var value = $(this).val();
+        if(value == 'Otros'){
+            $("#inputBaptismPriestOthers").show();
+        }else{
+            $("#inputBaptismPriestOthers").hide();
+        }    
+    });
+});
+
+$(document).ready(function () {
+    $("#inputSelectAttestPriest").change(function () {
+        var value = $(this).val();
+        if(value == 'Otros'){
+            $("#inputAttestPriestOthers").show();
+        }else{
+            $("#inputAttestPriestOthers").hide();
+        }    
+    });
+});
+
+$(document).ready(function() {
+$('#inputSelectBornIn').change(function(){
+    var bornIn = $(this).val();
+    if(bornIn == 'Otros'){
+        $("#inputBornInOthers").show();
+        $("#inputBornInProvince").hide();
+    }else{
+        $("#inputBornInOthers").hide();
+        $("#inputBornInProvince").show();
+    }
+    $.ajax({
+        type: "POST",
+        url: "<?php echo $this->url.'/sacraments/baptisms/getBornIn'; ?>",
+        data: "bornIn="+bornIn,
+        success: function(msg){ 
+              $("#inputBornInProvince").html(msg);
+        }
+    });
+    
+});
+}); 
+
+$(document).ready(function() {
+$('#inputSelectIdBook').change(function(){
+    var idBook = $(this).val();
+    if(idBook){
+    $.ajax({
+        type: "POST",
+        url: "<?php echo $this->url.'/sacraments/baptisms/getElementBookSacrament'; ?>",
+        data: "idBook="+idBook,
+        success: function(msg){ 
+//            console.debug(msg.split(",")[0]);
+//            console.debug(msg.split(",")[1]);
+            $("#inputPage").html('<option value='+msg.split(",")[0]+'>'+msg.split(",")[0]+'</option>');
+            $("#inputItem").html('<option value='+msg.split(",")[1]+'>'+msg.split(",")[1]+'</option>');
+        }
+    });
+    }
+});
+});  
+
+$(document).ready(function() {
+$('#inputSelectIdParish').change(function(){
+    var idParish = $(this).val();
+    $.ajax({
+        type: "POST",
+        url: "<?php echo $this->url.'/sacraments/baptisms/getBookSacrament'; ?>",
+        data: "idParish="+idParish,
+        success: function(msg){ 
+            console.debug(msg);
+            $("#inputSelectIdBook").html(msg);
+        }
+    });
+});
+});    
+ 
+$(document).ready(function() {
+   $('#defaultForm').bootstrapValidator({
+//        live: 'disabled',
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            baptismPriest: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo párroco es obligatorio.'
+                    }
+                }
+            },
+//            page: {
+//                validators: {                    
+//                    notEmpty: {
+//                        message: 'El campo página es obligatorio.'
+//                    },
+//                    regexp: {
+//                        regexp: /^[0-9]*$/,
+//                        message: 'La página solo puede contener números enteros.'
+//                    }
+//                }
+//            },
+            idBookofsacraments: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo libro es obligatorio.'
+                    }
+                }
+            },
+            idParishes: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo parroquia es obligatorio.'
+                    }
+                }
+            },
+//            item: {
+//                validators: {                    
+//                    notEmpty: {
+//                        message: 'El campo partida es obligatorio.'
+//                    },
+//                }
+//            },
+            firstName: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo nombre es obligatorio.'
+                    }
+                }
+            },
+            bornIn: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo ciudad es obligatorio.'
+                    }
+                }
+            },
+            godfatherNameOne: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo nombres del padrino(a) es obligatorio.'
+                    }
+                }
+            },
+            godfatherSurnameOne: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo apellidos del padrino(a) es obligatorio.'
+                    }
+                }
+            },
+//            baptismDate: {
+//                validators: {
+//                    notEmpty: {
+//                        message: 'La Fecha de Bautismo es requerido'
+//                    }
+//                }
+//            },
+//            birthDate: {
+//                validators: {
+//                    notEmpty: {
+//                        message: 'La Fecha de Nacimiento es requerido'
+//                    }
+//                }
+//            },
+            attestPriest: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo párroco es obligatorio.'
+                    }
+                }
+            }
+        }
+    });
+
+    // Validate the form manually
+    $('#validateBtn').click(function() {
+        $('#defaultForm').bootstrapValidator('validate');
+    });
+
+    $('#resetBtn').click(function() {
+        $('#defaultForm').data('bootstrapValidator').resetForm(true);
+    });
+});
+</script>

@@ -1,0 +1,132 @@
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttributes(array(
+    'action' => $this->url.'/sacraments/books/addp',
+    'method' => 'post',
+    'name'   => 'myForm',
+    'id'  => 'defaultForm'
+));
+?>
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#178acc">
+                Registro de nuevo libro
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <?php echo $this->form()->openTag($form)?>
+                    <div class="col-md-6">
+                        <h3 style="color:#178acc">Informaci&oacute;n b&aacute;sica</h3>                            
+                            <div class="form-group">
+                                <label>* Sacramento:</label>
+                                <?php $sacramentName= $form->get('sacramentName');
+                                    echo $this->formSelect($sacramentName);
+                                    echo $this->formElementErrors($sacramentName);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label>* N&uacute;mero de libro:</label>
+                                <?php $book= $form->get('book');
+                                    echo $this->formSelect($book);
+                                    echo $this->formElementErrors($book);
+                                ?> 
+                            </div>
+                            <div class="form-group">
+                                <label>Partida inicial:</label>
+                                <?php $startItem= $form->get('startItem');
+                                    echo $this->formInput($startItem);
+                                    echo $this->formElementErrors($startItem);
+                                ?>
+                            </div>
+                        <?php echo $this->formElement($form->get('register')) ?>
+                        <a href="<?php echo $this->basePath() ?>/sacraments/books/indexp" class="btn btn-default" role="button">Cancelar</a>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->                    
+                    <?php echo $this->form()->closeTag() ?>
+                </div>
+                <!-- /.row (nested) -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $( "#inputRegistrationDate" ).datepicker();
+});
+    
+$(document).ready(function() {
+$('#inputSelectSacrament').change(function(){
+    var sacrament = $(this).val();
+    $.ajax({
+        type: "POST",
+        url: "<?php echo $this->url.'/sacraments/books/getBookSacrament'; ?>",
+        data: "sacrament="+sacrament,
+        success: function(msg){ 
+            console.debug(msg);
+            $("#inputBook").html(msg);
+        }
+    });
+});
+});      
+    
+$(document).ready(function() {
+    $('#defaultForm').bootstrapValidator({
+//        live: 'disabled',
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            book: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo libro es obligatorio.'
+                    }
+                }
+            },
+            startItem: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo partida es obligatorio.'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]*$/,
+                        message: 'El campo partida solo puede contener números enteros.'
+                    }
+                }
+            },
+            sacramentName: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo sacramento es obligatorio.'
+                    }
+                }
+            }
+        }
+    });
+
+    // Validate the form manually
+    $('#validateBtn').click(function() {
+        $('#defaultForm').bootstrapValidator('validate');
+    });
+
+    $('#resetBtn').click(function() {
+        $('#defaultForm').data('bootstrapValidator').resetForm(true);
+    });
+});
+</script>

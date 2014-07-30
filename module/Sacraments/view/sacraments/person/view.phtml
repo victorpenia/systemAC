@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="text-center">
+        <h1><?php echo $this->title ?></h1>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="<?php echo $this->basePath() ?>/sacraments/person/index" style="color:#178acc"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atr&aacute;s</a>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body"> 
+<!--                <div class="col-lg-2">
+                    <img data-src="holder.js/140x140" class="img-rounded" alt="140x140" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" style="width: 140px; height: 140px;">                
+                </div>-->
+                <div class="col-lg-8">
+                    <p>CI/Rua: <strong><?php echo $this->data->ci ?></strong></p>
+                    <p>Nombre: <strong><?php echo $this->data->firstName." ".$this->data->firstSurname." ".$this->data->secondSurname ?></strong></p>
+                    <p>Fecha de Nacimiento: <strong><?php echo $this->data->birthDate ?></strong></p>
+                    <p>Nacido en: <strong><?php echo $this->data->bornIn."-".$this->data->bornInProvince ?></strong></p>
+                    <p>Padre: <strong><?php echo $this->data->fatherName ?></strong></p>
+                    <p>Madre: <strong><?php echo $this->data->matherName ?></strong></p> 
+                    <?php if(empty($this->data->idBaptism)){ ?>
+                    <p>Bautizado(a): <strong><?php echo "No"?></strong></p>
+                    <?php }else{ ?>
+                    <p>Bautizado(a): <strong><?php echo "Si"?> <a href="<?php echo $this->basePath() ?>/sacraments/baptisms/view/<?php echo $this->data->idBaptism ?>" style="color:#178acc"> Ver detalles</a></strong></p>
+                    <?php } ?>
+                    <?php if(empty($this->data->idConfirmation)){ ?>
+                    <p>Confirmado(a): <strong><?php echo "No" ?></strong></p>
+                    <?php }else{ ?>
+                    <p>Confirmado(a): <strong><?php echo "Si" ?><a href="<?php echo $this->basePath() ?>/sacraments/confirmations/view/<?php echo $this->data->idConfirmation ?>" style="color:#178acc"> Ver detalles</a></strong></p>
+                    <?php } ?>
+                    <?php if(empty($this->data->idMarriage)){ ?>
+                    <p>Casado(a): <strong><?php echo "No" ?></strong></p>
+                    <?php }else{ ?>
+                    <p>Casado(a): <strong><?php echo "Si" ?><a href="<?php echo $this->basePath() ?>/sacraments/marriages/view/<?php echo $this->data->idMarriage ?>" style="color:#178acc"> Ver detalles</a></strong></p>
+                    <?php } ?>
+                    </br>                    
+                </div>
+                </div>            
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

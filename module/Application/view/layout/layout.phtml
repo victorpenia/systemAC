@@ -1,0 +1,255 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('AC ' . $this->translate('System'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php
+        echo $this->headMeta()
+                ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/img.ico'))
+                ->prependStylesheet($this->basePath() . '/css/jquery-ui.css')
+                ->prependStylesheet($this->basePath() . '/css/bootstrapValidator.css')
+                ->prependStylesheet($this->basePath() . '/css/sb-admin.css')
+                ->prependStylesheet($this->basePath() . '/css/plugins/dataTables/dataTables.bootstrap.css')                
+                ->prependStylesheet($this->basePath() . '/font-awesome/css/font-awesome.css')
+                ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')               
+        ?>
+
+        <!-- Scripts -->
+        
+        <?php
+        echo $this->headScript()
+                ->prependFile($this->basePath() . '/js/jquery-ui.js')
+                ->prependFile($this->basePath() . '/js/bootstrapValidator.js')
+                ->prependFile($this->basePath() . '/js/sb-admin.js')
+                ->prependFile($this->basePath() . '/js/plugins/dataTables/dataTables.bootstrap.js')
+                ->prependFile($this->basePath() . '/js/plugins/dataTables/jquery.dataTables.js')                
+                ->prependFile($this->basePath() . '/js/plugins/metisMenu/jquery.metisMenu.js')
+                ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+                ->prependFile($this->basePath() . '/js/jquery-1.10.2.js')
+        ?>
+        <!--<script src="http://code.jquery.com/jquery-1.0.4.js"></script>-->
+        <script>
+            $(document).ready(function() {
+                $('#dataTables-example').dataTable();
+            });
+        </script>
+        <script type="text/javascript">
+            function eliminarVariable(mensaje) {
+                return confirm(mensaje);
+            }            
+        </script>
+    </head>
+    <body>    
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">                
+                <a class="navbar-brand" href="#"><img src="<?php echo $this->basePath() ?>/img/img2.png" width="80" height="35"> <?php echo $this->parishName ?></a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a href="<?php echo $this->basePath() ?>/application/dashboard/lead">Gu&iacute;a de usuario</a>
+                    <!-- /.dropdown-tasks -->
+                </li>
+                <!-- /.dropdown -->
+<!--                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download"><span class="glyphicon glyphicon-bell"></span> Alertas<span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="download">
+                      <li><a tabindex="-1" href="#"><span class="glyphicon glyphicon-pencil"></span> Firmar Documentos</a></li>
+                      <li><a tabindex="-1" href="#"><span class="glyphicon glyphicon-print"></span> Impresiones</a></li>                      
+                    </ul>
+                </li>-->
+                <!-- /.dropdown -->                 
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download"><span class="glyphicon glyphicon-user"></span> <?php echo $this->authUser->getIdentity()->firstName ?><span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="download">
+                      <li><a tabindex="-1" href="<?php echo $this->basePath() ?>/users/information/view/<?php echo  $this->authUser->getIdentity()->id ?>"><span class="glyphicon glyphicon-user"></span> Datos personales</a></li>
+                      <li><a tabindex="-1" href="#"><span class="glyphicon glyphicon-cog"></span> Ajustes</a></li>
+                      <li class="divider"></li>
+                      <li><a tabindex="-1" href="<?php echo $this->basePath() ?>/application/index/logout"><span class="glyphicon glyphicon-off"></span> Cerrar sesi&oacute;n</a></li>
+                    </ul>
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+        </nav>
+        <!-- /.navbar-static-top -->
+
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li>                        
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->basePath() ?>/application/dashboard/index"><span class="glyphicon glyphicon-stats"></span> Dashboard</a>
+                    </li>
+                    <?php  if($this->authUser->getIdentity()->idRoles == '1'){?>
+                    <li>
+                        <a href="<?php echo $this->basePath() ?>/users/certificate/index"><span class="glyphicon glyphicon-bookmark"></span> Certificados</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-user"></span> Usuarios<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/users/user/add">Nuevo Usuario</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/users/user/index">Ver Usuarios</a>
+                            </li>
+                        </ul>
+                    </li>                    
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-home"></span> Vicar&iacute;as<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/archdiocese/vicarious/add">Nueva Vicar&iacute;a</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/archdiocese/vicarious/index">Ver Vicar&iacute;as</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-home"></span> Parroquias<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/archdiocese/parishes/add">Nueva Parroquia</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/archdiocese/parishes/index">Ver Parroquias</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <?php }else{?>
+                    <li>
+                        <a href="<?php echo $this->basePath() ?>/archdiocese/vicarious/index"><span class="glyphicon glyphicon-home"></span> Vicar&iacute;as</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->basePath() ?>/archdiocese/parishes/index"><span class="glyphicon glyphicon-home"></span> Parroquias</a>
+                    </li>
+                    <?php } ?>
+                    <?php  if($this->authUser->getIdentity()->idRoles == '1' || $this->authUser->getIdentity()->idRoles == '2'){?>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-book"></span> Libros parroquiales<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">                            
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/books/add">Nuevo Libro</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/books/index">Ver Libros</a>
+                            </li>                            
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Bautismos<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/baptisms/add">Nuevo Bautismo</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/baptisms/index">Ver Bautismos</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Matrimonios<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/add">Nuevo Matrimonio</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/index">Ver Matrimonios</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Confirmaciones<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/confirmations/add">Nueva Confirmaci&oacute;n</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/confirmations/index">Ver Confirmaciones</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->basePath() ?>/sacraments/person/index"><span class="glyphicon glyphicon-user"></span> Personas</a>
+                    </li>
+                    <?php } else{?>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-book"></span> Libros parroquiales<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">                            
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/books/addp">Nuevo Libro</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/books/indexp">Ver Libros</a>
+                            </li>                            
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Bautismos<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/baptisms/addp">Nuevo Bautismo</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/baptisms/indexp">Ver Bautismos</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Matrimonios<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/addp">Nuevo Matrimonio</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/indexp">Ver Matrimonios</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Confirmaciones<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/confirmations/addp">Nueva Confirmaci&oacute;n</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/confirmations/indexp">Ver Confirmaciones</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->basePath() ?>/sacraments/person/indexp"><span class="glyphicon glyphicon-user"></span> Personas</a>
+                    </li>
+                    <?php }?>
+                    
+                </ul>
+                <!-- /#side-menu -->
+            </div>
+            <!-- /.sidebar-collapse -->
+        </nav>
+        <!-- /.navbar-static-side -->
+
+        <div id="page-wrapper">            
+            <!-- content page -->
+            <?php echo $this->content; ?>
+            <!-- /#content page -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    </body>
+</html>

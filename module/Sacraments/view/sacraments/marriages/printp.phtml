@@ -1,0 +1,242 @@
+<?php
+//============================================================+
+// File name   : example_002.php
+// Begin       : 2008-03-04
+// Last Update : 2013-05-14
+//
+// Description : Example 002 for TCPDF class
+//               Removing Header and Footer
+//
+// Author: Nicola Asuni
+//
+// (c) Copyright:
+//               Nicola Asuni
+//               Tecnick.com LTD
+//               www.tecnick.com
+//               info@tecnick.com
+//============================================================+
+
+/**
+ * Creates an example PDF TEST document using TCPDF
+ * @package com.tecnick.tcpdf
+ * @abstract TCPDF - Example: Removing Header and Footer
+ * @author Nicola Asuni
+ * @since 2008-03-04
+ */
+
+// Include the main TCPDF library (search for installation path).
+//require_once('tcpdf_include.php');
+
+// Extend the TCPDF class to create custom Header and Footer
+//setlocale(LC_ALL,"es_ES");
+if(!empty($this->data->certificateName)){
+
+class MYPDF extends TCPDF {
+
+    //Page header
+//    public function Header() {
+//        // Logo
+//        $image_file = K_PATH_IMAGES.'logo_example.jpg';
+//        $this->Image($image_file, 10, 10, 15, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+//        // Set font
+//        $this->SetFont('helvetica', 'B', 20);
+//        // Title
+//        $this->Cell(0, 15, '<< TCPDF Example 003 >>', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+//    }
+
+    // Page footer
+    public function Footer() {        
+        // Page 
+        $this->Cell(0, 10, 'Puedes comprobar la autencidad de este documento en www.arzobispado-cochabamba.com', 0, false, 'L', 0, '', 0, false, 'T', 'M');
+    }
+}
+// create new PDF document
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Victor Peña');
+$pdf->SetTitle('TCPDF Certificado de bautismo');
+$pdf->SetSubject('TCPDF Matrimonio');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+// set default header data
+//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+// remove default header/footer
+$pdf->setPrintHeader(false);
+$pdf->setPrintFooter(true);
+
+// set header and footer fonts
+$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+// set default monospaced font
+$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// set some language-dependent strings (optional)
+if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+    require_once(dirname(__FILE__).'/lang/eng.php');
+    $pdf->setLanguageArray($l);
+}
+
+$day = strftime("%A",strtotime($this->data->marriageDate));
+if($day == "Monday")
+    $day= "Lunes";
+if($day == "Tuesday")
+    $day= "Martes";
+if($day == "Wednesday")
+    $day= "Miércoles";
+if($day == "Thursday")
+    $day= "Jueves";
+if($day == "Friday")
+    $day= "Viernes";
+if($day == "Saturday")
+    $day= "Sábado";
+if($day == "Sunday")
+    $day= "Domingo";
+//setlocale(LC_ALL,"es_ES");
+setlocale(LC_TIME, "spanish");
+
+function CalculaEdad($birthDate) {
+    list($Y,$m,$d) = explode("-",$birthDate);
+    return( date("md") < $m.$d ? date("Y")-$Y-1 : date("Y")-$Y );
+}
+
+$yearMale = CalculaEdad($this->personMale->birthDate);
+$yearFemale = CalculaEdad($this->personFemale->birthDate);
+
+
+$parentMalePrint = '';
+if(!empty($this->personMale->fatherName)){
+    if(!empty($this->personMale->matherName)){
+        $parentMalePrint = $this->personMale->fatherName." ".$this->personMale->fatherFirstSurname." ".$this->personMale->fatherSecondSurname."</strong> y de: <strong>".$this->personMale->matherName." ".$this->personMale->matherFirstSurname." ".$this->personMale->matherSecondSurname;
+    }else{
+        $parentMalePrint = $this->personMale->fatherName." ".$this->personMale->fatherFirstSurname." ".$this->personMale->fatherSecondSurname;
+    }
+}else{
+    $parentMalePrint = $this->personMale->matherName." ".$this->personMale->matherFirstSurname." ".$this->personMale->matherSecondSurname;
+}
+
+$parentFemalePrint = '';
+if(!empty($this->personFemale->fatherName)){
+    if(!empty($this->personFemale->matherName)){
+        $parentFemalePrint = $this->personFemale->fatherName." ".$this->personFemale->fatherFirstSurname." ".$this->personFemale->fatherSecondSurname."</strong> y de: <strong>".$this->personFemale->matherName." ".$this->personFemale->matherFirstSurname." ".$this->personFemale->matherSecondSurname;
+    }else{
+        $parentFemalePrint = $this->personFemale->fatherName." ".$this->personFemale->fatherFirstSurname." ".$this->personFemale->fatherSecondSurname;
+    }
+}else{
+    $parentFemalePrint = $this->personFemale->matherName." ".$this->personFemale->matherFirstSurname." ".$this->personFemale->matherSecondSurname;
+}
+// ---------------------------------------------------------
+//if($this->data->idUserCertificate != '0'){
+// set certificate file
+//$certificate = 'file://'.$this->url.'/cert/tcpdf.crt'; 
+//$public_key  = 'file://'.$this->url.'/cert/tcpdf.crt';
+$certificate = 'file://C:/xampp/htdocs/SISTEMA_SISSR/public/certificates/cert/'.$this->data->certificateName; 
+$private_key = 'file://C:/xampp/htdocs/SISTEMA_SISSR/public/certificates/key/'.$this->data->privateKey;  
+//$certificate  = 'file://C:/xampp/htdocs/SISTEMA_SISSR/vendor/tecnick.com/tcpdf/examples/data/cert/tcpdf.crt'; 
+//$public_key  = 'file://C:/xampp/htdocs/SISTEMA_SISSR/vendor/tecnick.com/tcpdf/examples/data/cert/tcpdf.crt'; 
+$info = array(
+    'Name' => 'TCPDF',
+    'Location' => 'COCHABAMBA - BOLIVIA',
+    'Reason' => 'Certificate PKI', 
+    'ContactInfo' => 'http://www.arzobispado-cochabamba.com');
+$pdf->setSignature($certificate, $private_key, '', '', 2, $info);
+//$pdf->setSignatureAppearance($x=53, $y=133, $w=65, $h=62); 
+//}
+
+// ---------------------------------------------------------
+
+// set font
+$pdf->SetFont('times', 'B', 23);
+// add a page
+$pdf->AddPage();
+// set some text to print
+$txt = <<<EOD
+  CERTIFICADO DE MATRIMONIO
+EOD;
+// print a block of text using Write()
+$pdf->Write(0, $txt, '', 0, 'C', true, 0, false, false, 0);
+$pdf->SetFont('times', '', 14);
+$txt1 = <<<EOD
+ARQUIDIOCESIS DE COCHABAMBA-BOLIVIA    
+EOD;
+// print a block of text using Write()
+$pdf->Write(0, $txt1, '', 0, 'C', true, 0, false, false, 0);
+
+$txt2 = "PARROQUIA \"".strtoupper($this->data->parishName)."\"<br /><br />";
+$pdf->writeHTMLCell(0, 0, '', '', $txt2, 0, 1, false, true, 'C', false);
+
+$html = "
+El Presbítero que suscribe: <strong>".$this->priest->charge." ".$this->priest->firstName." ".$this->priest->lastName."</strong>.
+<br />
+<br /><strong>CERTIFICA:</strong> Que en el Libro Nº: <strong>".$this->data->book."</strong> de Matrimonios de este archivo parroquial, Página Nº: <strong>".$this->data->page."</strong> Partida Nº: <strong>".$this->data->item."</strong> se halla inscrita la siguiente partida:
+<br />Al margen:
+";
+$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, false, true, 'J', false);
+
+$html1 = "<br /><strong>\"".strtoupper($this->personMale->firstName)." CON ".strtoupper($this->personFemale->firstName)."\"</strong>";
+$pdf->writeHTMLCell(0, 0, '', '', $html1, 0, 1, false, true, 'C', false);
+$html2 = "
+<br />
+<br />En esta Parroquia del <strong>\"".$this->data->parishName."\"</strong>, el día <strong>".$day.", ".strftime("%d de %B del %Y",strtotime($this->data->marriageDate)).".</strong>
+Previa la información de libertad y solteria dada por los testigos abajo nombrados, publicadas y dispensadas las proclamas, y llenados todos los requisitos de derecho, no resultando impedimento
+alguno o dispensado el impedimento abajo indicado. El suscrito párroco <strong>".$this->data->marriagePriest."</strong>, bendijo el matrimonio de: <strong>".strtoupper($this->personMale->firstName." ".$this->personMale->firstSurname." ".$this->personMale->secondSurname)."</strong> 
+de <strong>".$yearMale." años </strong>de edad, <strong>".$this->personMale->maritalStatus."</strong> bautizado en la parroquia de (la): <strong>".$this->data->baptismParishMale."</strong> hijo de:
+<strong>".$parentMalePrint."</strong>. 
+Con <strong>".strtoupper($this->personFemale->firstName." ".$this->personFemale->firstSurname." ".$this->personFemale->secondSurname)."</strong>
+de <strong>".$yearFemale." años </strong>de edad, <strong>".$this->personFemale->maritalStatus."</strong> bautizada en la parroquia de (la): <strong>".$this->data->baptismParishFemale."</strong> hija de:
+<strong>".$parentFemalePrint."</strong>.
+<br />
+<br />Fueron testigos de información: <strong>".$this->data->godfatherNameOneInformation." ".$this->data->godfatherSurnameOneInformation."</strong> y <strong>".$this->data->godfatherNameTwoInformation." ".$this->data->godfatherSurnameTwoInformation."</strong>.
+<br />Fueron testigos presenciales: <strong>".$this->data->godfatherNameOnePresence." ".$this->data->godfatherSurnameOnePresence."</strong> y <strong>".$this->data->godfatherNameTwoPresence." ".$this->data->godfatherSurnameTwoPresence."</strong>.    
+<br />De que doy fe yo el Párroco (Fdo.) <strong>".$this->data->attestPriest."</strong>.
+<br /> Observaciones: <strong>".$this->data->observation."</strong>
+<br />
+<br /><strong>Los datos que se anteceden concuerdan con el original de referencia al que me remito en caso necesario.</strong>
+<br />
+";
+$pdf->writeHTMLCell(0, 0, '', '', $html2, 0, 1, false, true, 'J', false);
+$html3 = "<br />Cochabamba, ".strftime("%d de %B del %Y")."
+<br />
+<br />
+<br />................................................
+<br />".$this->priest->charge." ".$this->priest->firstName." ".$this->priest->lastName."
+<br /> PÁRROCO
+";
+$pdf->writeHTMLCell(0, 0, '', '', $html3, 0, 1, false, true, 'C', false);
+
+
+// create content for signature (image and/or text)
+//$pdf->Image('C:/xampp/htdocs/SISTEMA_SISSR/vendor/tecnick.com/tcpdf/examples/images/tcpdf_signature.png', 180, 255, 15, 15, 'PNG');
+//if($this->data->idUserCertificate != '0'){
+$pdf->Image($this->url.'/img/tcpdf_signature.png', 180, 250, 15, 15, 'PNG');
+// define active area for signature appearance
+$pdf->setSignatureAppearance(180, 250, 15, 15);
+// *** set an empty signature appearance ***
+$pdf->addEmptySignatureAppearance(180, 250, 15, 15);
+//}
+// ---------------------------------------------------------
+
+//Close and output PDF document
+$pdf->Output('bautismo.pdf', 'I');
+
+//============================================================+
+// END OF FILE
+//============================================================+
+
+}else{
+    echo "Documento no se puede generar comuniquese con el Administrador.";    
+}

@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="<?php echo $this->basePath() ?>/archdiocese/vicarious/index" style="color:#178acc"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atr&aacute;s</a>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body"> 
+<!--                <div class="col-lg-2">
+                    <img data-src="holder.js/140x140" class="img-rounded" alt="140x140" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" style="width: 140px; height: 140px;">                
+                </div>-->
+                <div class="col-md-8">
+                    <h3 style="color:#178acc">Informaci&oacute;n b&aacute;sica</h3>
+                    <p>Vicar&iacute;a: <strong><?php echo $this->data->vicariousName?></strong></p>
+                    <p>Ubicaci&oacute;n: <strong><?php echo $this->data->location ?></strong></p>
+                    <?php if($this->idRole == '1'){?>
+                    <a href="<?php echo $this->basePath() ?>/archdiocese/vicarious/edit/<?php echo  $this->data->id ?>" class="btn btn-primary" role="button">Editar</a>                    
+                    <?php } ?>          
+                    </br>
+                    
+                </div>
+            </div>
+            <div class="panel-body">
+                <p style="color:#178acc"><strong>Parroquias que pertenecen a esta vicar&iacute;a:</strong></p>
+                <div class="table-responsive">                    
+                    <table class="table table-striped table-bordered table-hover">                        
+                        <thead>
+                            <tr>                                
+                                <th>Parroquia</th>
+                                <th>Direcci&oacute;n</th>
+                                <th>Tel&eacute;fono</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($this->parishes as $data_item){ ?>                           
+                            <tr class="gradeC"> 
+                                <td><?php echo  $data_item->parishName?></td>
+                                <td><?php echo  $data_item->address?></td>
+                                <td><?php echo  $data_item->phone?></td>
+                                <td>                                
+                                <a href="<?php echo $this->basePath() ?>/archdiocese/parishes/view/<?php echo  $data_item->id?>" title="Ver" style="color:#178acc"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                <!--<a href="<?php echo $this->basePath() ?>/archdiocese/vicarious/edit/<?php echo  $data_item->id?>" title="Editar" style="color:#178acc"><span class="glyphicon glyphicon-edit"></span></a>-->                                
+                                
+                                </td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

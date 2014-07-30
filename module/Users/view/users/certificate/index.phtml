@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#178acc">
+                Certificados
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>                                
+                                <th>Usuario</th>
+                                <th>Autoridad certificadora</th>
+                                <th>fecha expedido</th>
+                                <th>fecha expiraci&oacute;n</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($this->data as $data_item){ ?>                           
+                            <tr class="gradeC"> 
+                                
+                                <td><strong><?php echo  $data_item['charge']?></strong><?php echo " ".$data_item['firstName']." ".$data_item['lastName']?></td>
+                                <td><?php echo  $data_item['ca']?></td>
+                                <td><?php echo  $data_item['createDate']?></td>
+                                <td><?php echo  $data_item['expirationDate']?></td>
+                                
+                                <td>
+                                <a href="<?php echo $this->basePath() ?>/users/certificate/view/<?php echo  $data_item['id'] ?>" title="Ver" style="color:#178acc"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                <a href="<?php echo $this->basePath() ?>/users/certificate/renovate/<?php echo  $data_item['id'] ?>" title="Renovar certificado" style="color:#178acc"><span class="glyphicon glyphicon-bookmark"></span></a>
+                                </td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->                
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

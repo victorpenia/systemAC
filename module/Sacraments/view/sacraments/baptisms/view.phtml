@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<?php setlocale(LC_TIME, "spanish"); ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="<?php echo $this->basePath() ?>/sacraments/baptisms/index" style="color:#178acc"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atr&aacute;s</a>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">                
+                <div class="col-md-6">
+                    <h3 style="color:#178acc">Informaci&oacute;n persona</h3>
+                    <p>Persona: <strong><?php echo $this->data->firstName." ".$this->data->firstSurname." ".$this->data->secondSurname?></strong></p>
+                    <p>Ci/Rua: <strong><?php echo ($this->data->ci == 0) ? '' : $this->data->ci ?></strong></p>
+                    <p>Fecha nacimiento: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->data->birthDate)) ?></strong></p>
+                    <p>Nacido(a) en: <strong><?php echo ($this->data->bornIn == 'Otros') ? $this->data->bornInProvince : $this->data->bornIn."-".$this->data->bornInProvince ?></strong></p>
+                    <p>Padre: <strong><?php echo $this->data->fatherName." ".$this->data->fatherFirstSurname." ".$this->data->fatherSecondSurname ?></strong></p>
+                    <p>Madre: <strong><?php echo $this->data->matherName." ".$this->data->matherFirstSurname." ".$this->data->matherSecondSurname ?></strong></p>
+                    <p>Feligreses: <strong><?php echo $this->data->congregation ?></strong></p>
+                    <p>Padrino Nº1: <strong><?php echo $this->data->godfatherNameOne." ".$this->data->godfatherSurnameOne ?></strong></p>
+                    <p>Padrino Nº2: <strong><?php echo $this->data->godfatherNameTwo." ".$this->data->godfatherSurnameTwo ?></strong></p>
+                    <h3 style="color:#178acc">Informaci&oacute;n libro</h3>
+                    <p>C&oacute;digo del libro: <strong><?php echo $this->data->code ?></strong></p>
+                    <p>Libro: <strong><?php echo $this->data->book ?></strong></p>
+                    <p>P&aacute;gina: <strong><?php echo $this->data->page ?></strong></p>
+                    <p>Partida: <strong><?php echo $this->data->item ?></strong></p>
+                </div>
+                <div class="col-md-6">
+                    <h3 style="color:#178acc">Informaci&oacute;n bautismo</h3>
+                    <p>Parroquia: <strong><?php echo $this->data->parishName ?></strong></p>
+                    <p>Fecha bautismo: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->data->baptismDate)) ?></strong></p>
+                    <p>Párroco que bautizó: <strong><?php echo $this->data->baptismPriest ?></strong></p>
+                    <p>Párroco que da fe: <strong><?php echo $this->data->attestPriest ?></strong></p>
+                    <h3 style="color:#178acc">Informaci&oacute;n administrativa</h3>
+                    <p>Oficialia R.C.Nº: <strong><?php echo $this->data->oficialiaRC ?></strong></p>
+                    <p>Libro Nº: <strong><?php echo $this->data->bookLN ?></strong></p>
+                    <p>Partida Nº: <strong><?php echo $this->data->departure ?></strong></p>
+                    <p>Folio Nº: <strong><?php echo $this->data->folioFS ?></strong></p>
+                    <p>Observaciones: <strong><?php echo $this->data->observation ?></strong></p>
+                    <a href="<?php echo $this->basePath() ?>/sacraments/baptisms/edit/<?php echo  $this->data->id ?>" class="btn btn-primary" role="button">Editar</a>
+                    <?php if($this->data->idUserCertificate != '0'){ ?>
+                    <a href="<?php echo $this->basePath() ?>/sacraments/baptisms/print/<?php echo  $this->data->id ?>" class="btn btn-primary" role="button" target="_blank">Imprimir PDF</a>
+                    <?php } ?>
+                </div>
+                
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>

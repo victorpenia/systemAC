@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc"><?php echo $this->title ?></h2>    
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#178acc">
+                <?php if($this->idRole == '1'){?>
+                <a href="<?php echo $this->basePath() ?>/archdiocese/vicarious/add" style="color:#178acc"><span class="glyphicon glyphicon-plus-sign"></span> Registrar nueva vicar&iacute;a</a>
+                <?php }else{ ?>
+                Vicar&iacute;as for&aacute;neas
+                <?php } ?>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>                                
+                                <th>Vicar&iacute;a</th>
+                                <th>Ubicaci&oacute;n</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($this->data as $data_item){ ?>                           
+                            <tr class="gradeC"> 
+                                <td><?php echo  $data_item->vicariousName?></td>
+                                <td><?php echo  $data_item->location?></td>
+                                <td>
+                                <a href="<?php echo $this->basePath() ?>/archdiocese/vicarious/view/<?php echo  $data_item->id?>" title="Ver" style="color:#178acc"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                <?php if($this->idRole == '1'){?>
+                                <a href="<?php echo $this->basePath() ?>/archdiocese/vicarious/edit/<?php echo  $data_item->id?>" title="Editar" style="color:#178acc"><span class="glyphicon glyphicon-edit"></span></a>
+                                <!--<a href="<?php echo $this->basePath() ?>/archdiocese/vicarious/delete/<?php echo  $data_item->id?>" onclick="return eliminarVariable('Esta seguro que desea eliminar el registro?')" title="Eliminar" style="color:#178acc"><span class="glyphicon glyphicon-trash"></span></a>--> 
+                                <?php } ?>
+                                </td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->                
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
