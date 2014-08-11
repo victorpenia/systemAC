@@ -139,13 +139,33 @@ if(!empty($this->personFemale->fatherName)){
 }else{
     $parentFemalePrint = $this->personFemale->matherName." ".$this->personFemale->matherFirstSurname." ".$this->personFemale->matherSecondSurname;
 }
+
+if($this->data->marriagePriest == 'Otros')
+    $marriagePriestPrint = $this->data->marriagePriestOthers;
+else
+    $marriagePriestPrint = $this->data->marriagePriest;
+
+if($this->data->attestPriest == 'Otros')
+    $attestPriestPrint = $this->data->attestPriestOthers;
+else
+    $attestPriestPrint = $this->data->attestPriest;
+
+if($this->data->baptismParishMale == 'Otros')
+    $baptismParishMalePrint = $this->data->baptismParishMaleOthers;
+else
+    $baptismParishMalePrint = $this->data->baptismParishMale;
+
+if($this->data->baptismParishFemale == 'Otros')
+    $baptismParishFemalePrint = $this->data->baptismParishFemaleOthers;
+else
+    $baptismParishFemalePrint = $this->data->baptismParishFemale;
 // ---------------------------------------------------------
 //if($this->data->idUserCertificate != '0'){
 // set certificate file
 //$certificate = 'file://'.$this->url.'/cert/tcpdf.crt'; 
 //$public_key  = 'file://'.$this->url.'/cert/tcpdf.crt';
-$certificate = 'file://C:/xampp/htdocs/SISTEMA_SISSR/public/certificates/cert/'.$this->data->certificateName; 
-$private_key = 'file://C:/xampp/htdocs/SISTEMA_SISSR/public/certificates/key/'.$this->data->privateKey;  
+$certificate = 'file://C:/xampp/htdocs/system_AC/public/certificates/cert/'.$this->data->certificateName; 
+$private_key = 'file://C:/xampp/htdocs/system_AC/public/certificates/key/'.$this->data->privateKey;  
 //$certificate  = 'file://C:/xampp/htdocs/SISTEMA_SISSR/vendor/tecnick.com/tcpdf/examples/data/cert/tcpdf.crt'; 
 //$public_key  = 'file://C:/xampp/htdocs/SISTEMA_SISSR/vendor/tecnick.com/tcpdf/examples/data/cert/tcpdf.crt'; 
 $info = array(
@@ -193,16 +213,16 @@ $html2 = "
 <br />
 <br />En esta Parroquia del <strong>\"".$this->data->parishName."\"</strong>, el día <strong>".$day.", ".strftime("%d de %B del %Y",strtotime($this->data->marriageDate)).".</strong>
 Previa la información de libertad y solteria dada por los testigos abajo nombrados, publicadas y dispensadas las proclamas, y llenados todos los requisitos de derecho, no resultando impedimento
-alguno o dispensado el impedimento abajo indicado. El suscrito párroco <strong>".$this->data->marriagePriest."</strong>, bendijo el matrimonio de: <strong>".strtoupper($this->personMale->firstName." ".$this->personMale->firstSurname." ".$this->personMale->secondSurname)."</strong> 
-de <strong>".$yearMale." años </strong>de edad, <strong>".$this->personMale->maritalStatus."</strong> bautizado en la parroquia de (la): <strong>".$this->data->baptismParishMale."</strong> hijo de:
+alguno o dispensado el impedimento abajo indicado. El suscrito párroco <strong>".$marriagePriestPrint."</strong>, bendijo el matrimonio de: <strong>".strtoupper($this->personMale->firstName." ".$this->personMale->firstSurname." ".$this->personMale->secondSurname)."</strong> 
+de <strong>".$yearMale." años </strong>de edad, <strong>".$this->personMale->maritalStatus."</strong> bautizado en la parroquia de (la): <strong>".$baptismParishMalePrint."</strong> hijo de:
 <strong>".$parentMalePrint."</strong>. 
 Con <strong>".strtoupper($this->personFemale->firstName." ".$this->personFemale->firstSurname." ".$this->personFemale->secondSurname)."</strong>
-de <strong>".$yearFemale." años </strong>de edad, <strong>".$this->personFemale->maritalStatus."</strong> bautizada en la parroquia de (la): <strong>".$this->data->baptismParishFemale."</strong> hija de:
+de <strong>".$yearFemale." años </strong>de edad, <strong>".$this->personFemale->maritalStatus."</strong> bautizada en la parroquia de (la): <strong>".$baptismParishFemalePrint."</strong> hija de:
 <strong>".$parentFemalePrint."</strong>.
 <br />
 <br />Fueron testigos de información: <strong>".$this->data->godfatherNameOneInformation." ".$this->data->godfatherSurnameOneInformation."</strong> y <strong>".$this->data->godfatherNameTwoInformation." ".$this->data->godfatherSurnameTwoInformation."</strong>.
 <br />Fueron testigos presenciales: <strong>".$this->data->godfatherNameOnePresence." ".$this->data->godfatherSurnameOnePresence."</strong> y <strong>".$this->data->godfatherNameTwoPresence." ".$this->data->godfatherSurnameTwoPresence."</strong>.    
-<br />De que doy fe yo el Párroco (Fdo.) <strong>".$this->data->attestPriest."</strong>.
+<br />De que doy fe yo el Párroco (Fdo.) <strong>".$attestPriestPrint."</strong>.
 <br /> Observaciones: <strong>".$this->data->observation."</strong>
 <br />
 <br /><strong>Los datos que se anteceden concuerdan con el original de referencia al que me remito en caso necesario.</strong>

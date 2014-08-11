@@ -77,6 +77,38 @@ class Confirmations extends TableGateway {
         return $results;        
     }
     
+    public function getOneConfirmationByPerson($CI){
+        error_log('logM. Ci='.$CI);
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from('confirmations')
+               ->join('person', 'confirmations.idPerson = person.id', array('ci')) 
+               ->where(array('person.ci' => $CI));
+        $selectString = $sql->getSqlStringForSqlObject($select); 
+        $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        $results = $resultSet->current();
+        if (!$results) {
+            return true;
+        }
+        return false;        
+    }
+    
+    public function getOneConfirmationByPersonName($firstName, $firstSurname, $secondSurname){
+        error_log('logM. name person='.$firstName);
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from('confirmations')
+               ->join('person', 'confirmations.idPerson = person.id', array('ci')) 
+               ->where(array('person.firstName' => $firstName, 'person.firstSurname' => $firstSurname, 'person.secondSurname' => $secondSurname));
+        $selectString = $sql->getSqlStringForSqlObject($select); 
+        $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        $results = $resultSet->current();
+        if (!$results) {
+            return true;
+        }
+        return false;        
+    }
+    
     public function fetchOneConfirmations($id) {
         $id = (int) $id;
         $rowset = $this->tableGateway->select(array('id' => $id));
@@ -91,26 +123,28 @@ class Confirmations extends TableGateway {
         if(empty($confirmationsFilter->observation)){
             $confirmationsFilter->observation ='Ninguna';
         }
-        $confirmationPriest = '';
-        if($confirmationsFilter->attestPriest == 'Otros')
-            $confirmationPriest = $confirmationsFilter->attestPriestOthers;
-        else
-            $confirmationPriest = $confirmationsFilter->attestPriest;
-        $baptismParish = '';
-        if($confirmationsFilter->baptismParish == 'Otros')
-            $baptismParish = $confirmationsFilter->baptismParishOthers;
-        else
-            $baptismParish = $confirmationsFilter->baptismParish;
+//        $confirmationPriest = '';
+//        if($confirmationsFilter->attestPriest == 'Otros')
+//            $confirmationPriest = $confirmationsFilter->attestPriestOthers;
+//        else
+//            $confirmationPriest = $confirmationsFilter->attestPriest;
+//        $baptismParish = '';
+//        if($confirmationsFilter->baptismParish == 'Otros')
+//            $baptismParish = $confirmationsFilter->baptismParishOthers;
+//        else
+//            $baptismParish = $confirmationsFilter->baptismParish;
         $values = array(
             'page' => $confirmationsFilter->page,
             'item' => $confirmationsFilter->item,
             'confirmationDate' => $confirmationsFilter->confirmationDate,
-            'baptismParish' => $baptismParish,
+            'baptismParish' => $confirmationsFilter->baptismParish,
+            'baptismParishOthers' => $confirmationsFilter->baptismParishOthers,
             'godfatherNameOne' => $confirmationsFilter->godfatherNameOne,
             'godfatherSurnameOne' => $confirmationsFilter->godfatherSurnameOne,
             'godfatherNameTwo' => $confirmationsFilter->godfatherNameTwo,
             'godfatherSurnameTwo' => $confirmationsFilter->godfatherSurnameTwo,
-            'attestPriest' => $confirmationPriest,
+            'attestPriest' => $confirmationsFilter->attestPriest,
+            'attestPriestOthers' => $confirmationsFilter->attestPriestOthers,
             'observation' => $confirmationsFilter->observation,
             'idBookofsacraments' => $confirmationsFilter->idBookofsacraments,
             'idPerson' => $idPerson,

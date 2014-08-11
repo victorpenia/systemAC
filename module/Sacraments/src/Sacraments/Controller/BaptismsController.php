@@ -14,6 +14,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Sacraments\Form\BaptismsForm;
 use Sacraments\Form\BaptismsparishForm;
+use Sacraments\Form\BaptismsparishEditForm;
 use Sacraments\Form\BaptismsFilter;
 use Zend\Authentication\AuthenticationService;
 use Zend\Validator\Db\RecordExists;
@@ -111,6 +112,8 @@ class BaptismsController extends AbstractActionController {
     }
     
     public function getElementBookSacramentAction() {
+        $pageNumber = 0;
+        $itemNumber = 0;
         $request = $this->getRequest();
         $response = $this->getResponse();
         if ($request->isPost()) {
@@ -118,12 +121,12 @@ class BaptismsController extends AbstractActionController {
             $idBook = $request->getPost('idBook');
             error_log('logC. Ajx idBook = '.$idBook);
             $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-            $sql = 'SELECT MAX(page) as pageNumber, MAX(item) as itemNumber FROM baptisms where idBookofsacraments = '.$idBook;
+            $sql = 'SELECT item, page FROM baptisms where item = (SELECT MAX(item) as itemNumber FROM baptisms where idBookofsacraments = '.$idBook.') and idBookofsacraments = '.$idBook;
             $statement = $dbAdapter->query($sql);
             $result = $statement->execute();
             foreach ($result as $res) {
-                $pageNumber = $res['pageNumber'];
-                $itemNumber = $res['itemNumber'];
+                $pageNumber = $res['page'];
+                $itemNumber = $res['item'];
             }
             if(empty($itemNumber)){
                 error_log('logC Ajx error item...');
@@ -133,11 +136,22 @@ class BaptismsController extends AbstractActionController {
                 foreach ($resultTwo as $resTwo) {
                     $itemNumber = $resTwo['startItem'];
                 }
+                $pageNumber = 1;
                 
-            }else{                 
+            }else{ 
+                error_log('logC Ajx pageNumber = '.$pageNumber);  
                 $itemNumber = $itemNumber + 1;
-            }
-            $pageNumber = $pageNumber + 1;
+                $sqlThree = 'SELECT COUNT(page)as countPage FROM baptisms where idBookofsacraments = '.$idBook.' and page = '.$pageNumber;
+                $statementThree = $dbAdapter->query($sqlThree);
+                $resultThree = $statementThree->execute();
+                foreach ($resultThree as $resThree) {
+                    $count = $resThree['countPage'];
+                }
+                error_log('count =  '.$count);
+                if($count == 3){
+                    $pageNumber = $pageNumber + 1;
+                } 
+            }                     
             $values = $pageNumber.",".$itemNumber;
             $response->setContent($values);
             $headers = $response->getHeaders();

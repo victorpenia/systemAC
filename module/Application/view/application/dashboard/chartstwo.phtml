@@ -1,0 +1,198 @@
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttributes(array(
+    'action' => $this->url.'/application/dashboard/chartstwo',
+    'method' => 'post',
+    'name'   => 'myForm',
+    'id'  => 'defaultForm'
+));
+?>
+<div class="row">
+    <div class="text-center">
+        <h2 style="color:#178acc">GR&Aacute;FICA DE REPORTES</h2>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+        
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#178acc">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Gr&aacute;fica de l&iacute;neas
+                <?php echo $this->form()->openTag($form)?>
+                <div class="form-group">
+                    <!--<label>* Parroquia:</label>-->
+                    <?php $idParishes = $form->get('idParishes');
+                          echo $this->formSelect($idParishes);
+                          echo $this->formElementErrors($idParishes);
+                    ?>
+                </div>
+                <div class="form-group">
+                    <!--<label>* Parroquia:</label>-->
+                    <?php $year = $form->get('year');
+                          echo $this->formSelect($year);
+                          echo $this->formElementErrors($year);
+                    ?>
+                </div>
+                <?php echo $this->formElement($form->get('send')) ?>
+                <?php echo $this->form()->closeTag() ?>
+                
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                   <div id="morris-line-chart"></div>
+                   <div class="form-group">
+                   <p><center>Gestión: <?php echo $this->year ?></center><p>                    
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>            
+    </div>    
+    <!-- /.col-lg-8 -->        
+</div>
+<!-- /.row -->
+<?php 
+$value1 = "0";
+$value2 = "0";
+$value3 = "0";
+$value4 = "0";
+$value5 = "0";
+$value6 = "0";
+$value7 = "0";
+$value8 = "0";
+$value9 = "0";
+$value10 = "0";
+$value11 = "0";
+$value12 = "0";
+
+$valueM1 = "0";
+$valueM2 = "0";
+$valueM3 = "0";
+$valueM4 = "0";
+$valueM5 = "0";
+$valueM6 = "0";
+$valueM7 = "0";
+$valueM8 = "0";
+$valueM9 = "0";
+$valueM10 = "0";
+$valueM11 = "0";
+$valueM12 = "0";
+//echo $this->year;
+
+foreach($this->data as $data_item){ 
+//    echo $data_item['bap']." ";
+//    echo $data_item['month']." ";
+    if($data_item['month'] == 1)
+        $value1 = $data_item['bap'];
+    if($data_item['month'] == 2)
+        $value2 = $data_item['bap'];
+    if($data_item['month'] == 3)
+        $value3 = $data_item['bap'];
+    if($data_item['month'] == 4)
+        $value4 = $data_item['bap'];
+    if($data_item['month'] == 5)
+        $value5 = $data_item['bap'];
+    if($data_item['month'] == 6)
+        $value6 = $data_item['bap'];
+    if($data_item['month'] == 7)
+        $value7 = $data_item['bap'];
+    if($data_item['month'] == 8)
+        $value8 = $data_item['bap'];
+    if($data_item['month'] == 9)
+        $value9 = $data_item['bap'];
+    if($data_item['month'] == 10)
+        $value10 = $data_item['bap'];
+    if($data_item['month'] == 11)
+        $value11 = $data_item['bap'];
+    if($data_item['month'] == 12)
+        $value12 = $data_item['bap'];
+}
+
+foreach($this->data1 as $data_item){ 
+    echo $data_item['marri']." ";
+    echo $data_item['monthM']." ";
+    if($data_item['monthM'] == 1)
+        $valueM1 = $data_item['marri'];
+    if($data_item['monthM'] == 2)
+        $valueM2 = $data_item['marri'];
+    if($data_item['monthM'] == 3)
+        $valueM3 = $data_item['marri'];
+    if($data_item['monthM'] == 4)
+        $valueM4 = $data_item['marri'];
+    if($data_item['monthM'] == 5)
+        $valueM5 = $data_item['marri'];
+    if($data_item['monthM'] == 6)
+        $valueM6 = $data_item['marri'];
+    if($data_item['monthM'] == 7)
+        $valueM7 = $data_item['marri'];
+    if($data_item['monthM'] == 8)
+        $valueM8 = $data_item['marri'];
+    if($data_item['monthM'] == 9)
+        $valueM9 = $data_item['marri'];
+    if($data_item['monthM'] == 10)
+        $valueM10 = $data_item['marri'];
+    if($data_item['monthM'] == 11)
+        $valueM11 = $data_item['marri'];
+    if($data_item['monthM'] == 12)
+        $valueM12 = $data_item['marri'];
+}
+?> 
+
+  
+
+<script type="text/javascript">
+$(function() {
+    
+    Morris.Line({
+        element: 'morris-line-chart',    
+        data: [    
+        {year: '<?php echo $this->year ?>-01', value: <?php echo $value1 ?>, value2: <?php echo $valueM1 ?>},
+        {year: '<?php echo $this->year ?>-02', value: <?php echo $value2 ?>, value2: <?php echo $valueM2 ?>},
+        {year: '<?php echo $this->year ?>-03', value: <?php echo $value3 ?>, value2: <?php echo $valueM3 ?>},
+        {year: '<?php echo $this->year ?>-04', value: <?php echo $value4 ?>, value2: <?php echo $valueM4 ?>},
+        {year: '<?php echo $this->year ?>-05', value: <?php echo $value5 ?>, value2: <?php echo $valueM5 ?>},
+        {year: '<?php echo $this->year ?>-06', value: <?php echo $value6 ?>, value2: <?php echo $valueM6 ?>},
+        {year: '<?php echo $this->year ?>-07', value: <?php echo $value7 ?>, value2: <?php echo $valueM7 ?>},
+        {year: '<?php echo $this->year ?>-08', value: <?php echo $value8 ?>, value2: <?php echo $valueM8 ?>},
+        {year: '<?php echo $this->year ?>-09', value: <?php echo $value9 ?>, value2: <?php echo $valueM9 ?>},
+        {year: '<?php echo $this->year ?>-10', value: <?php echo $value10 ?>, value2: <?php echo $valueM10 ?>},
+        {year: '<?php echo $this->year ?>-11', value: <?php echo $value11 ?>, value2: <?php echo $valueM11 ?>},
+        {year: '<?php echo $this->year ?>-12', value: <?php echo $value12 ?>, value2: <?php echo $valueM12 ?>}        
+        ],
+        xkey: 'year',
+        ykeys: ['value', 'value2'],
+        labels: ['Bautismos', 'Matrimonios'],
+        xLabelFormat: function (x) { 
+            var IndexToMonth = [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" ];
+            var month = IndexToMonth[ x.getMonth() ];
+            return month; },
+        dateFormat: function (x) { 
+            var IndexToMonth = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ];
+            var month = IndexToMonth[ new Date(x).getMonth() ];
+            return month; },
+        lineColors: ['#0b62a4', '#4da74d'],
+        resize: true
+    });   
+
+});  
+
+
+//$(document).ready(function() {
+//$('#inputSelectIdParish').change(function(){
+//    var idParish = $(this).val();
+//    $.ajax({
+//        type: "POST",
+//        url: "<?php // echo $this->url.'/application/dashboard/getElementSacrament'; ?>",
+//        data: "idParish="+idParish,
+//        success: function(msg){ 
+////            console.debug(msg.split(",")[0]);
+////            console.debug(msg.split(",")[1]);
+////            $("#inputPage").html('<option value='+msg.split(",")[0]+'>'+msg.split(",")[0]+'</option>');
+////            $("#inputItem").html('<option value='+msg.split(",")[1]+'>'+msg.split(",")[1]+'</option>');
+//        }
+//    });
+//});
+//}); 
+</script>

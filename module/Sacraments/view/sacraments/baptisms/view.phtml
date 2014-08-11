@@ -34,8 +34,8 @@
                     <h3 style="color:#178acc">Informaci&oacute;n bautismo</h3>
                     <p>Parroquia: <strong><?php echo $this->data->parishName ?></strong></p>
                     <p>Fecha bautismo: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->data->baptismDate)) ?></strong></p>
-                    <p>Párroco que bautizó: <strong><?php echo $this->data->baptismPriest ?></strong></p>
-                    <p>Párroco que da fe: <strong><?php echo $this->data->attestPriest ?></strong></p>
+                    <p>Párroco que bautizó: <strong><?php echo ($this->data->baptismPriest == 'Otros') ? $this->data->baptismPriestOthers : $this->data->baptismPriest ?></strong></p>
+                    <p>Párroco que da fe: <strong><?php echo ($this->data->attestPriest == 'Otros') ? $this->data->attestPriestOthers : $this->data->attestPriest ?></strong></p>
                     <h3 style="color:#178acc">Informaci&oacute;n administrativa</h3>
                     <p>Oficialia R.C.Nº: <strong><?php echo $this->data->oficialiaRC ?></strong></p>
                     <p>Libro Nº: <strong><?php echo $this->data->bookLN ?></strong></p>

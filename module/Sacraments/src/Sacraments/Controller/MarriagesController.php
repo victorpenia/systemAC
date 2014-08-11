@@ -97,6 +97,8 @@ class MarriagesController extends AbstractActionController {
     }
     
     public function getElementBookSacramentAction() {
+        $pageNumber = 0;
+        $itemNumber = 0;
         $request = $this->getRequest();
         $response = $this->getResponse();
         if ($request->isPost()) {
@@ -104,12 +106,12 @@ class MarriagesController extends AbstractActionController {
             $idBook = $request->getPost('idBook');
             error_log('logC. Ajx. idBook = '.$idBook);
             $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-            $sql = 'SELECT MAX(page) as pageNumber, MAX(item) as itemNumber FROM marriages where idBookofsacraments = '.$idBook;
+            $sql = 'SELECT item, page FROM marriages where item = (SELECT MAX(item) as itemNumber FROM marriages where idBookofsacraments = '.$idBook.') and idBookofsacraments = '.$idBook;
             $statement = $dbAdapter->query($sql);
             $result = $statement->execute();
             foreach ($result as $res) {
-                $pageNumber = $res['pageNumber'];
-                $itemNumber = $res['itemNumber'];
+                $pageNumber = $res['page'];
+                $itemNumber = $res['item'];
             }
             if(empty($itemNumber)){
                 error_log('logC Ajx error item...');
@@ -119,11 +121,21 @@ class MarriagesController extends AbstractActionController {
                 foreach ($resultTwo as $resTwo) {
                     $itemNumber = $resTwo['startItem'];
                 }
-                
+                $pageNumber = 1;
             }else{                 
+                error_log('logC Ajx pageNumber = '.$pageNumber);  
                 $itemNumber = $itemNumber + 1;
+                $sqlThree = 'SELECT COUNT(page)as countPage FROM marriages where idBookofsacraments = '.$idBook.' and page = '.$pageNumber;
+                $statementThree = $dbAdapter->query($sqlThree);
+                $resultThree = $statementThree->execute();
+                foreach ($resultThree as $resThree) {
+                    $count = $resThree['countPage'];
+                }
+                error_log('count =  '.$count);
+                if($count == 2){
+                    $pageNumber = $pageNumber + 1;
+                } 
             }
-            $pageNumber = $pageNumber + 1; 
             $values = $pageNumber.",".$itemNumber;
             $response->setContent($values);
             $headers = $response->getHeaders();
@@ -393,10 +405,10 @@ class MarriagesController extends AbstractActionController {
                 $marriageFilter->exchangeArray($form->getData());
                 if ($this->exitsPersonInDatabaseMale($marriageFilter->ciMale, $marriageFilter->firstNameMale, $marriageFilter->firstSurnameMale, $marriageFilter->secondSurnameMale)) {
                     if ($this->exitsPersonInDatabaseFemale($marriageFilter->ciFemale, $marriageFilter->firstNameFemale, $marriageFilter->firstSurnameFemale, $marriageFilter->secondSurnameFemale)) {
-                    $idPersonMale = $this->getPersonTable()->addPersonMarriagesMale($marriageFilter);
-                    $idPersonFemale = $this->getPersonTable()->addPersonMarriagesFemale($marriageFilter);
-                    $this->getMarriagesTable()->addMarriage($marriageFilter, $idPersonMale, $idPersonFemale, $this->authUser->getIdentity()->id, $this->authUser->getIdentity()->idParishes);
-                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/indexp');
+                        $idPersonMale = $this->getPersonTable()->addPersonMarriagesMale($marriageFilter);
+                        $idPersonFemale = $this->getPersonTable()->addPersonMarriagesFemale($marriageFilter);
+                        $this->getMarriagesTable()->addMarriage($marriageFilter, $idPersonMale, $idPersonFemale, $this->authUser->getIdentity()->id, $this->authUser->getIdentity()->idParishes);
+                        return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/indexp');
                     }else{
                         $messagesTwo .= "<p style='color:#a94442' >Error la persona (Mujer) ya realizó el sacramento de matrimonio anteriormente.</p>";
                     }

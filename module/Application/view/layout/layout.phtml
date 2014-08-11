@@ -91,7 +91,21 @@
                     <li>                        
                     </li>
                     <li>
-                        <a href="<?php echo $this->basePath() ?>/application/dashboard/index"><span class="glyphicon glyphicon-stats"></span> Dashboard</a>
+                        <a href="<?php echo $this->basePath() ?>/application/dashboard/index"><span class="glyphicon glyphicon-heart-empty"></span> Bienvenido</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-stats"></span> Reportes<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/application/dashboard/chartsone">Por vicaria</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/application/dashboard/chartstwo">Por parroquia</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/application/dashboard/chartsthree">Por vicaría II</a>
+                            </li>
+                        </ul>
                     </li>
                     <?php  if($this->authUser->getIdentity()->idRoles == '1'){?>
                     <li>
@@ -162,17 +176,6 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Matrimonios<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/add">Nuevo Matrimonio</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/index">Ver Matrimonios</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
                         <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Confirmaciones<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -183,6 +186,17 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Matrimonios<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/add">Nuevo Matrimonio</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/index">Ver Matrimonios</a>
+                            </li>
+                        </ul>
+                    </li>                    
                     <li>
                         <a href="<?php echo $this->basePath() ?>/sacraments/person/index"><span class="glyphicon glyphicon-user"></span> Personas</a>
                     </li>
@@ -210,17 +224,6 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Matrimonios<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/addp">Nuevo Matrimonio</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/indexp">Ver Matrimonios</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
                         <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Confirmaciones<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -231,6 +234,17 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-folder-open"></span> Matrimonios<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/addp">Nuevo Matrimonio</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/sacraments/marriages/indexp">Ver Matrimonios</a>
+                            </li>
+                        </ul>
+                    </li>                    
                     <li>
                         <a href="<?php echo $this->basePath() ?>/sacraments/person/indexp"><span class="glyphicon glyphicon-user"></span> Personas</a>
                     </li>

@@ -10,7 +10,7 @@ namespace Application\Form;
 use Zend\Form\Form;
 use Zend\Db\Adapter\AdapterInterface;
 
-class DashboardForm extends Form {
+class DashboardoneForm extends Form {
 
     protected $dbadapter;
 
@@ -45,45 +45,32 @@ class DashboardForm extends Form {
                     '2014' => '2014',
                 ),
             )
-        ));        
-       
-        /* input comboBox idParishes */
+        ));    
+        
+        /* input comboBox idvicarious */
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',
-            'name' => 'idParishes',
+            'name' => 'idVicarious',
             'attributes' => array(
-                'id' => 'inputSelectIdParish',
+                'id' => 'inputSelectIdVicarious',
                 'class' => 'form-control'
             ),
             'options' => array(
-                'value_options' => $this->getOptionsForSelectParishes(),
+                'value_options' => $this->getOptionsForSelectVicarious(),
             )
         ));
-        
-        /* input comboBox idvicarious */
-//        $this->add(array(
-//            'type' => 'Zend\Form\Element\Select',
-//            'name' => 'idVicarious',
-//            'attributes' => array(
-//                'id' => 'inputSelectIdVicarious',
-//                'class' => 'form-control'
-//            ),
-//            'options' => array(
-//                'value_options' => $this->getOptionsForSelectVicarious(),
-//            )
-//        ));
     }
 
-            
-    public function getOptionsForSelectParishes()
+    
+    public function getOptionsForSelectVicarious()
     {
         $dbAdapter = $this->dbadapter;
-        $sql = 'SELECT id, parishName FROM parishes order by parishName';
+        $sql = 'SELECT id, vicariousName FROM vicarious order by vicariousName';
         $statement = $dbAdapter->query($sql);
         $result = $statement->execute();
         $selectData = array();
         foreach ($result as $res) {
-            $selectData[$res['id']] = $res['parishName'];
+            $selectData[$res['id']] = $res['vicariousName'];
         }
         return $selectData;
     }

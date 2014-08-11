@@ -97,6 +97,8 @@ class ConfirmationsController extends AbstractActionController {
     }
     
     public function getElementBookSacramentAction() {
+        $pageNumber = 0;
+        $itemNumber = 0;
         $request = $this->getRequest();
         $response = $this->getResponse();
         if ($request->isPost()) {
@@ -104,12 +106,12 @@ class ConfirmationsController extends AbstractActionController {
             $idBook = $request->getPost('idBook');
             error_log('logC. Ajx idBook = '.$idBook);
             $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-            $sql = 'SELECT MAX(page) as pageNumber, MAX(item) as itemNumber FROM confirmations where idBookofsacraments = '.$idBook;
+            $sql = 'SELECT item, page FROM confirmations where item = (SELECT MAX(item) as itemNumber FROM confirmations where idBookofsacraments = '.$idBook.') and idBookofsacraments = '.$idBook;
             $statement = $dbAdapter->query($sql);
             $result = $statement->execute();
             foreach ($result as $res) {
-                $pageNumber = $res['pageNumber'];
-                $itemNumber = $res['itemNumber'];
+                $pageNumber = $res['page'];
+                $itemNumber = $res['item'];
             }
             if(empty($itemNumber)){
                 error_log('logC Ajx error item...');
@@ -119,11 +121,22 @@ class ConfirmationsController extends AbstractActionController {
                 foreach ($resultTwo as $resTwo) {
                     $itemNumber = $resTwo['startItem'];
                 }
+                $pageNumber = 1;
                 
             }else{                 
+                error_log('logC Ajx pageNumber = '.$pageNumber);  
                 $itemNumber = $itemNumber + 1;
+                $sqlThree = 'SELECT COUNT(page)as countPage FROM confirmations where idBookofsacraments = '.$idBook.' and page = '.$pageNumber;
+                $statementThree = $dbAdapter->query($sqlThree);
+                $resultThree = $statementThree->execute();
+                foreach ($resultThree as $resThree) {
+                    $count = $resThree['countPage'];
+                }
+                error_log('count =  '.$count);
+                if($count == 3){
+                    $pageNumber = $pageNumber + 1;
+                }
             }
-            $pageNumber = $pageNumber + 1; 
             $values = $pageNumber.",".$itemNumber;
             $response->setContent($values);
             $headers = $response->getHeaders();
@@ -320,13 +333,12 @@ class ConfirmationsController extends AbstractActionController {
             $form->setData($request->getPost());
             if ($form->isValid()) {
                 $confirmationsFilter->exchangeArray($form->getData());
-                error_log('confirmations ....');
-                if ($confirmationsFilter->idBookofsacraments != 0) {
-                    $idPerson = $this->getPersonTable()->addPersonConfirmations($confirmationsFilter);
-                    $this->getConfirmationsTable()->addConfirmations($confirmationsFilter, $idPerson, $this->authUser->getIdentity()->id);
-                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
+                if ($this->exitsPersonInDatabase($confirmationsFilter->ci, $confirmationsFilter->firstName, $confirmationsFilter->firstSurname, $confirmationsFilter->secondSurname)) {
+//                    $idPerson = $this->getPersonTable()->addPersonConfirmations($confirmationsFilter);
+//                    $this->getConfirmationsTable()->addConfirmations($confirmationsFilter, $idPerson, $this->authUser->getIdentity()->id);
+//                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
                 } else {
-                    $messages.="<p style='color:#a94442' >El campo libro es requerido</p>";
+                    $messages .= "<p style='color:#a94442' >Error la persona ya realizó el sacramento de confirmación anteriormente.</p>";
                 }
             }
         }
@@ -356,13 +368,13 @@ class ConfirmationsController extends AbstractActionController {
             if ($form->isValid()) {
                 error_log('valid ....');
                 $confirmationsFilter->exchangeArray($form->getData());
-//                if ($baptismsFilter->idBookofsacraments != 0) {
+                if ($this->exitsPersonInDatabase($confirmationsFilter->ci, $confirmationsFilter->firstName, $confirmationsFilter->firstSurname, $confirmationsFilter->secondSurname)) {
                     $idPerson = $this->getPersonTable()->addPersonConfirmations($confirmationsFilter);
                     $this->getConfirmationsTable()->addConfirmations($confirmationsFilter, $idPerson, $this->authUser->getIdentity()->id, $this->authUser->getIdentity()->idParishes);
                     return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
-//                } else {
-//                    $messages.="Se requiere un valor y éste no puede estar vacío";
-//                }
+                } else {
+                    $messages .= "<p style='color:#a94442' >Error la persona ya realizó el sacramento de confirmación anteriormente.</p>";
+                }
             }
         }
         $values = array(
@@ -374,6 +386,18 @@ class ConfirmationsController extends AbstractActionController {
         $this->layout()->setVariable('authUser', $this->authUser);
         $this->layout()->setVariable('parishName', $this->parishName);
         return new ViewModel($values);
+    }
+    public function exitsPersonInDatabase($CI, $firstName, $firstSurname, $secondSurname) {
+        $confirmation = '';
+        if(!empty($CI)){
+            $confirmation = $this->getConfirmationsTable()->getOneConfirmationByPerson($CI);
+            if($confirmation == true){
+                $confirmation = $this->getConfirmationsTable()->getOneConfirmationByPersonName($firstName, $firstSurname, $secondSurname);
+            }
+        }else{
+            $confirmation = $this->getConfirmationsTable()->getOneConfirmationByPersonName($firstName, $firstSurname, $secondSurname);
+        }
+        return $confirmation;
     }
 
     public function editAction() {

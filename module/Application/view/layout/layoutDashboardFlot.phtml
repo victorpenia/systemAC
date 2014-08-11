@@ -14,9 +14,7 @@
         <!-- Le styles -->
         <?php
         echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/img.ico'))//              
-                ->prependStylesheet($this->basePath() . '/css/sb-admin.css')
-                ->prependStylesheet($this->basePath() . '/css/plugins/morris/morris-0.4.3.min.css')
-                ->prependStylesheet($this->basePath() . '/css/plugins/timeline/timeline.css') 
+                ->prependStylesheet($this->basePath() . '/css/sb-admin.css') 
                 ->prependStylesheet($this->basePath() . '/font-awesome/css/font-awesome.css')
                 ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
                                
@@ -24,10 +22,12 @@
 
         <!-- Scripts -->
         <?php
-        echo $this->headScript()
-                
-                ->prependFile($this->basePath() . '/js/plugins/morris/morris.js')
-                ->prependFile($this->basePath() . '/js/plugins/morris/raphael-2.1.0.min.js')                
+        echo $this->headScript()              
+                ->prependFile($this->basePath() . '/js/plugins/flot/jquery.flot.pie.js')
+                ->prependFile($this->basePath() . '/js/plugins/flot/jquery.flot.resize.js')
+                ->prependFile($this->basePath() . '/js/plugins/flot/jquery.flot.tooltip.min.js')
+                ->prependFile($this->basePath() . '/js/plugins/flot/jquery.flot.js')
+                               
                 ->prependFile($this->basePath() . '/js/sb-admin.js')                
                 ->prependFile($this->basePath() . '/js/plugins/metisMenu/jquery.metisMenu.js')
                 ->prependFile($this->basePath() . '/js/bootstrap.min.js')

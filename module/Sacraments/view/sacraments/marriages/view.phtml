@@ -19,7 +19,7 @@
                     <p>Ci/Rua: <strong><?php echo $this->personMale->ci ?></strong></p>
                     <p>Fecha nacimiento: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->personMale->birthDate)) ?></strong></p>                    
                     <p>Estado civil: <strong><?php echo $this->personMale->maritalStatus ?></strong></p>
-                    <p>Parroquia bautismo: <strong><?php echo $this->data->baptismParishMale ?></strong></p>
+                    <p>Parroquia bautismo: <strong><?php echo ($this->data->baptismParishMale == 'Otros') ? $this->data->baptismParishMaleOthers : $this->data->baptismParishMale ?></strong></p>
                     <p>Padre: <strong><?php echo $this->personMale->fatherName." ".$this->personMale->fatherFirstSurname." ".$this->personMale->fatherSecondSurname?></strong></p>
                     <p>Madre: <strong><?php echo $this->personMale->matherName." ".$this->personMale->matherFirstSurname." ".$this->personMale->matherSecondSurname ?></strong></p>
                     <h3 style="color:#178acc">Informaci&oacute;n esposa</h3>
@@ -27,7 +27,7 @@
                     <p>Ci/Rua: <strong><?php echo $this->personFemale->ci ?></strong></p>
                     <p>Fecha nacimiento: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->personFemale->birthDate)) ?></strong></p>                    
                     <p>Estado civil: <strong><?php echo $this->personFemale->maritalStatus ?></strong></p>
-                    <p>Parroquia bautismo: <strong><?php echo $this->data->baptismParishFemale ?></strong></p>
+                    <p>Parroquia bautismo: <strong><?php echo ($this->data->baptismParishFemale == 'Otros')? $this->data->baptismParishFemaleOthers : $this->data->baptismParishFemale ?></strong></p>
                     <p>Padre: <strong><?php echo $this->personFemale->fatherName." ".$this->personFemale->fatherFirstSurname." ".$this->personFemale->fatherSecondSurname ?></strong></p>
                     <p>Madre: <strong><?php echo $this->personFemale->matherName." ".$this->personFemale->matherFirstSurname." ".$this->personFemale->matherSecondSurname ?></strong></p>
                     <h3 style="color:#178acc"> Informaci&oacute;n padrinos</h3>
@@ -47,8 +47,8 @@
                     <h3 style="color:#178acc">Informaci&oacute;n matrimonio</h3>
                     <p>Parroquia: <strong><?php echo $this->data->parishName ?></strong></p>
                     <p>Fecha matrimonio: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->data->marriageDate)) ?></strong></p>
-                    <p>Párroco que realizó el matrimonio: <strong><?php echo $this->data->marriagePriest ?></strong></p>
-                    <p>Párroco que da fe: <strong><?php echo $this->data->attestPriest ?></strong></p>                    
+                    <p>Párroco que realizó el matrimonio: <strong><?php echo ($this->data->marriagePriest== 'Otros')? $this->data->marriagePriestOthers : $this->data->marriagePriest ?></strong></p>
+                    <p>Párroco que da fe: <strong><?php echo ($this->data->attestPriest == 'Otros')? $this->data->attestPriestOthers :$this->data->attestPriest ?></strong></p>                  
                     <p>Observaciones: <strong><?php echo $this->data->observation ?></strong></p>
                     <a href="<?php echo $this->basePath() ?>/sacraments/marriages/edit/<?php echo  $this->data->id ?>" class="btn btn-primary" role="button">Editar</a>
                     <a href="<?php echo $this->basePath() ?>/sacraments/marriages/print/<?php echo  $this->data->id ?>" class="btn btn-primary" role="button">Imprimir PDF</a>

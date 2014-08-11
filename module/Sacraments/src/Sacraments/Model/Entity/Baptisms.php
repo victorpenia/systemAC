@@ -83,7 +83,7 @@ class Baptisms extends TableGateway {
         $sql = new Sql($this->tableGateway->getAdapter());
         $select = $sql->select();
         $select->from('baptisms')
-               ->join('person', 'baptisms.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'bornIn', 'bornInProvince', 'birthDate', 'fatherName', 'matherName', 'fatherFirstSurname', 'fatherSecondSurname', 'matherFirstSurname', 'matherSecondSurname', 'ci'))
+               ->join('person', 'baptisms.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'bornIn', 'bornInOthers', 'bornInProvince', 'birthDate', 'fatherName', 'matherName', 'fatherFirstSurname', 'fatherSecondSurname', 'matherFirstSurname', 'matherSecondSurname', 'ci'))
                ->join('bookofsacraments', 'bookofsacraments.id = baptisms.idBookofsacraments', array('code', 'book', 'idParishes'))
                ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'))
                ->join('Users', 'baptisms.idUserCertificate = users.id', array('idRoles'), 'left')
@@ -144,22 +144,23 @@ class Baptisms extends TableGateway {
         if(empty($baptismsFilter->observation)){
             $baptismsFilter->observation ='Ninguna';
         }
-        $baptismPriest = '';
-        if($baptismsFilter->baptismPriest == 'Otros')
-            $baptismPriest = $baptismsFilter->baptismPriestOthers;
-        else
-            $baptismPriest = $baptismsFilter->baptismPriest;
+//        $baptismPriest = '';
+//        if($baptismsFilter->baptismPriest == 'Otros')
+//            $baptismPriest = $baptismsFilter->baptismPriestOthers;
+//        else
+//            $baptismPriest = $baptismsFilter->baptismPriest;
         
-        $AttestPriest = '';
-        if($baptismsFilter->attestPriest == 'Otros')
-            $AttestPriest = $baptismsFilter->attestPriestOthers;
-        else
-            $AttestPriest = $baptismsFilter->attestPriest;
+//        $AttestPriest = '';
+//        if($baptismsFilter->attestPriest == 'Otros')
+//            $AttestPriest = $baptismsFilter->attestPriestOthers;
+//        else
+//            $AttestPriest = $baptismsFilter->attestPriest;
         
         $values = array(
             'page' => $baptismsFilter->page,
             'item' => $baptismsFilter->item,
-            'baptismPriest' => $baptismPriest,
+            'baptismPriest' => $baptismsFilter->baptismPriest,
+            'baptismPriestOthers' => $baptismsFilter->baptismPriestOthers,
             'baptismDate' => $baptismsFilter->baptismDate,
             'congregation' => $baptismsFilter->congregation,
             'godfatherNameOne' => $baptismsFilter->godfatherNameOne,
@@ -170,7 +171,8 @@ class Baptisms extends TableGateway {
             'bookLN' => $baptismsFilter->bookLN,
             'departure' => $baptismsFilter->departure,
             'folioFs' => $baptismsFilter->folioFS,
-            'attestPriest' => $AttestPriest,
+            'attestPriest' => $baptismsFilter->attestPriest,
+            'attestPriestOthers' => $baptismsFilter->attestPriestOthers,
             'observation' => $baptismsFilter->observation,
             'idBookofsacraments' => $baptismsFilter->idBookofsacraments,
             'idPerson' => $idPerson,

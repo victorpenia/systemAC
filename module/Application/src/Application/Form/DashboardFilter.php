@@ -14,6 +14,7 @@ use Zend\InputFilter\InputFilterInterface;
 class DashboardFilter implements InputFilterAwareInterface {
 
     public $idParishes;
+    public $idVicarious;
     public $year;
 //    public $page;
 //    public $item;
@@ -24,6 +25,7 @@ class DashboardFilter implements InputFilterAwareInterface {
 
     public function exchangeArray($data) {
         $this->idParishes = (isset($data['idParishes'])) ? $data['idParishes'] : null;
+        $this->idVicarious = (isset($data['idVicarious'])) ? $data['idVicarious'] : null;
         $this->year = (isset($data['year'])) ? $data['year'] : null;
 //        $this->page = (isset($data['page'])) ? $data['page'] : null;
 //        $this->item = (isset($data['item'])) ? $data['item'] : null;        

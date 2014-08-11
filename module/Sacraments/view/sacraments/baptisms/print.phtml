@@ -111,9 +111,19 @@ setlocale(LC_TIME, "spanish");
 
 
 if($this->data->bornIn == 'Otros')
-    $bornInPrint = $this->data->bornInProvince;
+    $bornInPrint = $this->data->bornInOthers;
 else
-    $bornInPrint = $this->data->bornIn."-".$this->data->bornInProvince; 
+    $bornInPrint = $this->data->bornIn."-".$this->data->bornInProvince;
+
+if($this->data->baptismPriest == 'Otros')
+    $baptismPriestPrint = $this->data->baptismPriestOthers;
+else
+    $baptismPriestPrint = $this->data->baptismPriest;
+
+if($this->data->attestPriest == 'Otros')
+    $attestPriestPrint = $this->data->attestPriestOthers;
+else
+    $attestPriestPrint = $this->data->attestPriest;
 
 $godfathersPrint= '';
 if(!empty($this->data->godfatherNameTwo))
@@ -137,8 +147,8 @@ if(!empty($this->data->fatherName)){
 // set certificate file
 //$certificate = 'file://'.$this->url.'/cert/tcpdf.crt'; 
 //$public_key  = 'file://'.$this->url.'/cert/tcpdf.crt';
-$certificate = 'file://C:/xampp/htdocs/SISTEMA_SISSR/public/certificates/cert/'.$this->data->certificateName; 
-$private_key = 'file://C:/xampp/htdocs/SISTEMA_SISSR/public/certificates/key/'.$this->data->privateKey;  
+$certificate = 'file://C:/xampp/htdocs/system_AC/public/certificates/cert/'.$this->data->certificateName; 
+$private_key = 'file://C:/xampp/htdocs/system_AC/public/certificates/key/'.$this->data->privateKey;  
 //$certificate  = 'file://C:/xampp/htdocs/SISTEMA_SISSR/vendor/tecnick.com/tcpdf/examples/data/cert/tcpdf.crt'; 
 //$public_key  = 'file://C:/xampp/htdocs/SISTEMA_SISSR/vendor/tecnick.com/tcpdf/examples/data/cert/tcpdf.crt'; 
 $info = array(
@@ -187,13 +197,13 @@ $pdf->writeHTMLCell(0, 0, '', '', $html1, 0, 1, false, true, 'C', false);
 $html2 = "
 <br />
 <br />En esta Parroquia del <strong>\"".$this->data->parishName."\"</strong>, el día <strong>".$day.", ".strftime("%d de %B del %Y",strtotime($this->data->baptismDate)).".</strong>
-El suscrito párroco <strong>".$this->data->baptismPriest."</strong>, bautizó solemnemente a: <strong>".strtoupper($this->data->firstName)."</strong>; 
+El suscrito párroco <strong>".$baptismPriestPrint."</strong>, bautizó solemnemente a: <strong>".strtoupper($this->data->firstName)."</strong>; 
 nacido(a) en: <strong>".$bornInPrint."</strong>, el <strong>".strftime("%d de %B del %Y",strtotime($this->data->birthDate))."</strong>; hijo(a) de:
 <strong>".$parentPrint."</strong>. Feligreses de esta Parroquia.
 <br />Fueron Padrinos: <strong>".$godfathersPrint."</strong>.
 <br />Oficialia R.C.Nº: <strong>".$this->data->oficialiaRC."</strong> Libro Nº: <strong>".$this->data->bookLN."</strong> Partida Nº: <strong>".$this->data->departure."</strong>
 Folio Nº: <strong>".$this->data->folioFS."</strong>.
-<br />De que doy fe yo el Párroco(Fdo.) <strong>".$this->data->attestPriest."</strong>.
+<br />De que doy fe yo el Párroco(Fdo.) <strong>".$attestPriestPrint."</strong>.
 <br /> Observaciones: <strong>".$this->data->observation."</strong>
 <br />    
 <br /><strong>Los datos que se anteceden concuerdan con el original de referencia al que me remito en caso necesario.</strong>

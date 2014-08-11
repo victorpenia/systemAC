@@ -133,13 +133,22 @@ if(!empty($this->data->fatherName)){
     $parentPrint = $this->data->matherName." ".$this->data->matherFirstSurname." ".$this->data->matherSecondSurname;
 }
 
+if($this->data->attestPriest == 'Otros')
+    $attestPriestPrint = $this->data->attestPriestOthers;
+else
+    $attestPriestPrint = $this->data->attestPriest;
+
+if($this->data->baptismParish == 'Otros')
+    $baptismParishPrint = $this->data->baptismParishOthers;
+else
+    $baptismParishPrint = $this->data->baptismParish;
 // ---------------------------------------------------------
 //if($this->data->idUserCertificate != '0'){
 // set certificate file
 //$certificate = 'file://'.$this->url.'/cert/tcpdf.crt'; 
 //$public_key  = 'file://'.$this->url.'/cert/tcpdf.crt';
-$certificate = 'file://C:/xampp/htdocs/SISTEMA_SISSR/public/certificates/cert/'.$this->data->certificateName; 
-$private_key = 'file://C:/xampp/htdocs/SISTEMA_SISSR/public/certificates/key/'.$this->data->privateKey;  
+$certificate = 'file://C:/xampp/htdocs/system_AC/public/certificates/cert/'.$this->data->certificateName; 
+$private_key = 'file://C:/xampp/htdocs/system_AC/public/certificates/key/'.$this->data->privateKey;  
 //$certificate  = 'file://C:/xampp/htdocs/SISTEMA_SISSR/vendor/tecnick.com/tcpdf/examples/data/cert/tcpdf.crt'; 
 //$public_key  = 'file://C:/xampp/htdocs/SISTEMA_SISSR/vendor/tecnick.com/tcpdf/examples/data/cert/tcpdf.crt'; 
 $info = array(
@@ -188,11 +197,11 @@ $pdf->writeHTMLCell(0, 0, '', '', $html1, 0, 1, false, true, 'C', false);
 $html2 = "
 <br />
 <br />En esta Parroquia del <strong>\"".$this->data->parishName."\"</strong>, el día <strong>".$day.", ".strftime("%d de %B del %Y",strtotime($this->data->confirmationDate)).".</strong>
-El Obispo celebrante: <strong>".$this->data->attestPriest."</strong>, confirmo solemnemente a: <strong>".strtoupper($this->data->firstName)."</strong> 
-de: <strong>".$year." años de edad</strong>; bautizado (a) en la Parroquia de: <strong>Divino Maestro</strong> hijo de:
+El Obispo celebrante: <strong>".$attestPriestPrint."</strong>, confirmo solemnemente a: <strong>".strtoupper($this->data->firstName)."</strong> 
+de: <strong>".$year." años de edad</strong>; bautizado (a) en la Parroquia de: <strong>".$baptismParishPrint."</strong> hijo de:
 <strong>".$parentPrint."</strong>.
 <br />Fueron Padrinos: <strong>".$godfathersPrint."</strong>.
-<br />De que doy fe yo <strong>".$this->data->attestPriest."</strong>.
+<br />De que doy fe yo <strong>".$attestPriestPrint."</strong>.
 <br /> Observaciones: <strong>".$this->data->observation."</strong>
 <br />
 <br /><strong>Los datos que se anteceden concuerdan con el original de referencia al que me remito en caso necesario.</strong>

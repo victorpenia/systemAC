@@ -32,8 +32,8 @@
                     <h3 style="color:#178acc">Informaci&oacute;n confirmaci&oacute;n</h3>
                     <p>Parroquia: <strong><?php echo $this->data->parishName ?></strong></p>
                     <p>Fecha Confirmaci&oacute;n: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->data->confirmationDate)) ?></strong></p>
-                    <p>Parroquia bautismo: <strong><?php echo $this->data->baptismParish ?></strong></p>
-                    <p>Obispo o Confirmante:: <strong><?php echo $this->data->attestPriest ?></strong></p>
+                    <p>Parroquia bautismo: <strong><?php echo ($this->data->baptismParish == 'Otros') ? $this->data->baptismParishOthers : $this->data->baptismParish ?></strong></p>
+                    <p>Obispo o Confirmante: <strong><?php echo ($this->data->attestPriest == 'Otros') ? $this->data->attestPriestOthers : $this->data->attestPriest ?></strong></p>
                     <p>Observaciones: <strong><?php echo $this->data->observation ?></strong></p>
                     <a href="<?php echo $this->basePath() ?>/sacraments/confirmations/editp/<?php echo  $this->data->id ?>" class="btn btn-primary" role="button">Editar</a>
                     <?php if($this->data->idUserCertificate != '0'){ ?>
