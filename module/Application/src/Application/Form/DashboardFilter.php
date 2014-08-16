@@ -16,6 +16,7 @@ class DashboardFilter implements InputFilterAwareInterface {
     public $idParishes;
     public $idVicarious;
     public $year;
+    public $sacrament;
 //    public $page;
 //    public $item;
 //    public $baptismDate;
@@ -27,6 +28,7 @@ class DashboardFilter implements InputFilterAwareInterface {
         $this->idParishes = (isset($data['idParishes'])) ? $data['idParishes'] : null;
         $this->idVicarious = (isset($data['idVicarious'])) ? $data['idVicarious'] : null;
         $this->year = (isset($data['year'])) ? $data['year'] : null;
+        $this->sacrament = (isset($data['sacrament'])) ? $data['sacrament'] : null;
 //        $this->page = (isset($data['page'])) ? $data['page'] : null;
 //        $this->item = (isset($data['item'])) ? $data['item'] : null;        
     }

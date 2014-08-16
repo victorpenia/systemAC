@@ -98,11 +98,12 @@ class MarriagesparishForm extends Form {
             'name' => 'marriageDate',
             'attributes' => array(
                 'type' => 'text',
-                'maxlength' => '10',
+                'readonly' => 'readonly',
+                'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
                 'id' => 'inputMarriageDate',
-                'placeholder' => 'Fecha matrimonio'
+//                'placeholder' => 'Fecha matrimonio'
             ),
         ));
         /* input text marriage Priest */
@@ -233,11 +234,12 @@ class MarriagesparishForm extends Form {
             'name' => 'birthDateMale',
             'attributes' => array(
                 'type' => 'text',
-                'maxlength' => '10',
+                'readonly' => 'readonly',
+                'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
                 'id' => 'inputBirthDateMale',
-                'placeholder' => 'Fecha de nacimiento'
+//                'placeholder' => 'Fecha de nacimiento'
             ),
         ));
         /* input text Birth date Female*/
@@ -245,11 +247,12 @@ class MarriagesparishForm extends Form {
             'name' => 'birthDateFemale',
             'attributes' => array(
                 'type' => 'text',
-                'maxlength' => '10',
+                'readonly' => 'readonly',
+                'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
                 'id' => 'inputBirthDateFemale',
-                'placeholder' => 'Fecha de nacimiento'
+//                'placeholder' => 'Fecha de nacimiento'
             ),
         ));
         /* input text marital status male*/

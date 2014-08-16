@@ -47,12 +47,14 @@ $form->setAttributes(array(
                                     echo $this->formElementErrors($item);
                                 ?>
                             </div>
-                            <div class="form-group">
-                                <label>* Fecha confirmaci&oacute;n:</label>
+                            <p><strong>* Fecha confirmaci&oacute;n:</strong></p>
+                            <div class="form-group input-group">
+                                <!--<label>* Fecha confirmaci&oacute;n:</label>-->
                                 <?php $confirmationDate= $form->get('confirmationDate');
                                     echo $this->formInput($confirmationDate);
                                     echo $this->formElementErrors($confirmationDate);
                                 ?> 
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <div class="form-group">
                             <label>* Obispo o Confirmante:</label>                            
@@ -96,12 +98,14 @@ $form->setAttributes(array(
                                     echo $this->formElementErrors($secondSurname);
                                 ?>
                             </div>
-                            <div class="form-group">
-                                <label>* Fecha nacimiento:</label>
+                            <p><strong>* Fecha nacimiento:</strong></p>
+                            <div class="form-group input-group">
+                                <!--<label>* Fecha nacimiento:</label>-->
                                 <?php $birthDate= $form->get('birthDate');
                                     echo $this->formInput($birthDate);
                                     echo $this->formElementErrors($birthDate);
                                 ?>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <div class="form-group">
                                 <label>* Parroquia bautismo:</label>
@@ -208,10 +212,24 @@ $form->setAttributes(array(
 <!-- /.row -->
 <script type="text/javascript">
 $(document).ready(function() {
-    $( "#inputConfirmationDate" ).datepicker();
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+    $('#inputConfirmationDate').datepicker({
+      onRender: function(date) {
+        return date.valueOf() > now.valueOf() ? 'disabled' : '';
+      }
+    });
 });
 $(document).ready(function() {
-    $( "#inputBirthDate" ).datepicker();
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+    $('#inputBirthDate').datepicker({
+      onRender: function(date) {
+        return date.valueOf() > now.valueOf() ? 'disabled' : '';
+      }
+    });
 }); 
 
 $(document).ready(function () {
@@ -320,6 +338,28 @@ $(document).ready(function() {
                     }
                 }
             },
+//            confirmationDate: {
+//                validators: {
+//                    notEmpty: {
+//                        message: 'El campo fecha de confirmación es obligatorio.'
+//                    },
+//                    date: {
+//                        format: 'YYYY-MM-DD',
+//                        message: 'El formato de la fecha es incorrecto.'
+//                    }
+//                }
+//            },
+//            birthDate: {
+//                validators: {
+//                    notEmpty: {
+//                        message: 'El campo fecha de nacimiento es obligatorio.'
+//                    },
+//                    date: {
+//                        format: 'YYYY-MM-DD',
+//                        message: 'El formato de la fecha es incorrecto.'
+//                    }
+//                }
+//            },
             attestPriest: {
                 validators: {
                     notEmpty: {

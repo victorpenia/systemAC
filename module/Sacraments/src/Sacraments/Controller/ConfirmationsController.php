@@ -14,6 +14,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Sacraments\Form\ConfirmationsForm;
 use Sacraments\Form\ConfirmationsparishForm;
+use Sacraments\Form\ConfirmationsparishEditForm;
 use Sacraments\Form\ConfirmationsFilter;
 use Zend\Authentication\AuthenticationService;
 
@@ -449,21 +450,24 @@ class ConfirmationsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
         }
         try {
-            $confirmation = $this->getConfirmationsTable()->getOneConfirmation($id);
+            $confirmation = $this->getConfirmationsTable()->getOneConfirmationEdit($id);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
         }
         $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-        $form = new ConfirmationsparishForm($this->dbAdapter, $this->authUser->getIdentity()->idParishes);
+        $form = new ConfirmationsparishEditForm($this->dbAdapter, $this->authUser->getIdentity()->idParishes);
         $form->bind($confirmation);
         $request = $this->getRequest();
         if ($request->isPost()) {
+            error_log('Llega bien is post');
             $form->setInputFilter($confirmation->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getConfirmationsTable()->updateBaptism($confirmation);
-                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
+                error_log('Llega bien');
+//                $this->getPersonTable()->updatePersonConfirmations($confirmation);
+//                $this->getConfirmationsTable()->updateConfirmation($confirmation);
+//                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
             }
         }
         $values = array(

@@ -26,7 +26,7 @@ class Confirmations extends TableGateway {
         if($paginated){
              $select = new Select();
              $select->from('confirmations')
-                    ->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname'))
+                    ->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'ci', 'birthDate'))
                     ->join('bookofsacraments', 'bookofsacraments.id = confirmations.idBookofsacraments', array('code', 'book'))
                     ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'));
              $paginatorAdapter = new DbSelect(
@@ -43,7 +43,7 @@ class Confirmations extends TableGateway {
         if($paginated){
              $select = new Select();
              $select->from('confirmations')
-                    ->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname'))
+                    ->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'ci', 'birthDate'))
                     ->join('bookofsacraments', 'bookofsacraments.id = confirmations.idBookofsacraments', array('code', 'book'))
                     ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'))
                     ->where(array('parishes.id' => $idParish)); 
@@ -76,6 +76,36 @@ class Confirmations extends TableGateway {
         }
         return $results;        
     }
+    
+    public function getOneConfirmationEdit($id) {
+        $id = (int) $id;
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from('confirmations')
+//               ->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname'))
+//               ->join('bookofsacraments', 'bookofsacraments.id = confirmations.idBookofsacraments', array('code', 'book', 'idParishes'))
+//               ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName')) 
+               ->where(array('confirmations.id' => $id));
+        $selectString = $sql->getSqlStringForSqlObject($select); 
+        $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        $results = $resultSet->current();
+        if (!$results) {
+            error_log('modelllllll');
+            throw new \Exception("Could not find row $id");
+        }
+        error_log('return .....');
+        return $results;        
+    }
+    
+//    public function getOneConfirmationEdit($id) {
+//        $id = (int) $id;
+//        $rowset = $this->tableGateway->select(array('id' => $id));
+//        $row = $rowset->current();
+//        if (!$row) {
+//            throw new \Exception("Could not find row $id");
+//        }
+//        return $row;
+//    }
     
     public function getOneConfirmationByPerson($CI){
         error_log('logM. Ci='.$CI);

@@ -40,6 +40,7 @@ class ConfirmationsFilter implements InputFilterAwareInterface {
     public $idBookofsacraments;
     public $idPerson;
     public $idParish;
+    public $book;
     
     protected $inputFilter;
 
@@ -71,6 +72,8 @@ class ConfirmationsFilter implements InputFilterAwareInterface {
         $this->idParish = (isset($data['idParish'])) ? $data['idParish'] : null;
         $this->idBookofsacraments = (isset($data['idBookofsacraments'])) ? $data['idBookofsacraments'] : null;
         $this->idPerson = (isset($data['idPerson'])) ? $data['idPerson'] : null;
+        
+        $this->book = (isset($data['book'])) ? $data['book'] : null;
     }
 
     public function getArrayCopy() {

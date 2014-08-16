@@ -17,7 +17,9 @@
                         <thead>
                             <tr>                                
                                 <th>Esposo</th>
+                                <th>CI</th>
                                 <th>Esposa</th>
+                                <th>CI</th>
                                 <th>Parroquia</th>
                                 <th>Libro</th>
                                 <th>Acciones</th>
@@ -27,7 +29,9 @@
                             <?php foreach($this->data as $data_item){ ?>                           
                             <tr class="gradeC"> 
                                 <td><?php echo  $data_item->firstName." ".$data_item->firstSurname." ".$data_item->secondSurname?></td>
+                                <td><?php echo  $data_item->ci?></td>
                                 <td><?php echo  $data_item->firstName." ".$data_item->firstSurname." ".$data_item->secondSurname?></td>
+                                <td><?php echo  $data_item->ci?></td>
                                 <td><?php echo  $data_item->parishName?></td>
                                 <td><?php echo  "Libro Nº: <strong>".$data_item->book."</strong>" ?></td>
                                 <td>

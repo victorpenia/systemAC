@@ -45,7 +45,24 @@ class DashboardForm extends Form {
                     '2014' => '2014',
                 ),
             )
-        ));        
+        ));
+        
+        /* input select sacrament */
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'sacrament',
+            'attributes' => array(
+                'id' => 'inputSelectSacrament',
+                'class' => 'form-control'
+            ),
+            'options' => array(
+                'value_options' => array(
+                    'Bautismos & Matrimonios' => 'Bautismos & Matrimonios',
+                    'Bautismos' => 'Bautismos',
+                    'Matrimonios' => 'Matrimonios'
+                ),
+            )
+        )); 
        
         /* input comboBox idParishes */
         $this->add(array(
@@ -61,17 +78,17 @@ class DashboardForm extends Form {
         ));
         
         /* input comboBox idvicarious */
-//        $this->add(array(
-//            'type' => 'Zend\Form\Element\Select',
-//            'name' => 'idVicarious',
-//            'attributes' => array(
-//                'id' => 'inputSelectIdVicarious',
-//                'class' => 'form-control'
-//            ),
-//            'options' => array(
-//                'value_options' => $this->getOptionsForSelectVicarious(),
-//            )
-//        ));
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'idVicarious',
+            'attributes' => array(
+                'id' => 'inputSelectIdVicarious',
+                'class' => 'form-control'
+            ),
+            'options' => array(
+                'value_options' => $this->getOptionsForSelectVicarious(),
+            )
+        ));
     }
 
             
@@ -82,8 +99,23 @@ class DashboardForm extends Form {
         $statement = $dbAdapter->query($sql);
         $result = $statement->execute();
         $selectData = array();
+        $selectData['-1'] = 'Todos';
         foreach ($result as $res) {
             $selectData[$res['id']] = $res['parishName'];
+        }
+        return $selectData;
+    }
+    
+    public function getOptionsForSelectVicarious()
+    {
+        $dbAdapter = $this->dbadapter;
+        $sql = 'SELECT id, vicariousName FROM vicarious order by vicariousName';
+        $statement = $dbAdapter->query($sql);
+        $result = $statement->execute();
+        $selectData = array();
+        $selectData['-1'] = 'Todos';
+        foreach ($result as $res) {
+            $selectData[$res['id']] = $res['vicariousName'];
         }
         return $selectData;
     }

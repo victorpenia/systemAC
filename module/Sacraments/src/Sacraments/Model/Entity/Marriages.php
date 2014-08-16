@@ -26,7 +26,7 @@ class Marriages extends TableGateway {
         if($paginated){
              $select = new Select();
              $select->from('marriages')
-                    ->join('person', 'marriages.idPersonMale = person.id', array('firstName', 'firstSurname', 'secondSurname'))
+                    ->join('person', 'marriages.idPersonMale = person.id', array('firstName', 'firstSurname', 'secondSurname', 'ci', 'birthDate'))
 //                    ->join('person', 'marriages.idPersonFemale = person.id', array('ci')) 
                     ->join('bookofsacraments', 'bookofsacraments.id = marriages.idBookofsacraments', array('code', 'book'))
                     ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'));
@@ -44,7 +44,7 @@ class Marriages extends TableGateway {
         if($paginated){
              $select = new Select();
              $select->from('marriages')
-                    ->join('person', 'marriages.idPersonMale= person.id ', array('firstName', 'firstSurname', 'secondSurname'))
+                    ->join('person', 'marriages.idPersonMale= person.id ', array('firstName', 'firstSurname', 'secondSurname', 'ci', 'birthDate'))
 //                    ->join('person', 'marriages.idPersonFemale= person.id', array('firstName', 'firstSurname', 'secondSurname'));
                     ->join('bookofsacraments', 'bookofsacraments.id = marriages.idBookofsacraments', array('code', 'book'))
                     ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'))

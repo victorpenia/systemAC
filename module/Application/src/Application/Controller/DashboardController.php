@@ -58,7 +58,7 @@ class DashboardController extends AbstractActionController {
         }
         $messages = null;
         $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-        $form = new DashboardoneForm($this->dbAdapter);
+        $form = new DashboardForm($this->dbAdapter);
         $request = $this->getRequest();
         if ($request->isPost()) {
             $dashboardFilter = new DashboardFilter();
@@ -66,19 +66,40 @@ class DashboardController extends AbstractActionController {
             $form->setData($request->getPost());
             if ($form->isValid()) {
                 $dashboardFilter->exchangeArray($form->getData());
-                error_log($dashboardFilter->year);
+                error_log('year: '.$dashboardFilter->year);
+                error_log('sacrament: '.$dashboardFilter->sacrament);
+                error_log('vicariuos: '.$dashboardFilter->idVicarious);
+                error_log('parish: '.$dashboardFilter->idParishes);
                 $year = $dashboardFilter->year;
-                $data = $this->getBaptismByMonthVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
-                $data1 = $this->getMarriageByMonthVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
+                $sacrament = $dashboardFilter->sacrament;
+                if($dashboardFilter->idVicarious == -1){
+                    if($dashboardFilter->idParishes == -1){
+                        $data = $this->getBaptismByMonthVicariousAll($dashboardFilter->year);
+                        $data1 = $this->getMarriageByMonthVicariousAll($dashboardFilter->year);
+                    }else{
+                        $data = $this->getBaptismByMonth($dashboardFilter->idParishes, $dashboardFilter->year);
+                        $data1 = $this->getMarriageByMonth($dashboardFilter->idParishes, $dashboardFilter->year);
+                    } 
+                }else{
+                    if($dashboardFilter->idParishes == -1){
+                        $data = $this->getBaptismByMonthVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
+                        $data1 = $this->getMarriageByMonthVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
+                    }else{
+                        $data = $this->getBaptismByMonth($dashboardFilter->idParishes, $dashboardFilter->year);
+                        $data1 = $this->getMarriageByMonth($dashboardFilter->idParishes, $dashboardFilter->year);
+                    }                    
+                }
             }
         }else{
             $year = 2011;
-            $data = $this->getBaptismByMonthVicarious(11, $year);
-            $data1 = $this->getMarriageByMonthVicarious(11, $year);
+            $sacrament = 'Bautismos & Matrimonios';
+            $data = $this->getBaptismByMonthVicariousAll($year);
+            $data1 = $this->getMarriageByMonthVicariousAll($year);
         }
         $values = array(
             'form' => $form,
             'year' => $year,
+            'sacrament' => $sacrament,
             'data' => $data,
             'data1' => $data1,
             'url' => $this->getRequest()->getBaseUrl(),
@@ -90,43 +111,43 @@ class DashboardController extends AbstractActionController {
         return $view;
     }
     
-    public function chartstwoAction() {
-        if (!$this->authenticationService()) {
-            return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/');
-        }
-        $messages = null;
-        $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-        $form = new DashboardForm($this->dbAdapter);
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $dashboardFilter = new DashboardFilter();
-            $form->setInputFilter($dashboardFilter->getInputFilter());
-            $form->setData($request->getPost());
-            if ($form->isValid()) {
-                $dashboardFilter->exchangeArray($form->getData());
-                error_log($dashboardFilter->year);
-                $year = $dashboardFilter->year;
-                $data = $this->getBaptismByMonth($dashboardFilter->idParishes, $dashboardFilter->year);
-                $data1 = $this->getMarriageByMonth($dashboardFilter->idParishes, $dashboardFilter->year);
-            }
-        }else{
-            $year = 2011;
-            $data = $this->getBaptismByMonth(35, $year);
-            $data1 = $this->getMarriageByMonth(35, $year);
-        }
-        $values = array(
-            'form' => $form,
-            'year' => $year,
-            'data' => $data,
-            'data1' => $data1,
-            'url' => $this->getRequest()->getBaseUrl(),
-        );
-        $this->layout()->setVariable('authUser', $this->authUser);
-        $this->layout()->setVariable('parishName', $this->parishName);
-        $view = new ViewModel($values);
-        $this->layout('layout/layoutDashboard');
-        return $view;
-    }
+//    public function chartstwoAction() {
+//        if (!$this->authenticationService()) {
+//            return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/');
+//        }
+//        $messages = null;
+//        $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+//        $form = new DashboardForm($this->dbAdapter);
+//        $request = $this->getRequest();
+//        if ($request->isPost()) {
+//            $dashboardFilter = new DashboardFilter();
+//            $form->setInputFilter($dashboardFilter->getInputFilter());
+//            $form->setData($request->getPost());
+//            if ($form->isValid()) {
+//                $dashboardFilter->exchangeArray($form->getData());
+//                error_log($dashboardFilter->year);
+//                $year = $dashboardFilter->year;
+//                $data = $this->getBaptismByMonth($dashboardFilter->idParishes, $dashboardFilter->year);
+//                $data1 = $this->getMarriageByMonth($dashboardFilter->idParishes, $dashboardFilter->year);
+//            }
+//        }else{
+//            $year = 2011;
+//            $data = $this->getBaptismByMonth(35, $year);
+//            $data1 = $this->getMarriageByMonth(35, $year);
+//        }
+//        $values = array(
+//            'form' => $form,
+//            'year' => $year,
+//            'data' => $data,
+//            'data1' => $data1,
+//            'url' => $this->getRequest()->getBaseUrl(),
+//        );
+//        $this->layout()->setVariable('authUser', $this->authUser);
+//        $this->layout()->setVariable('parishName', $this->parishName);
+//        $view = new ViewModel($values);
+//        $this->layout('layout/layoutDashboard');
+//        return $view;
+//    }
     
     public function chartsthreeAction() {
         if (!$this->authenticationService()) {
@@ -143,20 +164,31 @@ class DashboardController extends AbstractActionController {
             if ($form->isValid()) {
                 $dashboardFilter->exchangeArray($form->getData());
                 error_log($dashboardFilter->year);
+                error_log($dashboardFilter->sacrament);
+                error_log($dashboardFilter->idVicarious);
                 $year = $dashboardFilter->year;
-                $data = $this->getBaptismByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
-                $data1 = $this->getMarriageByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
-                $data2 = $this->getConfirmactionByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
+                $sacrament = $dashboardFilter->sacrament;
+                if($dashboardFilter->idVicarious == -1){
+                    $data = $this->getBaptismByYearVicariousAll($dashboardFilter->year);
+                    $data1 = $this->getMarriageByYearVicariousAll($dashboardFilter->year);
+                    $data2 = $this->getConfirmactionByYearVicariousAll($dashboardFilter->year);
+                }else{
+                    $data = $this->getBaptismByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
+                    $data1 = $this->getMarriageByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
+                    $data2 = $this->getConfirmactionByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
+                }
             }
         }else{
             $year = 2011;
-            $data = $this->getBaptismByYearVicarious(11, $year);
-            $data1 = $this->getMarriageByYearVicarious(11, $year);
-            $data2 = $this->getConfirmactionByYearVicarious(11, $year);
+            $sacrament = 'Bautismos';
+            $data = $this->getBaptismByYearVicariousAll($year);
+            $data1 = $this->getMarriageByYearVicariousAll( $year);
+            $data2 = $this->getConfirmactionByYearVicariousAll( $year);
         }
         $values = array(
             'form' => $form,
             'year' => $year,
+            'sacrament' => $sacrament,
             'data' => $data,
             'data1' => $data1,
             'data2' => $data2,
@@ -228,10 +260,28 @@ class DashboardController extends AbstractActionController {
         return $result;
     }
     
+    private function getBaptismByMonthVicariousAll($year) {
+        $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+//        $sql = "SELECT MONTH(baptismDate) as month,count(id) as bap FROM baptisms WHERE YEAR(baptismDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(baptismDate)";
+        $sql = "SELECT MONTH(baptisms.baptismDate) as month,count(baptisms.id) as bap FROM baptisms, parishes WHERE YEAR(baptisms.baptismDate) = '$year' and baptisms.idParish = parishes.id GROUP BY MONTH(baptismDate)";
+        $statement = $dbAdapter->query($sql);
+        $result = $statement->execute();
+        return $result;
+    }
+    
     private function getMarriageByMonthVicarious($idVicarious, $year) {
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 //        $sql = "SELECT MONTH(marriageDate) as monthM,count(id) as marri FROM marriages WHERE YEAR(marriageDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(marriageDate)";
         $sql = "SELECT MONTH(marriages.marriageDate) as monthM,count(marriages.id) as marri FROM marriages, parishes WHERE YEAR(marriages.marriageDate) = '$year' and parishes.idVicarious = '$idVicarious' and marriages.idParish = parishes.id GROUP BY MONTH(marriageDate)";
+        $statement = $dbAdapter->query($sql);
+        $result = $statement->execute();
+        return $result;
+    }
+    
+    private function getMarriageByMonthVicariousAll($year) {
+        $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+//        $sql = "SELECT MONTH(marriageDate) as monthM,count(id) as marri FROM marriages WHERE YEAR(marriageDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(marriageDate)";
+        $sql = "SELECT MONTH(marriages.marriageDate) as monthM,count(marriages.id) as marri FROM marriages, parishes WHERE YEAR(marriages.marriageDate) = '$year' and marriages.idParish = parishes.id GROUP BY MONTH(marriageDate)";
         $statement = $dbAdapter->query($sql);
         $result = $statement->execute();
         return $result;
@@ -246,6 +296,15 @@ class DashboardController extends AbstractActionController {
         return $result;
     }
     
+    private function getBaptismByYearVicariousAll( $year) {
+        $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+//        $sql = "SELECT MONTH(baptismDate) as month,count(id) as bap FROM baptisms WHERE YEAR(baptismDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(baptismDate)";
+        $sql = "SELECT parishes.parishName, count(baptisms.id) as bap FROM baptisms, parishes WHERE YEAR(baptisms.baptismDate) = '$year' and baptisms.idParish = parishes.id GROUP BY(parishes.parishName)";
+        $statement = $dbAdapter->query($sql);
+        $result = $statement->execute();
+        return $result;
+    }
+    
     private function getMarriageByYearVicarious($idVicarious, $year) {
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 //        $sql = "SELECT MONTH(marriageDate) as monthM,count(id) as marri FROM marriages WHERE YEAR(marriageDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(marriageDate)";
@@ -255,10 +314,28 @@ class DashboardController extends AbstractActionController {
         return $result;
     }
     
+    private function getMarriageByYearVicariousAll($year) {
+        $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+//        $sql = "SELECT MONTH(marriageDate) as monthM,count(id) as marri FROM marriages WHERE YEAR(marriageDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(marriageDate)";
+        $sql = "SELECT parishes.parishName, count(marriages.id) as marri FROM marriages, parishes WHERE YEAR(marriages.marriageDate) = '$year' and marriages.idParish = parishes.id GROUP BY(parishes.parishName)";
+        $statement = $dbAdapter->query($sql);
+        $result = $statement->execute();
+        return $result;
+    }
+    
     private function getConfirmactionByYearVicarious($idVicarious, $year) {
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 //        $sql = "SELECT MONTH(marriageDate) as monthM,count(id) as marri FROM marriages WHERE YEAR(marriageDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(marriageDate)";
         $sql = "SELECT parishes.parishName, count(confirmations.id) as confir FROM confirmations, parishes WHERE YEAR(confirmations.confirmationDate) = '$year' and parishes.idVicarious = '$idVicarious' and confirmations.idParish = parishes.id GROUP BY(parishes.parishName)";
+        $statement = $dbAdapter->query($sql);
+        $result = $statement->execute();
+        return $result;
+    }
+    
+    private function getConfirmactionByYearVicariousAll($year) {
+        $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+//        $sql = "SELECT MONTH(marriageDate) as monthM,count(id) as marri FROM marriages WHERE YEAR(marriageDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(marriageDate)";
+        $sql = "SELECT parishes.parishName, count(confirmations.id) as confir FROM confirmations, parishes WHERE YEAR(confirmations.confirmationDate) = '$year' and confirmations.idParish = parishes.id GROUP BY(parishes.parishName)";
         $statement = $dbAdapter->query($sql);
         $result = $statement->execute();
         return $result;

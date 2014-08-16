@@ -98,11 +98,12 @@ class ConfirmationsparishForm extends Form {
             'name' => 'confirmationDate',
             'attributes' => array(
                 'type' => 'text',
-                'maxlength' => '10',
+                'readonly' => 'readonly',
+                'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
                 'id' => 'inputConfirmationDate',
-                'placeholder' => 'Fecha confirmación'
+//                'placeholder' => 'Fecha confirmación'
             ),
         )); 
         /* input text ci Person */
@@ -154,11 +155,12 @@ class ConfirmationsparishForm extends Form {
             'name' => 'birthDate',
             'attributes' => array(
                 'type' => 'text',
-                'maxlength' => '10',
+                'readonly' => 'readonly',
+                'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
                 'id' => 'inputBirthDate',
-                'placeholder' => 'Fecha de nacimiento'
+//                'placeholder' => 'Fecha de nacimiento'
             ),
         ));
         /* input text baptism parish*/

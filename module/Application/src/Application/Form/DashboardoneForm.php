@@ -45,7 +45,24 @@ class DashboardoneForm extends Form {
                     '2014' => '2014',
                 ),
             )
-        ));    
+        ));
+        
+        /* input select sacrament */
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'sacrament',
+            'attributes' => array(
+                'id' => 'inputSelectSacrament',
+                'class' => 'form-control'
+            ),
+            'options' => array(
+                'value_options' => array(
+                    'Bautismos' => 'Bautismos',
+                    'Confirmaciones' => 'Confirmaciones',
+                    'Matrimonios' => 'Matrimonios'
+                ),
+            )
+        )); 
         
         /* input comboBox idvicarious */
         $this->add(array(
@@ -69,6 +86,7 @@ class DashboardoneForm extends Form {
         $statement = $dbAdapter->query($sql);
         $result = $statement->execute();
         $selectData = array();
+        $selectData['-1'] = 'Todos';
         foreach ($result as $res) {
             $selectData[$res['id']] = $res['vicariousName'];
         }

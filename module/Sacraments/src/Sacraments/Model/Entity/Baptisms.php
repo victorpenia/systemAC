@@ -26,7 +26,7 @@ class Baptisms extends TableGateway {
         if($paginated){
              $select = new Select();
              $select->from('baptisms')
-                    ->join('person', 'baptisms.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname'))
+                    ->join('person', 'baptisms.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'ci', 'birthDate'))
                     ->join('bookofsacraments', 'bookofsacraments.id = baptisms.idBookofsacraments', array('code', 'book'))
                     ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'));
              $paginatorAdapter = new DbSelect(
@@ -43,7 +43,7 @@ class Baptisms extends TableGateway {
         if($paginated){
              $select = new Select();
              $select->from('baptisms')
-                    ->join('person', 'baptisms.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname'))
+                    ->join('person', 'baptisms.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'ci', 'birthDate'))
                     ->join('bookofsacraments', 'bookofsacraments.id = baptisms.idBookofsacraments', array('code', 'book'))
                     ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'))
                     ->where(array('parishes.id' => $idParish)); 

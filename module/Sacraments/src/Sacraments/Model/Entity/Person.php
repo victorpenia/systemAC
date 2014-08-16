@@ -90,8 +90,6 @@ class Person extends TableGateway {
             'secondSurname' => $personFilter->secondSurname,
             'birthDate' => $personFilter->birthDate,
             'maritalStatus' => 'Soltero',
-//            'bornIn' => $personFilter->bornIn,
-//            'bornInProvince' => $bornInProvince,
             'fatherName' => $personFilter->fatherName,
             'fatherFirstSurname' => $personFilter->fatherFirstSurname,
             'fatherSecondSurname' => $personFilter->fatherSecondSurname,

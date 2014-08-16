@@ -17,7 +17,9 @@
                         <thead>
                             <tr>                                
                                 <th>Esposo</th>
+                                <th>CI</th>
                                 <th>Esposa</th>
+                                <th>CI</th>
                                 <th>Libro</th>
                                 <th>Acciones</th>
                             </tr>
@@ -26,7 +28,9 @@
                             <?php foreach($this->data as $data_item){ ?>                           
                             <tr class="gradeC"> 
                                 <td><?php echo  $data_item->firstName." ".$data_item->firstSurname." ".$data_item->secondSurname?></td>
+                                <td><?php echo  $data_item->ci ?></td>
                                 <td><?php echo  $data_item->firstName." ".$data_item->firstSurname." ".$data_item->secondSurname?></td>
+                                <td><?php echo  $data_item->ci ?></td>
                                 <td><?php echo  "Libro Nº: <strong>".$data_item->book."</strong>" ?></td>
                                 <td>
                                 <a href="<?php echo $this->basePath() ?>/sacraments/marriages/viewp/<?php echo  $data_item->id?>" title="Ver" style="color:#178acc"><span class="glyphicon glyphicon-eye-open"></span></a>

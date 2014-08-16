@@ -22,30 +22,45 @@ $form->setAttributes(array(
                 <i class="fa fa-bar-chart-o fa-fw"></i> Gr&aacute;fica de l&iacute;neas
                 <?php echo $this->form()->openTag($form)?>
                 <div class="form-group">
-                    <!--<label>* Parroquia:</label>-->
-                    <?php $idVicarious = $form->get('idVicarious');
+                    <label for="inputEmail3" class="col-sm-1 control-label">Vicaría</label>
+                    <div class="col-sm-3">
+                      <?php $idVicarious = $form->get('idVicarious');
                           echo $this->formSelect($idVicarious);
                           echo $this->formElementErrors($idVicarious);
-                    ?>
-                </div>
-                <div class="form-group">
-                    <!--<label>* Parroquia:</label>-->
-                    <?php $year = $form->get('year');
+                      ?>
+                    </div>
+                    <label for="inputEmail3" class="col-sm-1 control-label">Parroquia</label>
+                    <div class="col-sm-3">
+                      <?php $idParishes = $form->get('idParishes');
+                          echo $this->formSelect($idParishes);
+                          echo $this->formElementErrors($idParishes);
+                      ?>
+                    </div>
+                    <label for="inputEmail3" class="col-sm-1 control-label">Sacramento</label>
+                    <div class="col-sm-3">
+                      <?php $sacrament = $form->get('sacrament');
+                          echo $this->formSelect($sacrament);
+                          echo $this->formElementErrors($sacrament);
+                      ?>
+                    </div>
+                    <label for="inputEmail3" class="col-sm-1 control-label">Gestión</label>
+                    <div class="col-sm-2">
+                      <?php $year = $form->get('year');
                           echo $this->formSelect($year);
                           echo $this->formElementErrors($year);
-                    ?>
-                </div>
+                       ?>
+                    </div>                   
                 <?php echo $this->formElement($form->get('send')) ?>
                 <?php echo $this->form()->closeTag() ?>
                 
             </div>
+            </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
                    <div id="morris-line-chart"></div>
-                   <p><center>Gestión: <?php echo $this->year ?></center><p> 
+                   <p><center><strong>Gestión: <?php echo $this->year ?></strong></center><p> 
             </div>
-            <!-- /.panel-body -->
-        </div>            
+            <!-- /.panel-body -->                    
     </div>
     <!-- /.col-lg-8 -->        
 </div>
@@ -108,8 +123,8 @@ foreach($this->data as $data_item){
 }
 
 foreach($this->data1 as $data_item){ 
-    echo $data_item['marri']." ";
-    echo $data_item['monthM']." ";
+//    echo $data_item['marri']." ";
+//    echo $data_item['monthM']." ";
     if($data_item['monthM'] == 1)
         $valueM1 = $data_item['marri'];
     if($data_item['monthM'] == 2)
@@ -140,6 +155,7 @@ foreach($this->data1 as $data_item){
   
 
 <script type="text/javascript">
+<?php if($this->sacrament == 'Bautismos & Matrimonios') {?>
 $(function() {
     
     Morris.Line({
@@ -173,5 +189,73 @@ $(function() {
         resize: true
     });   
 });  
-
+<?php } if($this->sacrament == 'Bautismos'){?>
+$(function() {
+    
+    Morris.Line({
+        element: 'morris-line-chart',    
+        data: [    
+        {year: '<?php echo $this->year ?>-01', value: <?php echo $value1 ?>},
+        {year: '<?php echo $this->year ?>-02', value: <?php echo $value2 ?>},
+        {year: '<?php echo $this->year ?>-03', value: <?php echo $value3 ?>},
+        {year: '<?php echo $this->year ?>-04', value: <?php echo $value4 ?>},
+        {year: '<?php echo $this->year ?>-05', value: <?php echo $value5 ?>},
+        {year: '<?php echo $this->year ?>-06', value: <?php echo $value6 ?>},
+        {year: '<?php echo $this->year ?>-07', value: <?php echo $value7 ?>},
+        {year: '<?php echo $this->year ?>-08', value: <?php echo $value8 ?>},
+        {year: '<?php echo $this->year ?>-09', value: <?php echo $value9 ?>},
+        {year: '<?php echo $this->year ?>-10', value: <?php echo $value10 ?>},
+        {year: '<?php echo $this->year ?>-11', value: <?php echo $value11 ?>},
+        {year: '<?php echo $this->year ?>-12', value: <?php echo $value12 ?>}        
+        ],
+        xkey: 'year',
+        ykeys: ['value'],
+        labels: ['Bautismos'],
+        xLabelFormat: function (x) { 
+            var IndexToMonth = [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" ];
+            var month = IndexToMonth[ x.getMonth() ];
+            return month; },
+        dateFormat: function (x) { 
+            var IndexToMonth = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ];
+            var month = IndexToMonth[ new Date(x).getMonth() ];
+            return month; },
+        lineColors: ['#0b62a4'],
+        resize: true
+    });   
+});
+<?php } if($this->sacrament == 'Matrimonios'){?>
+$(function() {
+    
+    Morris.Line({
+        element: 'morris-line-chart',    
+        data: [    
+        {year: '<?php echo $this->year ?>-01', value: <?php echo $valueM1 ?>},
+        {year: '<?php echo $this->year ?>-02', value: <?php echo $valueM2 ?>},
+        {year: '<?php echo $this->year ?>-03', value: <?php echo $valueM3 ?>},
+        {year: '<?php echo $this->year ?>-04', value: <?php echo $valueM4 ?>},
+        {year: '<?php echo $this->year ?>-05', value: <?php echo $valueM5 ?>},
+        {year: '<?php echo $this->year ?>-06', value: <?php echo $valueM6 ?>},
+        {year: '<?php echo $this->year ?>-07', value: <?php echo $valueM7 ?>},
+        {year: '<?php echo $this->year ?>-08', value: <?php echo $valueM8 ?>},
+        {year: '<?php echo $this->year ?>-09', value: <?php echo $valueM9 ?>},
+        {year: '<?php echo $this->year ?>-10', value: <?php echo $valueM10 ?>},
+        {year: '<?php echo $this->year ?>-11', value: <?php echo $valueM11 ?>},
+        {year: '<?php echo $this->year ?>-12', value: <?php echo $valueM12 ?>}        
+        ],
+        xkey: 'year',
+        ykeys: ['value'],
+        labels: ['Matrimonios'],
+        xLabelFormat: function (x) { 
+            var IndexToMonth = [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" ];
+            var month = IndexToMonth[ x.getMonth() ];
+            return month; },
+        dateFormat: function (x) { 
+            var IndexToMonth = [ "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ];
+            var month = IndexToMonth[ new Date(x).getMonth() ];
+            return month; },
+        lineColors: ['#4da74d'],
+        resize: true
+    });   
+});
+<?php } ?>
 </script>

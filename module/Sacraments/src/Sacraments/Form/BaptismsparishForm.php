@@ -98,11 +98,12 @@ class BaptismsparishForm extends Form {
             'name' => 'baptismDate',
             'attributes' => array(
                 'type' => 'text',
-                'maxlength' => '10',
+                'readonly' => 'readonly',
+                'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
                 'id' => 'inputBaptismDate',
-                'placeholder' => 'Fecha bautismo'
+//                'placeholder' => 'Fecha bautismo'
             ),
         ));
         /* input text Baptism Priest */
@@ -250,11 +251,12 @@ class BaptismsparishForm extends Form {
             'name' => 'birthDate',
             'attributes' => array(
                 'type' => 'text',
-                'maxlength' => '10',
+                'readonly' => 'readonly',
+                'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
                 'id' => 'inputBirthDate',
-                'placeholder' => 'Fecha de nacimiento'
+//                'placeholder' => 'Fecha de nacimiento'
             ),
         ));
         /* input text mather name */

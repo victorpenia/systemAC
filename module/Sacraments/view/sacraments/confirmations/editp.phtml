@@ -30,32 +30,36 @@ $form->setAttributes(array(
                             ?>
                             <div class="form-group">
                                 <label>* Libro:</label>
-                                <?php $idBookofsacraments= $form->get('idBookofsacraments');
-                                    echo $this->formSelect($idBookofsacraments);
-                                    echo $this->formElementErrors($idBookofsacraments);
-//                                    echo $this->messages;
+                                <?php $book= $form->get('book');
+                                    echo $this->formInput($book);
+//                                    echo $this->formSelect($idBookofsacraments);
+//                                    echo $this->formElementErrors($idBookofsacraments);
                                 ?>
                             </div>
                             <div class="form-group">
                                 <label>* P&aacute;gina:</label>
                                 <?php $page= $form->get('page');
-                                    echo $this->formSelect($page);
-                                    echo $this->formElementErrors($page);
+                                    echo $this->formInput($page)
+//                                    echo $this->formSelect($page);
+//                                    echo $this->formElementErrors($page);
                                 ?>
                             </div>
                             <div class="form-group">
                                 <label>* Partida:</label>
                                 <?php $item= $form->get('item');
-                                    echo $this->formSelect($item);
-                                    echo $this->formElementErrors($item);
+                                    echo $this->formInput($item);
+//                                    echo $this->formSelect($item);
+//                                    echo $this->formElementErrors($item);
                                 ?>
                             </div>
-                            <div class="form-group">
-                                <label>* Fecha confirmaci&oacute;n:</label>
+                            <p><strong>* Fecha confirmaci&oacute;n:</strong></p>
+                            <div class="form-group input-group">
+                                <!--<label>* Fecha confirmaci&oacute;n:</label>-->
                                 <?php $confirmationDate= $form->get('confirmationDate');
                                     echo $this->formInput($confirmationDate);
                                     echo $this->formElementErrors($confirmationDate);
                                 ?> 
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <div class="form-group">
                             <label>* Obispo o Confirmante:</label>                            
@@ -99,12 +103,14 @@ $form->setAttributes(array(
                                     echo $this->formElementErrors($secondSurname);
                                 ?>
                             </div>
-                            <div class="form-group">
-                                <label>* Fecha nacimiento:</label>
+                            <p><strong>* Fecha nacimiento:</strong></p>
+                            <div class="form-group input-group">
+                                <!--<label>* Fecha nacimiento:</label>-->
                                 <?php $birthDate= $form->get('birthDate');
                                     echo $this->formInput($birthDate);
                                     echo $this->formElementErrors($birthDate);
                                 ?>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                             <div class="form-group">
                                 <label>* Parroquia bautismo:</label>
@@ -211,10 +217,24 @@ $form->setAttributes(array(
 <!-- /.row -->
 <script type="text/javascript">
 $(document).ready(function() {
-    $( "#inputBaptismDate" ).datepicker();
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+    $('#inputConfirmationDate').datepicker({
+      onRender: function(date) {
+        return date.valueOf() > now.valueOf() ? 'disabled' : '';
+      }
+    });
 });
 $(document).ready(function() {
-    $( "#inputBirthDate" ).datepicker();
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+    $('#inputBirthDate').datepicker({
+      onRender: function(date) {
+        return date.valueOf() > now.valueOf() ? 'disabled' : '';
+      }
+    });
 }); 
 
 $(document).ready(function () {
@@ -242,7 +262,6 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#inputFirstSurname").keyup(function () {
         var value = $(this).val();
-//        console.debug(value);
         $("#inputFatherFirstSurname").val(value);
     });
 });
@@ -250,42 +269,28 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#inputSecondSurname").keyup(function () {
         var value = $(this).val();
-//        console.debug(value);
         $("#inputMatherFirstSurname").val(value);
     });
 });
 
-$(document).ready(function() {
-$('#inputSelectIdBook').change(function(){
-    var idBook = $(this).val();
-    if(idBook){
-    $.ajax({
-        type: "POST",
-        url: "<?php echo $this->url.'/sacraments/confirmations/getElementBookSacrament'; ?>",
-        data: "idBook="+idBook,
-        success: function(msg){ 
-//            console.debug(msg.split(",")[0]);
-//            console.debug(msg.split(",")[1]);
-            $("#inputPage").html('<option value='+msg.split(",")[0]+'>'+msg.split(",")[0]+'</option>');
-            $("#inputItem").html('<option value='+msg.split(",")[1]+'>'+msg.split(",")[1]+'</option>');
-        }
-    });
-    }
-});
-}); 
 //$(document).ready(function() {
-//$('#inputSelectIdParish').change(function(){
-//    var idParish = $(this).val();
+//$('#inputSelectIdBook').change(function(){
+//    var idBook = $(this).val();
+//    if(idBook){
 //    $.ajax({
 //        type: "POST",
-//        url: "<?php // echo $this->url.'/sacraments/baptisms/getBookSacrament'; ?>",
-//        data: "idParish="+idParish,
+//        url: "<?php // echo $this->url.'/sacraments/confirmations/getElementBookSacrament'; ?>",
+//        data: "idBook="+idBook,
 //        success: function(msg){ 
-//            $("#inputSelectIdBook").html(msg);
+////            console.debug(msg.split(",")[0]);
+////            console.debug(msg.split(",")[1]);
+//            $("#inputPage").html('<option value='+msg.split(",")[0]+'>'+msg.split(",")[0]+'</option>');
+//            $("#inputItem").html('<option value='+msg.split(",")[1]+'>'+msg.split(",")[1]+'</option>');
 //        }
 //    });
+//    }
 //});
-//});    
+//});  
  
 $(document).ready(function() {
     $('#defaultForm').bootstrapValidator({
@@ -308,13 +313,13 @@ $(document).ready(function() {
 //                    }
 //                }
 //            },
-            idBookofsacraments: {
-                validators: {
-                    notEmpty: {
-                        message: 'El campo libro es obligatorio.'
-                    }
-                }
-            },
+//            idBookofsacraments: {
+//                validators: {
+//                    notEmpty: {
+//                        message: 'El campo libro es obligatorio.'
+//                    }
+//                }
+//            },
             firstName: {
                 validators: {
                     notEmpty: {
@@ -335,14 +340,36 @@ $(document).ready(function() {
                         message: 'El campo apellidos del padrino(a) es obligatorio.'
                     }
                 }
-            },
-            attestPriest: {
-                validators: {
-                    notEmpty: {
-                        message: 'El campo párroco es obligatorio.'
-                    }
-                }
             }
+//            confirmationDate: {
+//                validators: {
+//                    notEmpty: {
+//                        message: 'El campo fecha de confirmación es obligatorio.'
+//                    },
+//                    date: {
+//                        format: 'YYYY-MM-DD',
+//                        message: 'El formato de la fecha es incorrecto.'
+//                    }
+//                }
+//            },
+//            birthDate: {
+//                validators: {
+//                    notEmpty: {
+//                        message: 'El campo fecha de nacimiento es obligatorio.'
+//                    },
+//                    date: {
+//                        format: 'YYYY-MM-DD',
+//                        message: 'El formato de la fecha es incorrecto.'
+//                    }
+//                }
+//            },
+//            attestPriest: {
+//                validators: {
+//                    notEmpty: {
+//                        message: 'El campo párroco es obligatorio.'
+//                    }
+//                }
+//            }
         }
     });
 

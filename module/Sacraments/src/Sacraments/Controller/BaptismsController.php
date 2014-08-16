@@ -477,8 +477,9 @@ class BaptismsController extends AbstractActionController {
             $form->setInputFilter($baptism->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getBaptismsTable()->updateBaptism($baptism);
-                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/indexp');
+                error_log('LLega bautismo');
+//                $this->getBaptismsTable()->updateBaptism($baptism);
+//                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/indexp');
             }
         }
         $values = array(
