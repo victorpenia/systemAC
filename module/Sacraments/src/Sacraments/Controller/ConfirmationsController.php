@@ -306,7 +306,7 @@ class ConfirmationsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
         }
         try {
-            $confirmation = $this->getConfirmationsTable()->getOneConfirmation($id);
+            $confirmation = $this->getConfirmationsTable()->getOneConfirmationByParish($id, $this->authUser->getIdentity()->idParishes);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
@@ -450,13 +450,13 @@ class ConfirmationsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
         }
         try {
-            $confirmation = $this->getConfirmationsTable()->getOneConfirmationEdit($id);
+            $confirmation = $this->getConfirmationsTable()->getOneConfirmation($id);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
         }
         $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-        $form = new ConfirmationsparishEditForm($this->dbAdapter, $this->authUser->getIdentity()->idParishes);
+        $form = new ConfirmationsparishForm($this->dbAdapter, $this->authUser->getIdentity()->idParishes);
         $form->bind($confirmation);
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -464,10 +464,10 @@ class ConfirmationsController extends AbstractActionController {
             $form->setInputFilter($confirmation->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                error_log('Llega bien');
-//                $this->getPersonTable()->updatePersonConfirmations($confirmation);
-//                $this->getConfirmationsTable()->updateConfirmation($confirmation);
-//                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
+                error_log('Llega bien confirmation');
+                $this->getPersonTable()->updatePersonConfirmations($confirmation);
+                $this->getConfirmationsTable()->updateConfirmation($confirmation);
+                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
             }
         }
         $values = array(

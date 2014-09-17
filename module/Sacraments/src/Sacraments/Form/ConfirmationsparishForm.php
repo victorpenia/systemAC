@@ -47,6 +47,14 @@ class ConfirmationsparishForm extends Form {
                 'id' => 'inputId'
             ),
         ));
+        /* input text id person */
+        $this->add(array(
+            'name' => 'idPerson',
+            'attributes' => array(
+                'type' => 'hidden',
+                'id' => 'inputIdPerson'
+            ),
+        ));
         /* input text Page */
 //        $this->add(array(
 //            'name' => 'page',

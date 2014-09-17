@@ -28,10 +28,13 @@ $form->setAttributes(array(
                             <?php $id= $form->get('id');
                                 echo $this->formInput($id);
                             ?>
+                            <?php $idPerson = $form->get('idPerson');
+                                echo $this->formInput($idPerson);
+                            ?>
                             <div class="form-group">
                                 <label>* Libro:</label>
-                                <?php $book= $form->get('book');
-                                    echo $this->formInput($book);
+                                <?php $idBookofsacraments= $form->get('idBookofsacraments');
+                                    echo $this->formInput($idBookofsacraments);
 //                                    echo $this->formSelect($idBookofsacraments);
 //                                    echo $this->formElementErrors($idBookofsacraments);
                                 ?>

@@ -59,23 +59,38 @@ class Baptisms extends TableGateway {
     
     public function getOneBaptisms($id) {
         $id = (int) $id;
-        $sql = new Sql($this->tableGateway->getAdapter());
-        $select = $sql->select();
-        $select->from('baptisms')
-               ->join('person', 'baptisms.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'bornIn', 'bornInProvince', 'birthDate', 'fatherName', 'matherName', 'fatherFirstSurname', 'matherFirstSurname', 'fatherSecondSurname', 'matherSecondSurname', 'ci'))
-               ->join('bookofsacraments', 'bookofsacraments.id = baptisms.idBookofsacraments', array('code', 'book', 'idParishes'))
-               ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'))
-               ->join('Users', 'baptisms.idUserCertificate = users.id', array('idRoles'), 'left')
-               ->join('certificates', 'certificates.idUsers = users.id', array('certificateName', 'privateKey'), 'left') 
-               ->where(array('baptisms.id' => $id));
-        $selectString = $sql->getSqlStringForSqlObject($select); 
-        $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
-        $results = $resultSet->current();
-        if (!$results) {
+        $select = new Select();
+        $select->from('baptisms');
+        $select->join('person', 'baptisms.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'bornIn', 'bornInProvince', 'birthDate', 'fatherName', 'matherName', 'fatherFirstSurname', 'matherFirstSurname', 'fatherSecondSurname', 'matherSecondSurname', 'ci'));
+        $select->where(array('baptisms.id' => $id));
+        $rowset = $this->tableGateway->selectWith($select);
+        $resultSet = $rowset->current();
+        if (!$resultSet) {
             throw new \Exception("Could not find row $id");
         }
-        return $results;        
+        return $resultSet;
     }
+    
+//    public function getOneBaptisms($id) {
+//        error_log('llega mierda');
+//        $id = (int) $id;
+//        $sql = new Sql($this->tableGateway->getAdapter());
+//        $select = $sql->select();
+//        $select->from('baptisms')
+////               ->join('person', 'baptisms.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'bornIn', 'bornInProvince', 'birthDate', 'fatherName', 'matherName', 'fatherFirstSurname', 'matherFirstSurname', 'fatherSecondSurname', 'matherSecondSurname', 'ci'))
+////               ->join('bookofsacraments', 'bookofsacraments.id = baptisms.idBookofsacraments', array('code', 'book', 'idParishes'))
+////               ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'))
+////               ->join('Users', 'baptisms.idUserCertificate = users.id', array('idRoles'), 'left')
+////               ->join('certificates', 'certificates.idUsers = users.id', array('certificateName', 'privateKey'), 'left') 
+//               ->where(array('baptisms.id' => $id));
+//        $selectString = $sql->getSqlStringForSqlObject($select); 
+//        $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+//        $results = $resultSet->current();
+//        if (!$results) {            
+//            throw new \Exception("Could not find row $id");
+//        }
+//        return $results;        
+//    }
     
     public function getOneBaptismsByParish($id, $idParish) {
         $id = (int) $id;
@@ -144,18 +159,6 @@ class Baptisms extends TableGateway {
         if(empty($baptismsFilter->observation)){
             $baptismsFilter->observation ='Ninguna';
         }
-//        $baptismPriest = '';
-//        if($baptismsFilter->baptismPriest == 'Otros')
-//            $baptismPriest = $baptismsFilter->baptismPriestOthers;
-//        else
-//            $baptismPriest = $baptismsFilter->baptismPriest;
-        
-//        $AttestPriest = '';
-//        if($baptismsFilter->attestPriest == 'Otros')
-//            $AttestPriest = $baptismsFilter->attestPriestOthers;
-//        else
-//            $AttestPriest = $baptismsFilter->attestPriest;
-        
         $values = array(
             'page' => $baptismsFilter->page,
             'item' => $baptismsFilter->item,
@@ -184,19 +187,20 @@ class Baptisms extends TableGateway {
 
     public function updateBaptism(BaptismsFilter $baptismsFilter) {
         $values = array(
-            'page' => $baptismsFilter->page,
-            'item' => $baptismsFilter->item,
             'baptismPriest' => $baptismsFilter->baptismPriest,
+            'baptismPriestOthers' => $baptismsFilter->baptismPriestOthers,
             'baptismDate' => $baptismsFilter->baptismDate,
             'congregation' => $baptismsFilter->congregation,
-            'godfatherOne' => $baptismsFilter->godfatherOne,
-            'godfatherTwo' => $baptismsFilter->godfatherTwo,
+            'godfatherNameOne' => $baptismsFilter->godfatherNameOne,
+            'godfatherSurnameOne' => $baptismsFilter->godfatherSurnameOne,
+            'godfatherNameTwo' => $baptismsFilter->godfatherNameTwo,
+            'godfatherSurnameTwo' => $baptismsFilter->godfatherSurnameTwo,
             'oficialiaRC' => $baptismsFilter->oficialiaRC,
             'bookLN' => $baptismsFilter->bookLN,
             'departure' => $baptismsFilter->departure,
             'folioFs' => $baptismsFilter->folioFS,
-            'year' => $baptismsFilter->year,
             'attestPriest' => $baptismsFilter->attestPriest,
+            'attestPriestOthers' => $baptismsFilter->attestPriestOthers,
             'observation' => $baptismsFilter->observation,
         );
         $id = (int) $baptismsFilter->id;

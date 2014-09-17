@@ -477,9 +477,9 @@ class BaptismsController extends AbstractActionController {
             $form->setInputFilter($baptism->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                error_log('LLega bautismo');
-//                $this->getBaptismsTable()->updateBaptism($baptism);
-//                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/indexp');
+                $this->getPersonTable()->updatePersonBaptisms($baptism);
+                $this->getBaptismsTable()->updateBaptism($baptism);
+                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/indexp');
             }
         }
         $values = array(
@@ -492,7 +492,7 @@ class BaptismsController extends AbstractActionController {
         $this->layout()->setVariable('parishName', $this->parishName);
         return new ViewModel($values);
     }
-
+    
     public function deleteAction() {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {

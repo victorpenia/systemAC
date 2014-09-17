@@ -102,24 +102,24 @@ class BaptismsFilter implements InputFilterAwareInterface {
     public function getInputFilter() {
         if (!$this->inputFilter) {
             $inputFilter = new InputFilter();
-            $inputFilter->add(array(
-                'name' => 'firstName',
-                'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 3,
-                            'max' => 100,
-                        ),
-                    ),
-                ),
-            ));
+//            $inputFilter->add(array(
+//                'name' => 'firstName',
+//                'required' => true,
+//                'filters' => array(
+//                    array('name' => 'StripTags'),
+//                    array('name' => 'StringTrim'),
+//                ),
+//                'validators' => array(
+//                    array(
+//                        'name' => 'StringLength',
+//                        'options' => array(
+//                            'encoding' => 'UTF-8',
+//                            'min' => 3,
+//                            'max' => 100,
+//                        ),
+//                    ),
+//                ),
+//            ));
             
 //            $inputFilter->add(array(
 //                'name' => 'lastName',
@@ -159,81 +159,81 @@ class BaptismsFilter implements InputFilterAwareInterface {
 //                ),
 //            ));
             
-            $inputFilter->add(array(
-                'name' => 'baptismPriest',
-                'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 3,
-                            'max' => 100,
-                        ),
-                    ),
-                ),
-            ));
+//            $inputFilter->add(array(
+//                'name' => 'baptismPriest',
+//                'required' => true,
+//                'filters' => array(
+//                    array('name' => 'StripTags'),
+//                    array('name' => 'StringTrim'),
+//                ),
+//                'validators' => array(
+//                    array(
+//                        'name' => 'StringLength',
+//                        'options' => array(
+//                            'encoding' => 'UTF-8',
+//                            'min' => 3,
+//                            'max' => 100,
+//                        ),
+//                    ),
+//                ),
+//            ));
             
-            $inputFilter->add(array(
-                'name' => 'attestPriest',
-                'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 3,
-                            'max' => 100,
-                        ),
-                    ),
-                ),
-            ));
+//            $inputFilter->add(array(
+//                'name' => 'attestPriest',
+//                'required' => true,
+//                'filters' => array(
+//                    array('name' => 'StripTags'),
+//                    array('name' => 'StringTrim'),
+//                ),
+//                'validators' => array(
+//                    array(
+//                        'name' => 'StringLength',
+//                        'options' => array(
+//                            'encoding' => 'UTF-8',
+//                            'min' => 3,
+//                            'max' => 100,
+//                        ),
+//                    ),
+//                ),
+//            ));
 
-            $inputFilter->add(array(
-                'name' => 'page',
-                'required' => false,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 1,
-                            'max' => 10,
-                        ),
-                    ),
-                ),
-            ));
+//            $inputFilter->add(array(
+//                'name' => 'page',
+//                'required' => false,
+//                'filters' => array(
+//                    array('name' => 'StripTags'),
+//                    array('name' => 'StringTrim'),
+//                ),
+//                'validators' => array(
+//                    array(
+//                        'name' => 'StringLength',
+//                        'options' => array(
+//                            'encoding' => 'UTF-8',
+//                            'min' => 1,
+//                            'max' => 10,
+//                        ),
+//                    ),
+//                ),
+//            ));
             
-            $inputFilter->add(array(
-                'name' => 'item',
-                'required' => false,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 1,
-                            'max' => 10,
-                        ),
-                    ),
-                ),
-            ));
+//            $inputFilter->add(array(
+//                'name' => 'item',
+//                'required' => false,
+//                'filters' => array(
+//                    array('name' => 'StripTags'),
+//                    array('name' => 'StringTrim'),
+//                ),
+//                'validators' => array(
+//                    array(
+//                        'name' => 'StringLength',
+//                        'options' => array(
+//                            'encoding' => 'UTF-8',
+//                            'min' => 1,
+//                            'max' => 10,
+//                        ),
+//                    ),
+//                ),
+//            ));
 
             $this->inputFilter = $inputFilter;
         }

@@ -15,21 +15,21 @@
             <div class="panel-body">                
                 <div class="col-md-6">
                     <h3 style="color:#178acc">Informaci&oacute;n esposo</h3>
-                    <p>Persona: <strong><?php echo $this->personMale->firstName." ".$this->personMale->firstSurname." ".$this->personMale->secondSurname?></strong></p>
-                    <p>Ci/Rua: <strong><?php echo $this->personMale->ci ?></strong></p>
-                    <p>Fecha nacimiento: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->personMale->birthDate)) ?></strong></p>                    
-                    <p>Estado civil: <strong><?php echo $this->personMale->maritalStatus ?></strong></p>
+                    <p>Persona: <strong><?php echo $this->data->firstNameMale." ".$this->data->firstSurnameMale." ".$this->data->secondSurnameMale?></strong></p>
+                    <p>Ci/Rua: <strong><?php echo $this->data->ciMale ?></strong></p>
+                    <p>Fecha nacimiento: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->data->birthDateMale)) ?></strong></p>                    
+                    <p>Estado civil: <strong><?php echo $this->data->maritalStatusMale ?></strong></p>
                     <p>Parroquia bautismo: <strong><?php echo ($this->data->baptismParishMale == 'Otros') ? $this->data->baptismParishMaleOthers : $this->data->baptismParishMale ?></strong></p>
-                    <p>Padre: <strong><?php echo $this->personMale->fatherName." ".$this->personMale->fatherFirstSurname." ".$this->personMale->fatherSecondSurname?></strong></p>
-                    <p>Madre: <strong><?php echo $this->personMale->matherName." ".$this->personMale->matherFirstSurname." ".$this->personMale->matherSecondSurname ?></strong></p>
+                    <p>Padre: <strong><?php echo $this->data->fatherNameMale." ".$this->data->fatherFirstSurnameMale." ".$this->data->fatherSecondSurnameMale?></strong></p>
+                    <p>Madre: <strong><?php echo $this->data->matherNameMale." ".$this->data->matherFirstSurnameMale." ".$this->data->matherSecondSurnameMale ?></strong></p>
                     <h3 style="color:#178acc">Informaci&oacute;n esposa</h3>
-                    <p>Persona: <strong><?php echo $this->personFemale->firstName." ".$this->personFemale->firstSurname." ".$this->personFemale->secondSurname?></strong></p>
-                    <p>Ci/Rua: <strong><?php echo $this->personFemale->ci ?></strong></p>
-                    <p>Fecha nacimiento: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->personFemale->birthDate)) ?></strong></p>                    
-                    <p>Estado civil: <strong><?php echo $this->personFemale->maritalStatus ?></strong></p>
+                    <p>Persona: <strong><?php echo $this->data->firstNameFemale." ".$this->data->firstSurnameFemale." ".$this->data->secondSurnameFemale?></strong></p>
+                    <p>Ci/Rua: <strong><?php echo $this->data->ciMale ?></strong></p>
+                    <p>Fecha nacimiento: <strong><?php echo strftime("%d de %B del %Y",strtotime($this->data->birthDateFemale)) ?></strong></p>                    
+                    <p>Estado civil: <strong><?php echo $this->data->maritalStatusMale ?></strong></p>
                     <p>Parroquia bautismo: <strong><?php echo ($this->data->baptismParishFemale == 'Otros')? $this->data->baptismParishFemaleOthers : $this->data->baptismParishFemale ?></strong></p>
-                    <p>Padre: <strong><?php echo $this->personFemale->fatherName." ".$this->personFemale->fatherFirstSurname." ".$this->personFemale->fatherSecondSurname ?></strong></p>
-                    <p>Madre: <strong><?php echo $this->personFemale->matherName." ".$this->personFemale->matherFirstSurname." ".$this->personFemale->matherSecondSurname ?></strong></p>
+                    <p>Padre: <strong><?php echo $this->data->fatherNameFemale." ".$this->data->fatherFirstSurnameFemale." ".$this->data->fatherSecondSurnameFemale ?></strong></p>
+                    <p>Madre: <strong><?php echo $this->data->matherNameFemale." ".$this->data->matherFirstSurnameFemale." ".$this->data->matherSecondSurnameFemale ?></strong></p>
                     <h3 style="color:#178acc"> Informaci&oacute;n padrinos</h3>
                     <p>Padrinos de informaci&oacute;n:</p>
                     <p><strong><?php echo $this->data->godfatherNameOneInformation." ".$this->data->godfatherSurnameOneInformation ?></strong></p>

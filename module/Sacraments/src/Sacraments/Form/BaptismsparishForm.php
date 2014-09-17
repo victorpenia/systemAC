@@ -47,77 +47,77 @@ class BaptismsparishForm extends Form {
                 'id' => 'inputId'
             ),
         ));
-        /* input text Page */
-//        $this->add(array(
-//            'name' => 'page',
-//            'attributes' => array(
-//                'type' => 'text',
-//                'maxlength' => '4',
-//                'class' => 'form-control',
-//                'id' => 'inputPage',
-//                'placeholder' => 'Página'
-//            ),
-//        ));
+        /* input text id Person */
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'name' => 'idPerson',
+            'attributes' => array(
+                'type' => 'hidden',
+                'id' => 'inputIdPerson'
+            ),
+        ));
+        /* input text Page */
+        $this->add(array(
             'name' => 'page',
             'attributes' => array(
+                'type' => 'text',
+                'maxlength' => '0',
+                'autocomplete' => 'off',
+                'class' => 'form-control',
                 'id' => 'inputPage',
-                'class' => 'form-control'
+                'placeholder' => 'Página'
             ),
-            'options' => array(
-                'value_options' => array(),
-                'disable_inarray_validator' => true,
-            )
         ));
-        /* input text Item */
 //        $this->add(array(
-//            'name' => 'item',
+//            'type' => 'Zend\Form\Element\Select',
+//            'name' => 'page',
 //            'attributes' => array(
-//                'type' => 'text',
-//                'maxlength' => '5',
-//                'class' => 'form-control',
-//                'id' => 'inpuItem',
-//                'placeholder' => 'Partida'
+//                'id' => 'inputPage',
+//                'class' => 'form-control'
 //            ),
+//            'options' => array(
+//                'value_options' => array(),
+//                'disable_inarray_validator' => true,
+//            )
 //        ));
+        /* input text Item */
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
             'name' => 'item',
             'attributes' => array(
+                'type' => 'text',
+                'autocomplete' => 'off',
+                'maxlength' => '0',
+                'class' => 'form-control',
                 'id' => 'inputItem',
-                'class' => 'form-control'
+                'placeholder' => 'Partida'
             ),
-            'options' => array(
-                'value_options' => array(),
-                'disable_inarray_validator' => true,
-            )
         ));
+//        $this->add(array(
+//            'type' => 'Zend\Form\Element\Select',
+//            'name' => 'item',
+//            'attributes' => array(
+//                'id' => 'inputItem',
+//                'class' => 'form-control'
+//            ),
+//            'options' => array(
+//                'value_options' => array(),
+//                'disable_inarray_validator' => true,
+//            )
+//        ));
         /* input text Baptism Date */
         $this->add(array(
             'name' => 'baptismDate',
             'attributes' => array(
                 'type' => 'text',
-                'readonly' => 'readonly',
+                'autocomplete' => 'off',
+                'maxlength' => '0',
+//                'readonly' => 'readonly',
                 'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
                 'id' => 'inputBaptismDate',
-//                'placeholder' => 'Fecha bautismo'
             ),
         ));
         /* input text Baptism Priest */
-//        $this->add(array(
-//            'name' => 'baptismPriest',
-//            'attributes' => array(
-//                'type' => 'text',
-//                'maxlength' => '60',
-//                'value' => $this->getOptionsForSelectParishes(),
-//                'class' => 'form-control',
-//                'id' => 'inputBaptismPriest',
-//                'placeholder' => 'Párroco que bautizo'
-//            ),
-//        ));
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',
             'name' => 'baptismPriest',
@@ -146,6 +146,7 @@ class BaptismsparishForm extends Form {
             'name' => 'ci',
             'attributes' => array(
                 'type' => 'text',
+                'autocomplete' => 'off',
                 'maxlength' => '15',
                 'class' => 'form-control',
                 'id' => 'inputCI',
@@ -168,8 +169,8 @@ class BaptismsparishForm extends Form {
             'name' => 'firstSurname',
             'attributes' => array(
                 'type' => 'text',
+                'autocomplete' => 'off',
                 'maxlength' => '30',
-//                'value' => '',
                 'class' => 'form-control',
                 'id' => 'inputFirstSurname',
                 'placeholder' => 'Apellido paterno'
@@ -180,6 +181,7 @@ class BaptismsparishForm extends Form {
             'name' => 'secondSurname',
             'attributes' => array(
                 'type' => 'text',
+                'autocomplete' => 'off',
                 'maxlength' => '30',
                 'class' => 'form-control',
                 'id' => 'inputSecondSurname',
@@ -211,17 +213,6 @@ class BaptismsparishForm extends Form {
             )
         ));
         /* input text born in Province */
-//        $this->add(array(
-//            'name' => 'bornInProvince',
-//            'attributes' => array(
-//                'type' => 'text',
-//                'style'=> 'display:none',
-//                'maxlength' => '50',
-//                'class' => 'form-control',
-//                'id' => 'inputBornInProvince',
-//                'placeholder' => 'Nacido en'
-//            ),
-//        ));
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',
             'name' => 'bornInProvince',
@@ -251,12 +242,13 @@ class BaptismsparishForm extends Form {
             'name' => 'birthDate',
             'attributes' => array(
                 'type' => 'text',
-                'readonly' => 'readonly',
+                'autocomplete' => 'off',
+                'maxlength' => '0',
+//                'readonly' => 'readonly',
                 'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
                 'id' => 'inputBirthDate',
-//                'placeholder' => 'Fecha de nacimiento'
             ),
         ));
         /* input text mather name */
@@ -430,17 +422,6 @@ class BaptismsparishForm extends Form {
             ),
         ));
         /* input text priest attest */
-//        $this->add(array(
-//            'name' => 'attestPriest',
-//            'attributes' => array(
-//                'type' => 'text',
-//                'value' => $this->getOptionsForSelectParishes(),
-//                'maxlength' => '60',
-//                'class' => 'form-control',
-//                'id' => 'inputAttestPriest',
-//                'placeholder' => 'Doy fe párroco'
-//            ),
-//        ));
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',
             'name' => 'attestPriest',

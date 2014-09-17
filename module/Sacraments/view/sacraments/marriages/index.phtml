@@ -21,19 +21,19 @@
                                 <th>Esposa</th>
                                 <th>CI</th>
                                 <th>Parroquia</th>
-                                <th>Libro</th>
+                                <!--<th>Libro</th>-->
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach($this->data as $data_item){ ?>                           
                             <tr class="gradeC"> 
-                                <td><?php echo  $data_item->firstName." ".$data_item->firstSurname." ".$data_item->secondSurname?></td>
-                                <td><?php echo  $data_item->ci?></td>
-                                <td><?php echo  $data_item->firstName." ".$data_item->firstSurname." ".$data_item->secondSurname?></td>
-                                <td><?php echo  $data_item->ci?></td>
+                                <td><?php echo  $data_item->firstNameMale." ".$data_item->firstSurnameMale." ".$data_item->secondSurnameMale?></td>
+                                <td><?php echo  $data_item->ciMale ?></td>
+                                <td><?php echo  $data_item->firstNameFemale." ".$data_item->firstSurnameFemale." ".$data_item->secondSurnameFemale?></td>
+                                <td><?php echo  $data_item->ciFemale ?></td>
                                 <td><?php echo  $data_item->parishName?></td>
-                                <td><?php echo  "Libro Nº: <strong>".$data_item->book."</strong>" ?></td>
+                                <!--<td><?php echo  "Libro Nº: <strong>".$data_item->book."</strong>" ?></td>-->
                                 <td>
                                 <a href="<?php echo $this->basePath() ?>/sacraments/marriages/view/<?php echo  $data_item->id?>" title="Ver" style="color:#178acc"><span class="glyphicon glyphicon-eye-open"></span></a>
                                 <a href="<?php echo $this->basePath() ?>/sacraments/marriages/edit/<?php echo  $data_item->id?>" title="Editar" style="color:#178acc"><span class="glyphicon glyphicon-edit"></span></a>                                

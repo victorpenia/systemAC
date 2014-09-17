@@ -26,8 +26,8 @@ class Marriages extends TableGateway {
         if($paginated){
              $select = new Select();
              $select->from('marriages')
-                    ->join('person', 'marriages.idPersonMale = person.id', array('firstName', 'firstSurname', 'secondSurname', 'ci', 'birthDate'))
-//                    ->join('person', 'marriages.idPersonFemale = person.id', array('ci')) 
+                    ->join(array('personMale' => 'person'), 'marriages.idPersonMale= personMale.id ', array( 'firstNameMale' => 'firstName', 'firstSurnameMale' => 'firstSurname', 'secondSurnameMale' => 'secondSurname', 'ciMale' => 'ci'))
+                    ->join(array('personFemale' => 'person'), 'marriages.idPersonFemale= personFemale.id', array('firstNameFemale' => 'firstName', 'firstSurnameFemale' => 'firstSurname', 'secondSurnameFemale' => 'secondSurname', 'ciFemale' => 'ci'))
                     ->join('bookofsacraments', 'bookofsacraments.id = marriages.idBookofsacraments', array('code', 'book'))
                     ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'));
              $paginatorAdapter = new DbSelect(
@@ -44,8 +44,8 @@ class Marriages extends TableGateway {
         if($paginated){
              $select = new Select();
              $select->from('marriages')
-                    ->join('person', 'marriages.idPersonMale= person.id ', array('firstName', 'firstSurname', 'secondSurname', 'ci', 'birthDate'))
-//                    ->join('person', 'marriages.idPersonFemale= person.id', array('firstName', 'firstSurname', 'secondSurname'));
+                    ->join(array('personMale' => 'person'), 'marriages.idPersonMale= personMale.id ', array( 'firstNameMale' => 'firstName', 'firstSurnameMale' => 'firstSurname', 'secondSurnameMale' => 'secondSurname', 'ciMale' => 'ci'))
+                    ->join(array('personFemale' => 'person'), 'marriages.idPersonFemale= personFemale.id', array('firstNameFemale' => 'firstName', 'firstSurnameFemale' => 'firstSurname', 'secondSurnameFemale' => 'secondSurname', 'ciFemale' => 'ci'))
                     ->join('bookofsacraments', 'bookofsacraments.id = marriages.idBookofsacraments', array('code', 'book'))
                     ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'))
                     ->where(array('parishes.id' => $idParish)); 
@@ -59,19 +59,22 @@ class Marriages extends TableGateway {
         return $this->tableGateway->select();
     }
     
-    public function getOneMarriage($id) {
+    public function getOneMarriageByParish($id, $idParish) {
         $id = (int) $id;
         $sql = new Sql($this->tableGateway->getAdapter());
         $select = $sql->select();
         $select->from('marriages')
-               ->join('person', 'marriages.idPersonMale = person.id', array('ciMale' => 'ci', 'firstNameMale' =>'firstName', 'firstSurnameMale' =>'firstSurname', 'secondSurnameMale' =>'secondSurname', 
+               ->join(array('personMale' => 'person'), 'marriages.idPersonMale = personMale.id', array('ciMale' => 'ci', 'firstNameMale' =>'firstName', 'firstSurnameMale' =>'firstSurname', 'secondSurnameMale' =>'secondSurname', 
                       'birthDateMale' => 'birthDate', 'maritalStatusMale' => 'maritalStatus', 'fatherNameMale' => 'fatherName', 'fatherFirstSurnameMale' => 'fatherFirstSurname', 'fatherSecondSurnameMale' => 'fatherSecondSurname',
                       'matherNameMale' => 'matherName', 'matherFirstSurnameMale' => 'matherFirstSurname', 'matherSecondSurnameMale' => 'matherSecondSurname'))
-                ->join('bookofsacraments', 'bookofsacraments.id = marriages.idBookofsacraments', array('code', 'book', 'idParishes'))
+               ->join(array('personFemale' => 'person'), 'marriages.idPersonFemale = personFemale.id', array('ciFemale' => 'ci', 'firstNameFemale' =>'firstName', 'firstSurnameFemale' =>'firstSurname', 'secondSurnameFemale' =>'secondSurname', 
+                      'birthDateFemale' => 'birthDate', 'maritalStatusFemale' => 'maritalStatus', 'fatherNameFemale' => 'fatherName', 'fatherFirstSurnameFemale' => 'fatherFirstSurname', 'fatherSecondSurnameFemale' => 'fatherSecondSurname',
+                      'matherNameFemale' => 'matherName', 'matherFirstSurnameFemale' => 'matherFirstSurname', 'matherSecondSurnameFemale' => 'matherSecondSurname')) 
+               ->join('bookofsacraments', 'bookofsacraments.id = marriages.idBookofsacraments', array('code', 'book', 'idParishes'))
                ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'))
                ->join('Users', 'marriages.idUserCertificate = users.id', array('idRoles'), 'left')
                ->join('Certificates', 'Certificates.idUsers = users.id', array('certificateName', 'privateKey'), 'left') 
-               ->where(array('marriages.id' => $id));
+               ->where(array('marriages.id' => $id, 'bookofsacraments.idParishes' => $idParish));
         $selectString = $sql->getSqlStringForSqlObject($select); 
         $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
         $results = $resultSet->current();

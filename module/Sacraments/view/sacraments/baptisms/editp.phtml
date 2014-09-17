@@ -29,6 +29,9 @@ $form->setAttributes(array(
                             <?php $id= $form->get('id');
                                 echo $this->formInput($id);
                             ?>
+                            <?php $idPerson = $form->get('idPerson');
+                                echo $this->formInput($idPerson);
+                            ?>
                             <div class="form-group">
                                 <label>* Libro:</label>
                                 <?php $idBookofsacraments= $form->get('idBookofsacraments');
@@ -41,22 +44,19 @@ $form->setAttributes(array(
                             <div class="form-group">
                                 <label>* P&aacute;gina:</label>
                                 <?php $page= $form->get('page');
-                                      echo $this->formInput($page)
-//                                    echo $this->formSelect($page);
-//                                    echo $this->formElementErrors($page);
+                                      echo $this->formInput($page);
+                                      echo $this->formElementErrors($page);
                                 ?>
                             </div>
                             <div class="form-group">
                                 <label>* Partida:</label>
                                 <?php $item= $form->get('item');
-                                      echo $this->formInput($item)
-//                                    echo $this->formSelect($item);
-//                                    echo $this->formElementErrors($item);
+                                      echo $this->formInput($item);
+                                      echo $this->formElementErrors($item);
                                 ?>
                             </div>
                             <p><strong>* Fecha bautismo:</strong></p>
                             <div class="form-group input-group">
-                                <!--<label>* Fecha bautismo:</label>-->
                                 <?php $baptismDate= $form->get('baptismDate');
                                     echo $this->formInput($baptismDate);
                                     echo $this->formElementErrors($baptismDate);
@@ -273,6 +273,50 @@ $form->setAttributes(array(
 
 
 <script type="text/javascript">
+
+$(document).ready(function () {
+    $("#inputSelectIdBook").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    });
+});
+
+$(document).ready(function () {
+    $("#inputPage").keydown(function (e) {
+        if (e.which == 8 || e.which == 46 || e.which == 32) {
+            return false;
+        }
+    });
+});
+
+$(document).ready(function () {
+    $("#inputItem").keydown(function (e) {
+        if (e.which == 8 || e.which == 46 || e.which == 32) {
+            return false;
+        }
+    });
+});
+
+$(document).ready(function () {
+    $("#inputBaptismDate").keydown(function (e) {
+        if (e.which == 8 || e.which == 46 || e.which == 32) {
+            return false;
+        }
+    });
+});
+
+$(document).ready(function () {
+    $("#inputBirthDate").keydown(function (e) {
+        if (e.which == 8 || e.which == 46 || e.which == 32) {
+            return false;
+        }
+    });
+});
+
 $(document).ready(function() {
     var nowTemp = new Date();
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
@@ -403,17 +447,6 @@ $(document).ready(function() {
                     }
                 }
             },
-//            page: {
-//                validators: {                    
-//                    notEmpty: {
-//                        message: 'El campo página es obligatorio.'
-//                    },
-//                    regexp: {
-//                        regexp: /^[0-9]*$/,
-//                        message: 'La página solo puede contener números enteros.'
-//                    }
-//                }
-//            },
             idBookofsacraments: {
                 validators: {
                     notEmpty: {
@@ -449,28 +482,6 @@ $(document).ready(function() {
                     }
                 }
             },
-//            baptismDate: {
-//                validators: {
-//                    notEmpty: {
-//                        message: 'El campo fecha de bautismo es obligatorio.'
-//                    },
-//                    date: {
-//                        format: 'YYYY-MM-DD',
-//                        message: 'El formato de la fecha es incorrecto.'
-//                    }
-//                }
-//            },
-//            birthDate: {
-//                validators: {
-//                    notEmpty: {
-//                        message: 'El campo fecha de nacimiento es obligatorio.'
-//                    },
-//                    date: {
-//                        format: 'YYYY-MM-DD',
-//                        message: 'El formato de la fecha es incorrecto.'
-//                    }
-//                }
-//            },
             attestPriest: {
                 validators: {
                     notEmpty: {

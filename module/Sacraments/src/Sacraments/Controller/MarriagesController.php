@@ -333,9 +333,7 @@ class MarriagesController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/indexp');
         }
         try {
-            $marriage = $this->getMarriagesTable()->getOneMarriage($id);
-            $personMale = $this->getPersonTable()->getOnePersonById($marriage['idPersonMale']);
-            $personFemale = $this->getPersonTable()->getOnePersonById($marriage['idPersonFemale']);
+            $marriage = $this->getMarriagesTable()->getOneMarriageByParish($id, $this->authUser->getIdentity()->idParishes);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/indexp');
@@ -343,8 +341,6 @@ class MarriagesController extends AbstractActionController {
         $values = array(
             'title' => 'SACRAMENTO DE MATRIMONIO',
             'data' => $marriage,
-            'personMale' => $personMale,
-            'personFemale' => $personFemale,
         );
         $this->layout()->setVariable('authUser', $this->authUser);
         $this->layout()->setVariable('parishName', $this->parishName);
@@ -507,7 +503,7 @@ class MarriagesController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/indexp');
         }
         try { 
-            $marriage = $this->getMarriagesTable()->getOneMarriage($id);
+            $marriage = $this->getMarriagesTable()->getOneMarriageByParish($id, $this->authUser->getIdentity()->idParishes);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/indexp');
@@ -520,6 +516,7 @@ class MarriagesController extends AbstractActionController {
             $form->setInputFilter($marriage->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
+                error_log('LLega matrimonio');
 //                $this->getMarriagesTable()->updateBaptism($marriage);
 //                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/indexp');
             }

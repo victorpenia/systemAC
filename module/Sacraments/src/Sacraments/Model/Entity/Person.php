@@ -56,11 +56,11 @@ class Person extends TableGateway {
     }
 
     public function addPersonBaptisms(BaptismsFilter $personFilter) {        
-        $bornInProvince = '';
-        if($personFilter->bornIn == 'Otros')
-            $bornInProvince = $personFilter->bornInOthers;
-        else
-            $bornInProvince = $personFilter->bornInProvince;
+//        $bornInProvince = '';
+//        if($personFilter->bornIn == 'Otros')
+//            $bornInProvince = $personFilter->bornInOthers;
+//        else
+//            $bornInProvince = $personFilter->bornInProvince;
         $values = array(
             'ci' => $personFilter->ci,
             'firstName' => $personFilter->firstName,
@@ -69,7 +69,8 @@ class Person extends TableGateway {
             'birthDate' => $personFilter->birthDate,
             'maritalStatus' => 'Soltero',
             'bornIn' => $personFilter->bornIn,
-            'bornInProvince' => $bornInProvince,
+            'bornInProvince' => $personFilter->bornInProvince,
+            'bornInOthers' => $personFilter->bornInOthers,
             'fatherName' => $personFilter->fatherName,
             'fatherFirstSurname' => $personFilter->fatherFirstSurname,
             'fatherSecondSurname' => $personFilter->fatherSecondSurname,
@@ -140,6 +141,45 @@ class Person extends TableGateway {
         $this->tableGateway->insert($values);
         $id = $this->tableGateway->getLastInsertValue();
         return $id;
+    }
+    
+    public function updatePersonBaptisms(BaptismsFilter $personFilter){
+        $values = array(
+            'ci' => $personFilter->ci,
+            'firstName' => $personFilter->firstName,
+            'firstSurname' => $personFilter->firstSurname,
+            'secondSurname' => $personFilter->secondSurname,
+            'birthDate' => $personFilter->birthDate,
+            'bornIn' => $personFilter->bornIn,
+            'bornInProvince' => $personFilter->bornInProvince,
+            'bornInOthers' => $personFilter->bornInOthers,
+            'fatherName' => $personFilter->fatherName,
+            'fatherFirstSurname' => $personFilter->fatherFirstSurname,
+            'fatherSecondSurname' => $personFilter->fatherSecondSurname,
+            'matherName' => $personFilter->matherName,
+            'matherFirstSurname' => $personFilter->matherFirstSurname,
+            'matherSecondSurname' => $personFilter->matherSecondSurname,
+        );
+        $id = (int) $personFilter->idPerson;
+        $this->tableGateway->update($values, array('id' => $id));
+    }
+    
+    public function updatePersonConfirmations(ConfirmationsFilter $personFilter){
+        $values = array(
+            'ci' => $personFilter->ci,
+            'firstName' => $personFilter->firstName,
+            'firstSurname' => $personFilter->firstSurname,
+            'secondSurname' => $personFilter->secondSurname,
+            'birthDate' => $personFilter->birthDate,
+            'fatherName' => $personFilter->fatherName,
+            'fatherFirstSurname' => $personFilter->fatherFirstSurname,
+            'fatherSecondSurname' => $personFilter->fatherSecondSurname,
+            'matherName' => $personFilter->matherName,
+            'matherFirstSurname' => $personFilter->matherFirstSurname,
+            'matherSecondSurname' => $personFilter->matherSecondSurname,
+        );
+        $id = (int) $personFilter->idPerson;
+        $this->tableGateway->update($values, array('id' => $id));
     }
 
 }

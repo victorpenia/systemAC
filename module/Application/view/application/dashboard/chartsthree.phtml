@@ -49,31 +49,12 @@ $form->setAttributes(array(
                 <?php echo $this->form()->closeTag() ?>
                 
             </div>
-            <?php if($this->sacrament == 'Bautismos'){ ?>
             <div class="panel-body">
                 <div class="flot-chart">
                     <div class="flot-chart-content" id="flot-pie-chart"></div>
 
                 </div>
             </div>
-            <?php }
-                if($this->sacrament == 'Confirmaciones'){
-            ?>
-            <div class="panel-body">
-                <div class="flot-chart">
-                    <div class="flot-chart-content" id="flot-pie-chart-two"></div>
-                </div>
-            </div>
-            <?php }
-                if($this->sacrament == 'Matrimonios'){
-            ?>
-            <div class="panel-body">
-                <div class="flot-chart">
-                    <div class="flot-chart-content" id="flot-pie-chart-three"></div>
-                </div>
-            </div>
-            <?php }
-            ?>
             <!-- /.panel-body -->
         </div>            
     </div>
@@ -85,13 +66,12 @@ $form->setAttributes(array(
   
 
 <script type="text/javascript">
-<?php if($this->sacrament == 'Bautismos'){ ?>
 //Flot Pie Chart
 $(function() {
     
     var data = [
         <?php foreach($this->data as $data_item){ ?>
-             { label: '<?php echo $data_item['parishName'];?>', data: <?php echo $data_item['bap'];?> },
+             { data: <?php echo $data_item['sacrament'];?>, label: '<?php echo $data_item['parishName'];?>' },
         <?php }?>
     ];
 
@@ -106,7 +86,10 @@ $(function() {
         },
         tooltip: true,
         tooltipOpts: {
-            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+//            content: "%Y.0, %s", // show percentages, rounding to 2 decimal places,  0% percentages
+            content: function(label,x,y,p){
+                        return "%p.0% ("+y+"), "+label;
+                    },
             shifts: {
                 x: 20,
                 y: 0
@@ -116,72 +99,5 @@ $(function() {
     });
 
 });
-<?php }
-    if($this->sacrament == 'Confirmaciones'){
-?>
-//Flot Pie Chart Two
-$(function() {
-
-    var data = [
-        <?php foreach($this->data2 as $data_item){ ?>
-             { label: '<?php echo $data_item['parishName'];?>', data: <?php echo $data_item['confir'];?> },
-        <?php }?>
-    ];
-
-    var plotObj = $.plot($("#flot-pie-chart-two"), data, {
-        series: {
-            pie: {
-                show: true
-            }
-        },
-        grid: {
-            hoverable: true
-        },
-        tooltip: true,
-        tooltipOpts: {
-            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
-            shifts: {
-                x: 20,
-                y: 0
-            },
-            defaultTheme: false
-        }
-    });
-
-});
-<?php }
-    if($this->sacrament == 'Matrimonios'){
-?>
-//Flot Pie Chart Three
-$(function() {
-
-    var data = [
-        <?php foreach($this->data1 as $data_item){ ?>
-             { label: '<?php echo $data_item['parishName'];?>', data: <?php echo $data_item['marri'];?> },
-        <?php }?>
-    ];
-
-    var plotObj = $.plot($("#flot-pie-chart-three"), data, {
-        series: {
-            pie: {
-                show: true
-            }
-        },
-        grid: {
-            hoverable: true
-        },
-        tooltip: true,
-        tooltipOpts: {
-            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
-            shifts: {
-                x: 20,
-                y: 0
-            },
-            defaultTheme: false
-        }
-    });
-
-});
-<?php } ?>
 
 </script>

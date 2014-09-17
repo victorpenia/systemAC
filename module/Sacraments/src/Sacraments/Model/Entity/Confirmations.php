@@ -59,15 +59,30 @@ class Confirmations extends TableGateway {
     
     public function getOneConfirmation($id) {
         $id = (int) $id;
+        $select = new Select();
+        $select->from('confirmations');
+        $select->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'bornIn', 'bornInProvince', 'birthDate', 'fatherName', 'matherName', 'fatherFirstSurname', 'matherFirstSurname', 'fatherSecondSurname', 'matherSecondSurname', 'ci'));
+        $select->where(array('confirmations.id' => $id));
+        $rowset = $this->tableGateway->selectWith($select);
+        $resultSet = $rowset->current();
+        if (!$resultSet) {
+            throw new \Exception("Could not find row $id");
+        }
+        return $resultSet;
+    }
+    
+    public function getOneConfirmationByParish($id, $idParish) {
+        $id = (int) $id;
+        $idParish = (int) $idParish;
         $sql = new Sql($this->tableGateway->getAdapter());
         $select = $sql->select();
         $select->from('confirmations')
-               ->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'birthDate', 'fatherName', 'fatherFirstSurname', 'fatherSecondSurname','matherName', 'matherFirstSurname', 'matherSecondSurname', 'ci'))
+               ->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'bornIn', 'bornInOthers', 'bornInProvince', 'birthDate', 'fatherName', 'matherName', 'fatherFirstSurname', 'fatherSecondSurname', 'matherFirstSurname', 'matherSecondSurname', 'ci'))
                ->join('bookofsacraments', 'bookofsacraments.id = confirmations.idBookofsacraments', array('code', 'book', 'idParishes'))
                ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'))
                ->join('Users', 'confirmations.idUserCertificate = users.id', array('idRoles'), 'left')
                ->join('certificates', 'certificates.idUsers = users.id', array('certificateName', 'privateKey'), 'left') 
-               ->where(array('confirmations.id' => $id));
+               ->where(array('confirmations.id' => $id, 'bookofsacraments.idParishes' => $idParish));
         $selectString = $sql->getSqlStringForSqlObject($select); 
         $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
         $results = $resultSet->current();
@@ -75,38 +90,8 @@ class Confirmations extends TableGateway {
             throw new \Exception("Could not find row $id");
         }
         return $results;        
-    }
-    
-    public function getOneConfirmationEdit($id) {
-        $id = (int) $id;
-        $sql = new Sql($this->tableGateway->getAdapter());
-        $select = $sql->select();
-        $select->from('confirmations')
-//               ->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname'))
-//               ->join('bookofsacraments', 'bookofsacraments.id = confirmations.idBookofsacraments', array('code', 'book', 'idParishes'))
-//               ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName')) 
-               ->where(array('confirmations.id' => $id));
-        $selectString = $sql->getSqlStringForSqlObject($select); 
-        $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
-        $results = $resultSet->current();
-        if (!$results) {
-            error_log('modelllllll');
-            throw new \Exception("Could not find row $id");
-        }
-        error_log('return .....');
-        return $results;        
-    }
-    
-//    public function getOneConfirmationEdit($id) {
-//        $id = (int) $id;
-//        $rowset = $this->tableGateway->select(array('id' => $id));
-//        $row = $rowset->current();
-//        if (!$row) {
-//            throw new \Exception("Could not find row $id");
-//        }
-//        return $row;
-//    }
-    
+    }    
+
     public function getOneConfirmationByPerson($CI){
         error_log('logM. Ci='.$CI);
         $sql = new Sql($this->tableGateway->getAdapter());
@@ -153,16 +138,6 @@ class Confirmations extends TableGateway {
         if(empty($confirmationsFilter->observation)){
             $confirmationsFilter->observation ='Ninguna';
         }
-//        $confirmationPriest = '';
-//        if($confirmationsFilter->attestPriest == 'Otros')
-//            $confirmationPriest = $confirmationsFilter->attestPriestOthers;
-//        else
-//            $confirmationPriest = $confirmationsFilter->attestPriest;
-//        $baptismParish = '';
-//        if($confirmationsFilter->baptismParish == 'Otros')
-//            $baptismParish = $confirmationsFilter->baptismParishOthers;
-//        else
-//            $baptismParish = $confirmationsFilter->baptismParish;
         $values = array(
             'page' => $confirmationsFilter->page,
             'item' => $confirmationsFilter->item,
@@ -184,22 +159,18 @@ class Confirmations extends TableGateway {
         $this->tableGateway->insert($values);
     }
 
-    public function updateConfirmations(ConfirmationsFilter $confirmationsFilter) {
+    public function updateConfirmation(ConfirmationsFilter $confirmationsFilter) {
         $values = array(
-            'page' => $confirmationsFilter->page,
-            'item' => $confirmationsFilter->item,
-            'baptismPriest' => $confirmationsFilter->baptismPriest,
-//            'baptismDate' => $baptismsFilter->baptismDate,
-//            'congregation' => $baptismsFilter->congregation,
-//            'godfatherOne' => $baptismsFilter->godfatherOne,
-//            'godfatherTwo' => $baptismsFilter->godfatherTwo,
-//            'oficialiaRC' => $baptismsFilter->oficialiaRC,
-//            'bookLN' => $baptismsFilter->bookLN,
-//            'departure' => $baptismsFilter->departure,
-//            'folioFs' => $baptismsFilter->folioFS,
-//            'year' => $baptismsFilter->year,
-//            'attestPriest' => $baptismsFilter->attestPriest,
-//            'observation' => $baptismsFilter->observation,
+            'confirmationDate' => $confirmationsFilter->confirmationDate,
+            'baptismParish' => $confirmationsFilter->baptismParish,
+            'baptismParishOthers' => $confirmationsFilter->baptismParishOthers,
+            'godfatherNameOne' => $confirmationsFilter->godfatherNameOne,
+            'godfatherSurnameOne' => $confirmationsFilter->godfatherSurnameOne,
+            'godfatherNameTwo' => $confirmationsFilter->godfatherNameTwo,
+            'godfatherSurnameTwo' => $confirmationsFilter->godfatherSurnameTwo,
+            'attestPriest' => $confirmationsFilter->attestPriest,
+            'attestPriestOthers' => $confirmationsFilter->attestPriestOthers,
+            'observation' => $confirmationsFilter->observation,
         );
         $id = (int) $confirmationsFilter->id;
         $this->tableGateway->update($values, array('id' => $id));

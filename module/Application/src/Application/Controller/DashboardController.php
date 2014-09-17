@@ -169,29 +169,33 @@ class DashboardController extends AbstractActionController {
                 $year = $dashboardFilter->year;
                 $sacrament = $dashboardFilter->sacrament;
                 if($dashboardFilter->idVicarious == -1){
-                    $data = $this->getBaptismByYearVicariousAll($dashboardFilter->year);
-                    $data1 = $this->getMarriageByYearVicariousAll($dashboardFilter->year);
-                    $data2 = $this->getConfirmactionByYearVicariousAll($dashboardFilter->year);
+                    if($dashboardFilter->sacrament == 'Bautismos'){
+                        $data = $this->getBaptismByYearVicariousAll($dashboardFilter->year);
+                    } if($dashboardFilter->sacrament == 'Confirmaciones'){
+                        $data = $this->getConfirmactionByYearVicariousAll($dashboardFilter->year);
+                    } if($dashboardFilter->sacrament == 'Matrimonios'){                        
+                        $data = $this->getMarriageByYearVicariousAll($dashboardFilter->year);
+                    }
                 }else{
-                    $data = $this->getBaptismByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
-                    $data1 = $this->getMarriageByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
-                    $data2 = $this->getConfirmactionByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
+                    if($dashboardFilter->sacrament == 'Bautismos'){
+                        $data = $this->getBaptismByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
+                    } if($dashboardFilter->sacrament == 'Confirmaciones'){
+                        $data = $this->getConfirmactionByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
+                    } if($dashboardFilter->sacrament == 'Matrimonios'){                        
+                        $data = $this->getMarriageByYearVicarious($dashboardFilter->idVicarious, $dashboardFilter->year);
+                    }
                 }
             }
         }else{
             $year = 2011;
             $sacrament = 'Bautismos';
             $data = $this->getBaptismByYearVicariousAll($year);
-            $data1 = $this->getMarriageByYearVicariousAll( $year);
-            $data2 = $this->getConfirmactionByYearVicariousAll( $year);
         }
         $values = array(
             'form' => $form,
             'year' => $year,
             'sacrament' => $sacrament,
             'data' => $data,
-            'data1' => $data1,
-            'data2' => $data2,
             'url' => $this->getRequest()->getBaseUrl(),
         );
         $this->layout()->setVariable('authUser', $this->authUser);
@@ -289,8 +293,7 @@ class DashboardController extends AbstractActionController {
     
     private function getBaptismByYearVicarious($idVicarious, $year) {
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-//        $sql = "SELECT MONTH(baptismDate) as month,count(id) as bap FROM baptisms WHERE YEAR(baptismDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(baptismDate)";
-        $sql = "SELECT parishes.parishName, count(baptisms.id) as bap FROM baptisms, parishes WHERE YEAR(baptisms.baptismDate) = '$year' and parishes.idVicarious = '$idVicarious' and baptisms.idParish = parishes.id GROUP BY(parishes.parishName)";
+        $sql = "SELECT parishes.parishName, count(baptisms.id) as sacrament FROM baptisms, parishes WHERE YEAR(baptisms.baptismDate) = '$year' and parishes.idVicarious = '$idVicarious' and baptisms.idParish = parishes.id GROUP BY(parishes.parishName)";
         $statement = $dbAdapter->query($sql);
         $result = $statement->execute();
         return $result;
@@ -298,8 +301,7 @@ class DashboardController extends AbstractActionController {
     
     private function getBaptismByYearVicariousAll( $year) {
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-//        $sql = "SELECT MONTH(baptismDate) as month,count(id) as bap FROM baptisms WHERE YEAR(baptismDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(baptismDate)";
-        $sql = "SELECT parishes.parishName, count(baptisms.id) as bap FROM baptisms, parishes WHERE YEAR(baptisms.baptismDate) = '$year' and baptisms.idParish = parishes.id GROUP BY(parishes.parishName)";
+        $sql = "SELECT parishes.parishName, count(baptisms.id) as sacrament FROM baptisms, parishes WHERE YEAR(baptisms.baptismDate) = '$year' and baptisms.idParish = parishes.id GROUP BY(parishes.parishName)";
         $statement = $dbAdapter->query($sql);
         $result = $statement->execute();
         return $result;
@@ -307,8 +309,7 @@ class DashboardController extends AbstractActionController {
     
     private function getMarriageByYearVicarious($idVicarious, $year) {
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-//        $sql = "SELECT MONTH(marriageDate) as monthM,count(id) as marri FROM marriages WHERE YEAR(marriageDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(marriageDate)";
-        $sql = "SELECT parishes.parishName, count(marriages.id) as marri FROM marriages, parishes WHERE YEAR(marriages.marriageDate) = '$year' and parishes.idVicarious = '$idVicarious' and marriages.idParish = parishes.id GROUP BY(parishes.parishName)";
+        $sql = "SELECT parishes.parishName, count(marriages.id) as sacrament FROM marriages, parishes WHERE YEAR(marriages.marriageDate) = '$year' and parishes.idVicarious = '$idVicarious' and marriages.idParish = parishes.id GROUP BY(parishes.parishName)";
         $statement = $dbAdapter->query($sql);
         $result = $statement->execute();
         return $result;
@@ -316,8 +317,7 @@ class DashboardController extends AbstractActionController {
     
     private function getMarriageByYearVicariousAll($year) {
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-//        $sql = "SELECT MONTH(marriageDate) as monthM,count(id) as marri FROM marriages WHERE YEAR(marriageDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(marriageDate)";
-        $sql = "SELECT parishes.parishName, count(marriages.id) as marri FROM marriages, parishes WHERE YEAR(marriages.marriageDate) = '$year' and marriages.idParish = parishes.id GROUP BY(parishes.parishName)";
+        $sql = "SELECT parishes.parishName, count(marriages.id) as sacrament FROM marriages, parishes WHERE YEAR(marriages.marriageDate) = '$year' and marriages.idParish = parishes.id GROUP BY(parishes.parishName)";
         $statement = $dbAdapter->query($sql);
         $result = $statement->execute();
         return $result;
@@ -325,8 +325,7 @@ class DashboardController extends AbstractActionController {
     
     private function getConfirmactionByYearVicarious($idVicarious, $year) {
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-//        $sql = "SELECT MONTH(marriageDate) as monthM,count(id) as marri FROM marriages WHERE YEAR(marriageDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(marriageDate)";
-        $sql = "SELECT parishes.parishName, count(confirmations.id) as confir FROM confirmations, parishes WHERE YEAR(confirmations.confirmationDate) = '$year' and parishes.idVicarious = '$idVicarious' and confirmations.idParish = parishes.id GROUP BY(parishes.parishName)";
+        $sql = "SELECT parishes.parishName, count(confirmations.id) as sacrament FROM confirmations, parishes WHERE YEAR(confirmations.confirmationDate) = '$year' and parishes.idVicarious = '$idVicarious' and confirmations.idParish = parishes.id GROUP BY(parishes.parishName)";
         $statement = $dbAdapter->query($sql);
         $result = $statement->execute();
         return $result;
@@ -334,8 +333,7 @@ class DashboardController extends AbstractActionController {
     
     private function getConfirmactionByYearVicariousAll($year) {
         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-//        $sql = "SELECT MONTH(marriageDate) as monthM,count(id) as marri FROM marriages WHERE YEAR(marriageDate) = '$year' and idParish = '$idParish' GROUP BY MONTH(marriageDate)";
-        $sql = "SELECT parishes.parishName, count(confirmations.id) as confir FROM confirmations, parishes WHERE YEAR(confirmations.confirmationDate) = '$year' and confirmations.idParish = parishes.id GROUP BY(parishes.parishName)";
+        $sql = "SELECT parishes.parishName, count(confirmations.id) as sacrament FROM confirmations, parishes WHERE YEAR(confirmations.confirmationDate) = '$year' and confirmations.idParish = parishes.id GROUP BY(parishes.parishName)";
         $statement = $dbAdapter->query($sql);
         $result = $statement->execute();
         return $result;
