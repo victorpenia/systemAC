@@ -275,45 +275,47 @@ $form->setAttributes(array(
 <script type="text/javascript">
 
 $(document).ready(function () {
-    $("#inputSelectIdBook").keydown(function (e) {
+    $("#inputIdBookofsacraments").keydown(function (e) {
         if (e.which == 9) {
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
     });
 });
 
 $(document).ready(function () {
     $("#inputPage").keydown(function (e) {
-        if (e.which == 8 || e.which == 46 || e.which == 32) {
-            return false;
+        if (e.which == 9) {
+            return true;
         }
+        return false;
     });
 });
 
 $(document).ready(function () {
     $("#inputItem").keydown(function (e) {
-        if (e.which == 8 || e.which == 46 || e.which == 32) {
-            return false;
+        if (e.which == 9) {
+            return true;
         }
+        return false;
     });
 });
 
 $(document).ready(function () {
     $("#inputBaptismDate").keydown(function (e) {
-        if (e.which == 8 || e.which == 46 || e.which == 32) {
-            return false;
+        if (e.which == 9) {
+            return true;
         }
+        return false;
     });
 });
 
 $(document).ready(function () {
     $("#inputBirthDate").keydown(function (e) {
-        if (e.which == 8 || e.which == 46 || e.which == 32) {
-            return false;
+        if (e.which == 9) {
+            return true;
         }
+        return false;
     });
 });
 
@@ -376,19 +378,6 @@ $(document).ready(function () {
     });
 });
 
-//$(document).ready(function () {
-//    $("#inputSelectAttestPriest").load(function () {
-//        var value = $(this).val();
-//        console.debug('yes');
-//        console.debug(value);
-////        if(value == 'Otros'){
-////            $("#inputAttestPriestOthers").show();
-////        }else{
-////            $("#inputAttestPriestOthers").hide();
-////        }    
-//    });
-//});
-
 $(document).ready(function() {
 $('#inputSelectBornIn').change(function(){
     var bornIn = $(this).val();
@@ -410,24 +399,6 @@ $('#inputSelectBornIn').change(function(){
     
 });
 });  
-
-
-//$(document).ready(function() {
-//$('#inputSelectIdBook').change(function(){
-//    var idBook = $(this).val();
-//    if(idBook){
-//    $.ajax({
-//        type: "POST",
-//        url: "<?php echo $this->url.'/sacraments/baptisms/getElementBookSacrament'; ?>",
-//        data: "idBook="+idBook,
-//        success: function(msg){ 
-//            $("#inputPage").html('<option value='+msg.split(",")[0]+'>'+msg.split(",")[0]+'</option>');
-//            $("#inputItem").html('<option value='+msg.split(",")[1]+'>'+msg.split(",")[1]+'</option>');
-//        }
-//    });
-//    }
-//});
-//});  
 
  
 $(document).ready(function() {

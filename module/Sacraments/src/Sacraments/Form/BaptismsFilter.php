@@ -48,7 +48,8 @@ class BaptismsFilter implements InputFilterAwareInterface {
     public $observation;
     public $idBookofsacraments;
     public $idPerson;
-    public $idParishes;
+    public $idParish;
+    public $parishName;
     
     protected $inputFilter;
 
@@ -88,7 +89,8 @@ class BaptismsFilter implements InputFilterAwareInterface {
         $this->observation = (isset($data['observation'])) ? $data['observation'] : null;
         $this->idBookofsacraments = (isset($data['idBookofsacraments'])) ? $data['idBookofsacraments'] : null;
         $this->idPerson = (isset($data['idPerson'])) ? $data['idPerson'] : null;
-        $this->idParishes = (isset($data['idParishes'])) ? $data['idParishes'] : null;
+        $this->idParish = (isset($data['idParish'])) ? $data['idParish'] : null;
+        $this->parishName = (isset($data['parishName'])) ? $data['parishName'] : null;
     }
 
     public function getArrayCopy() {
@@ -104,25 +106,6 @@ class BaptismsFilter implements InputFilterAwareInterface {
             $inputFilter = new InputFilter();
 //            $inputFilter->add(array(
 //                'name' => 'firstName',
-//                'required' => true,
-//                'filters' => array(
-//                    array('name' => 'StripTags'),
-//                    array('name' => 'StringTrim'),
-//                ),
-//                'validators' => array(
-//                    array(
-//                        'name' => 'StringLength',
-//                        'options' => array(
-//                            'encoding' => 'UTF-8',
-//                            'min' => 3,
-//                            'max' => 100,
-//                        ),
-//                    ),
-//                ),
-//            ));
-            
-//            $inputFilter->add(array(
-//                'name' => 'lastName',
 //                'required' => true,
 //                'filters' => array(
 //                    array('name' => 'StripTags'),

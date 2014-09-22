@@ -59,6 +59,25 @@ class Marriages extends TableGateway {
         return $this->tableGateway->select();
     }
     
+    public function getOneMariage($id) {
+        $id = (int) $id;
+        $select = new Select();
+        $select->from('marriages')
+               ->join(array('personMale' => 'person'), 'marriages.idPersonMale = personMale.id', array('idPersonMale' => 'id', 'ciMale' => 'ci', 'firstNameMale' =>'firstName', 'firstSurnameMale' =>'firstSurname', 'secondSurnameMale' =>'secondSurname', 
+                      'birthDateMale' => 'birthDate', 'maritalStatusMale' => 'maritalStatus', 'fatherNameMale' => 'fatherName', 'fatherFirstSurnameMale' => 'fatherFirstSurname', 'fatherSecondSurnameMale' => 'fatherSecondSurname',
+                      'matherNameMale' => 'matherName', 'matherFirstSurnameMale' => 'matherFirstSurname', 'matherSecondSurnameMale' => 'matherSecondSurname'))
+               ->join(array('personFemale' => 'person'), 'marriages.idPersonFemale = personFemale.id', array('idPersonFemale' => 'id', 'ciFemale' => 'ci', 'firstNameFemale' =>'firstName', 'firstSurnameFemale' =>'firstSurname', 'secondSurnameFemale' =>'secondSurname', 
+                      'birthDateFemale' => 'birthDate', 'maritalStatusFemale' => 'maritalStatus', 'fatherNameFemale' => 'fatherName', 'fatherFirstSurnameFemale' => 'fatherFirstSurname', 'fatherSecondSurnameFemale' => 'fatherSecondSurname',
+                      'matherNameFemale' => 'matherName', 'matherFirstSurnameFemale' => 'matherFirstSurname', 'matherSecondSurnameFemale' => 'matherSecondSurname')) 
+               ->where(array('marriages.id' => $id));
+        $rowset = $this->tableGateway->selectWith($select);
+        $resultSet = $rowset->current();
+        if (!$resultSet) {
+            throw new \Exception("Could not find row $id");
+        }
+        return $resultSet;
+    }
+    
     public function getOneMarriageByParish($id, $idParish) {
         $id = (int) $id;
         $sql = new Sql($this->tableGateway->getAdapter());
@@ -98,17 +117,14 @@ class Marriages extends TableGateway {
         if(empty($marriagesFilter->observation)){
             $marriagesFilter->observation ='Ninguna';
         }
-//        $MarriagePriest = '';
-//        if($marriagesFilter->marriagePriest == 'Otros')
-//            $MarriagePriest = $marriagesFilter->marriagePriestOthers;
-//        else
-//            $MarriagePriest = $marriagesFilter->marriagePriest;
-//        
-//        $AttestPriest = '';
-//        if($marriagesFilter->attestPriest == 'Otros')
-//            $AttestPriest = $marriagesFilter->attestPriestOthers;
-//        else
-//            $AttestPriest = $marriagesFilter->attestPriest;
+        if($marriagesFilter->marriagePriest != 'Otros')
+            $marriagesFilter->marriagePriestOthers = '';
+        if($marriagesFilter->attestPriest != 'Otros')
+            $marriagesFilter->attestPriestOthers = '';
+        if($marriagesFilter->baptismParishMale != 'Otros')
+            $marriagesFilter->baptismParishMaleOthers = '';
+        if($marriagesFilter->baptismParishFemale != 'Otros')
+            $marriagesFilter->baptismParishFemaleOthers = '';
         $values = array(
             'idBookofsacraments' => $marriagesFilter->idBookofsacraments,
             'page' => $marriagesFilter->page,
@@ -203,24 +219,28 @@ class Marriages extends TableGateway {
         return false;        
     }
 
-    public function updateMarriages(MarriagesFilter $MarriagesFilter) {
+    public function updateMarriages(MarriagesFilter $marriagesFilter) {
         $values = array(
-            'page' => $MarriagesFilter->page,
-            'item' => $MarriagesFilter->item,
-//            'baptismPriest' => $baptismsFilter->baptismPriest,
-//            'baptismDate' => $baptismsFilter->baptismDate,
-//            'congregation' => $baptismsFilter->congregation,
-//            'godfatherOne' => $baptismsFilter->godfatherOne,
-//            'godfatherTwo' => $baptismsFilter->godfatherTwo,
-//            'oficialiaRC' => $baptismsFilter->oficialiaRC,
-//            'bookLN' => $baptismsFilter->bookLN,
-//            'departure' => $baptismsFilter->departure,
-//            'folioFs' => $baptismsFilter->folioFS,
-//            'year' => $baptismsFilter->year,
-//            'attestPriest' => $baptismsFilter->attestPriest,
-//            'observation' => $baptismsFilter->observation,
+            'marriagePriest' => $marriagesFilter->marriagePriest,
+            'marriagePriestOthers' => $marriagesFilter->marriagePriestOthers,
+            'marriageDate' => $marriagesFilter->marriageDate,
+            'baptismParishMale' => $marriagesFilter->baptismParishMale,
+            'baptismParishMaleOthers' => $marriagesFilter->baptismParishMaleOthers,
+            'baptismParishFemale' => $marriagesFilter->baptismParishFemale,
+            'baptismParishFemaleOthers' => $marriagesFilter->baptismParishFemaleOthers,
+            'godfatherNameOneInformation' => $marriagesFilter->godfatherNameOneInformation,
+            'godfatherSurnameOneInformation' => $marriagesFilter->godfatherSurnameOneInformation,
+            'godfatherNameTwoInformation' => $marriagesFilter->godfatherNameTwoInformation,
+            'godfatherSurnameTwoInformation' => $marriagesFilter->godfatherSurnameTwoInformation,
+            'godfatherNameOnePresence' => $marriagesFilter->godfatherNameOnePresence,
+            'godfatherSurnameOnePresence' => $marriagesFilter->godfatherSurnameOnePresence,
+            'godfatherNameTwoPresence' => $marriagesFilter->godfatherNameTwoPresence,
+            'godfatherSurnameTwoPresence' => $marriagesFilter->godfatherSurnameTwoPresence,
+            'attestPriest' => $marriagesFilter->attestPriest,
+            'attestPriestOthers' => $marriagesFilter->attestPriestOthers,
+            'observation' => $marriagesFilter->observation,
         );
-        $id = (int) $MarriagesFilter->id;
+        $id = (int) $marriagesFilter->id;
         $this->tableGateway->update($values, array('id' => $id));
     }
     

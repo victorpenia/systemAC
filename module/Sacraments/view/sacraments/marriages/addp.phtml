@@ -36,14 +36,14 @@ $form->setAttributes(array(
                             <div class="form-group">
                                 <label>* P&aacute;gina:</label>
                                 <?php $page= $form->get('page');
-                                    echo $this->formSelect($page);
+                                    echo $this->formInput($page);
                                     echo $this->formElementErrors($page);
                                 ?>
                             </div>
                             <div class="form-group">
                                 <label>* Partida:</label>
                                 <?php $item= $form->get('item');
-                                    echo $this->formSelect($item);
+                                    echo $this->formInput($item);
                                     echo $this->formElementErrors($item);
                                 ?>
                             </div>
@@ -358,6 +358,52 @@ $form->setAttributes(array(
 </div>
 <!-- /.row -->
 <script type="text/javascript">
+
+$(document).ready(function () {
+    $("#inputPage").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputItem").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputMarriageDate").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputBirthDateMale").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputBirthDateFemale").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
 $(document).ready(function() {
     var nowTemp = new Date();
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
@@ -469,9 +515,9 @@ $('#inputSelectIdBook').change(function(){
         type: "POST",
         url: "<?php echo $this->url.'/sacraments/marriages/getElementBookSacrament'; ?>",
         data: "idBook="+idBook,
-        success: function(msg){
-            $("#inputPage").html('<option value='+msg.split(",")[0]+'>'+msg.split(",")[0]+'</option>');
-            $("#inputItem").html('<option value='+msg.split(",")[1]+'>'+msg.split(",")[1]+'</option>');
+        success: function(msg){            
+            $("#inputPage").val(msg.split(",")[0]);
+            $("#inputItem").val(msg.split(",")[1]);
         }
     });
 });

@@ -61,7 +61,7 @@ class Confirmations extends TableGateway {
         $id = (int) $id;
         $select = new Select();
         $select->from('confirmations');
-        $select->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'bornIn', 'bornInProvince', 'birthDate', 'fatherName', 'matherName', 'fatherFirstSurname', 'matherFirstSurname', 'fatherSecondSurname', 'matherSecondSurname', 'ci'));
+        $select->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'birthDate', 'fatherName', 'matherName', 'fatherFirstSurname', 'matherFirstSurname', 'fatherSecondSurname', 'matherSecondSurname', 'ci'));
         $select->where(array('confirmations.id' => $id));
         $rowset = $this->tableGateway->selectWith($select);
         $resultSet = $rowset->current();
@@ -70,6 +70,41 @@ class Confirmations extends TableGateway {
         }
         return $resultSet;
     }
+    
+    public function getOneConfirmationAndParish($id) {
+        $id = (int) $id;
+        $select = new Select();
+        $select->from('confirmations');
+        $select->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'birthDate', 'fatherName', 'matherName', 'fatherFirstSurname', 'matherFirstSurname', 'fatherSecondSurname', 'matherSecondSurname', 'ci'));
+        $select->join('parishes', 'confirmations.idParish = parishes.id', array('parishName'));
+        $select->where(array('confirmations.id' => $id));
+        $rowset = $this->tableGateway->selectWith($select);
+        $resultSet = $rowset->current();
+        if (!$resultSet) {
+            throw new \Exception("Could not find row $id");
+        }
+        return $resultSet;
+    }
+    
+    public function getOneConfirmationById($id) {
+        $id = (int) $id;
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from('confirmations')
+               ->join('person', 'confirmations.idPerson = person.id', array('firstName', 'firstSurname', 'secondSurname', 'bornIn', 'bornInOthers', 'bornInProvince', 'birthDate', 'fatherName', 'matherName', 'fatherFirstSurname', 'fatherSecondSurname', 'matherFirstSurname', 'matherSecondSurname', 'ci'))
+               ->join('bookofsacraments', 'bookofsacraments.id = confirmations.idBookofsacraments', array('code', 'book', 'idParishes'))
+               ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'))
+               ->join('Users', 'confirmations.idUserCertificate = users.id', array('idRoles'), 'left')
+               ->join('certificates', 'certificates.idUsers = users.id', array('certificateName', 'privateKey'), 'left') 
+               ->where(array('confirmations.id' => $id));
+        $selectString = $sql->getSqlStringForSqlObject($select); 
+        $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        $results = $resultSet->current();
+        if (!$results) {
+            throw new \Exception("Could not find row $id");
+        }
+        return $results;        
+    }  
     
     public function getOneConfirmationByParish($id, $idParish) {
         $id = (int) $id;
@@ -138,6 +173,10 @@ class Confirmations extends TableGateway {
         if(empty($confirmationsFilter->observation)){
             $confirmationsFilter->observation ='Ninguna';
         }
+        if($confirmationsFilter->baptismParish != 'Otros')
+            $confirmationsFilter->baptismParishOthers = '';
+        if($confirmationsFilter->attestPriest != 'Otros')
+            $confirmationsFilter->attestPriestOthers = '';
         $values = array(
             'page' => $confirmationsFilter->page,
             'item' => $confirmationsFilter->item,
@@ -160,6 +199,10 @@ class Confirmations extends TableGateway {
     }
 
     public function updateConfirmation(ConfirmationsFilter $confirmationsFilter) {
+        if($confirmationsFilter->baptismParish != 'Otros')
+            $confirmationsFilter->baptismParishOthers = '';
+        if($confirmationsFilter->attestPriest != 'Otros')
+            $confirmationsFilter->attestPriestOthers = '';
         $values = array(
             'confirmationDate' => $confirmationsFilter->confirmationDate,
             'baptismParish' => $confirmationsFilter->baptismParish,

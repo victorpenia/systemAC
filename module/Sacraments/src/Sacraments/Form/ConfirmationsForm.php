@@ -45,58 +45,45 @@ class ConfirmationsForm extends Form {
                 'id' => 'inputId'
             ),
         ));
-        /* input text Page */
-//        $this->add(array(
-//            'name' => 'page',
-//            'attributes' => array(
-//                'type' => 'text',
-//                'maxlength' => '4',
-//                'class' => 'form-control',
-//                'id' => 'inputPage',
-//                'placeholder' => 'Página'
-//            ),
-//        ));
+        /* input text id person */
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'name' => 'idPerson',
+            'attributes' => array(
+                'type' => 'hidden',
+                'id' => 'inputIdPerson'
+            ),
+        ));
+        /* input text Page */
+        $this->add(array(
             'name' => 'page',
             'attributes' => array(
+                'type' => 'text',
+                'maxlength' => '0',
+                'autocomplete' => 'off',
+                'class' => 'form-control',
                 'id' => 'inputPage',
-                'class' => 'form-control'
+                'placeholder' => 'Página'
             ),
-            'options' => array(
-                'value_options' => array(),
-                'disable_inarray_validator' => true,
-            )
         ));
         /* input text Item */
-//        $this->add(array(
-//            'name' => 'item',
-//            'attributes' => array(
-//                'type' => 'text',
-//                'maxlength' => '5',
-//                'class' => 'form-control',
-//                'id' => 'inpuItem',
-//                'placeholder' => 'Partida'
-//            ),
-//        ));
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
             'name' => 'item',
             'attributes' => array(
+                'type' => 'text',
+                'autocomplete' => 'off',
+                'maxlength' => '0',
+                'class' => 'form-control',
                 'id' => 'inputItem',
-                'class' => 'form-control'
+                'placeholder' => 'Partida'
             ),
-            'options' => array(
-                'value_options' => array(),
-                'disable_inarray_validator' => true,
-            )
         ));
         /* input text Confirmation Date */
         $this->add(array(
             'name' => 'confirmationDate',
             'attributes' => array(
                 'type' => 'text',
-                'readonly' => 'readonly',
+                'autocomplete' => 'off',
+                'maxlength' => '0',
                 'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
@@ -109,6 +96,7 @@ class ConfirmationsForm extends Form {
             'name' => 'ci',
             'attributes' => array(
                 'type' => 'text',
+                'autocomplete' => 'off',
                 'maxlength' => '15',
                 'class' => 'form-control',
                 'id' => 'inputCI',
@@ -131,6 +119,7 @@ class ConfirmationsForm extends Form {
             'name' => 'firstSurname',
             'attributes' => array(
                 'type' => 'text',
+                'autocomplete' => 'off',
                 'maxlength' => '30',
                 'class' => 'form-control',
                 'id' => 'inputFirstSurname',
@@ -142,6 +131,7 @@ class ConfirmationsForm extends Form {
             'name' => 'secondSurname',
             'attributes' => array(
                 'type' => 'text',
+                'autocomplete' => 'off',
                 'maxlength' => '30',
                 'class' => 'form-control',
                 'id' => 'inputSecondSurname',
@@ -153,7 +143,8 @@ class ConfirmationsForm extends Form {
             'name' => 'birthDate',
             'attributes' => array(
                 'type' => 'text',
-                'readonly' => 'readonly',
+                'autocomplete' => 'off',
+                'maxlength' => '0',
                 'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
@@ -371,7 +362,7 @@ class ConfirmationsForm extends Form {
         /* input comboBox idParishes */
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',
-            'name' => 'idParishes',
+            'name' => 'idParish',
             'attributes' => array(
                 'id' => 'inputSelectIdParish',
                 'class' => 'form-control'

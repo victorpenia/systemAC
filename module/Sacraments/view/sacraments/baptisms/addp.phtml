@@ -272,33 +272,37 @@ $form->setAttributes(array(
 
 $(document).ready(function () {
     $("#inputPage").keydown(function (e) {
-        if (e.which == 8 || e.which == 46 || e.which == 32) {
-            return false;
+        if (e.which == 9) {
+            return true;
         }
+        return false;
     });
 });
 
 $(document).ready(function () {
     $("#inputItem").keydown(function (e) {
-        if (e.which == 8 || e.which == 46 || e.which == 32) {
-            return false;
+        if (e.which == 9) {
+            return true;
         }
+        return false;
     });
 });
 
 $(document).ready(function () {
     $("#inputBaptismDate").keydown(function (e) {
-        if (e.which == 8 || e.which == 46 || e.which == 32) {
-            return false;
+        if (e.which == 9) {
+            return true;
         }
+        return false;
     });
 });
 
 $(document).ready(function () {
     $("#inputBirthDate").keydown(function (e) {
-        if (e.which == 8 || e.which == 46 || e.which == 32) {
-            return false;
+        if (e.which == 9) {
+            return true;
         }
+        return false;
     });
 });
 

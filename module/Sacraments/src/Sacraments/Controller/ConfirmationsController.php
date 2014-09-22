@@ -13,6 +13,7 @@ namespace Sacraments\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Sacraments\Form\ConfirmationsForm;
+use Sacraments\Form\ConfirmationsEditForm;
 use Sacraments\Form\ConfirmationsparishForm;
 use Sacraments\Form\ConfirmationsparishEditForm;
 use Sacraments\Form\ConfirmationsFilter;
@@ -228,7 +229,7 @@ class ConfirmationsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
         }
         try {
-            $confirmation = $this->getConfirmationsTable()->getOneConfirmation($id);
+            $confirmation = $this->getConfirmationsTable()->getOneConfirmationById($id);
             $priest = $this->getUserTable()->getOnePriest($confirmation->idParishes);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
@@ -255,7 +256,7 @@ class ConfirmationsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
         }
         try {
-            $confirmation = $this->getConfirmationsTable()->getOneConfirmation($id);
+            $confirmation = $this->getConfirmationsTable()->getOneConfirmationByParish($id, $this->authUser->getIdentity()->idParishes);
             $priest = $this->getUserTable()->getOnePriest($confirmation->idParishes);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
@@ -282,7 +283,7 @@ class ConfirmationsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
         }
         try {
-            $confirmation = $this->getConfirmationsTable()->getOneConfirmation($id);
+            $confirmation = $this->getConfirmationsTable()->getOneConfirmationById($id);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
@@ -335,9 +336,9 @@ class ConfirmationsController extends AbstractActionController {
             if ($form->isValid()) {
                 $confirmationsFilter->exchangeArray($form->getData());
                 if ($this->exitsPersonInDatabase($confirmationsFilter->ci, $confirmationsFilter->firstName, $confirmationsFilter->firstSurname, $confirmationsFilter->secondSurname)) {
-//                    $idPerson = $this->getPersonTable()->addPersonConfirmations($confirmationsFilter);
-//                    $this->getConfirmationsTable()->addConfirmations($confirmationsFilter, $idPerson, $this->authUser->getIdentity()->id);
-//                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
+                    $idPerson = $this->getPersonTable()->addPersonConfirmations($confirmationsFilter);
+                    $this->getConfirmationsTable()->addConfirmations($confirmationsFilter, $idPerson, $this->authUser->getIdentity()->id, $confirmationsFilter->idParish);
+                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
                 } else {
                     $messages .= "<p style='color:#a94442' >Error la persona ya realizó el sacramento de confirmación anteriormente.</p>";
                 }
@@ -367,7 +368,6 @@ class ConfirmationsController extends AbstractActionController {
             $form->setInputFilter($confirmationsFilter->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                error_log('valid ....');
                 $confirmationsFilter->exchangeArray($form->getData());
                 if ($this->exitsPersonInDatabase($confirmationsFilter->ci, $confirmationsFilter->firstName, $confirmationsFilter->firstSurname, $confirmationsFilter->secondSurname)) {
                     $idPerson = $this->getPersonTable()->addPersonConfirmations($confirmationsFilter);
@@ -411,21 +411,21 @@ class ConfirmationsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
         }
         try {
-            $confirmation = $this->getConfirmationsTable()->getOneConfirmation($id);
+            $confirmation = $this->getConfirmationsTable()->getOneConfirmationAndParish($id);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
         }
-
         $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-        $form = new ConfirmationsForm($this->dbAdapter);
+        $form = new ConfirmationsEditForm($this->dbAdapter, $confirmation->attestPriest, $confirmation->baptismParish);
         $form->bind($confirmation);
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setInputFilter($confirmation->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getConfirmationsTable()->updateBaptism($confirmation);
+                $this->getPersonTable()->updatePersonConfirmations($confirmation);
+                $this->getConfirmationsTable()->updateConfirmation($confirmation);
                 return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
             }
         }
@@ -451,20 +451,19 @@ class ConfirmationsController extends AbstractActionController {
         }
         try {
             $confirmation = $this->getConfirmationsTable()->getOneConfirmation($id);
+            error_log($confirmation->baptismParish);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
         }
         $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-        $form = new ConfirmationsparishForm($this->dbAdapter, $this->authUser->getIdentity()->idParishes);
+        $form = new ConfirmationsparishEditForm($this->dbAdapter, $this->authUser->getIdentity()->idParishes, $confirmation->attestPriest, $confirmation->baptismParish);
         $form->bind($confirmation);
         $request = $this->getRequest();
         if ($request->isPost()) {
-            error_log('Llega bien is post');
             $form->setInputFilter($confirmation->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                error_log('Llega bien confirmation');
                 $this->getPersonTable()->updatePersonConfirmations($confirmation);
                 $this->getConfirmationsTable()->updateConfirmation($confirmation);
                 return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');

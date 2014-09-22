@@ -129,62 +129,62 @@ class MarriagesFilter implements InputFilterAwareInterface {
         if (!$this->inputFilter) {
             $inputFilter = new InputFilter();
             
-            $inputFilter->add(array(
-                'name' => 'page',
-                'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 1,
-                            'max' => 5,
-                        ),
-                    ),
-                ),
-            ));
+//            $inputFilter->add(array(
+//                'name' => 'page',
+//                'required' => true,
+//                'filters' => array(
+//                    array('name' => 'StripTags'),
+//                    array('name' => 'StringTrim'),
+//                ),
+//                'validators' => array(
+//                    array(
+//                        'name' => 'StringLength',
+//                        'options' => array(
+//                            'encoding' => 'UTF-8',
+//                            'min' => 1,
+//                            'max' => 5,
+//                        ),
+//                    ),
+//                ),
+//            ));
             
-            $inputFilter->add(array(
-                'name' => 'item',
-                'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 1,
-                            'max' => 6,
-                        ),
-                    ),
-                ),
-            ));
+//            $inputFilter->add(array(
+//                'name' => 'item',
+//                'required' => true,
+//                'filters' => array(
+//                    array('name' => 'StripTags'),
+//                    array('name' => 'StringTrim'),
+//                ),
+//                'validators' => array(
+//                    array(
+//                        'name' => 'StringLength',
+//                        'options' => array(
+//                            'encoding' => 'UTF-8',
+//                            'min' => 1,
+//                            'max' => 6,
+//                        ),
+//                    ),
+//                ),
+//            ));
             
-            $inputFilter->add(array(
-                'name' => 'marriagePriest',
-                'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 3,
-                            'max' => 60,
-                        ),
-                    ),
-                ),
-            ));
+//            $inputFilter->add(array(
+//                'name' => 'marriagePriest',
+//                'required' => true,
+//                'filters' => array(
+//                    array('name' => 'StripTags'),
+//                    array('name' => 'StringTrim'),
+//                ),
+//                'validators' => array(
+//                    array(
+//                        'name' => 'StringLength',
+//                        'options' => array(
+//                            'encoding' => 'UTF-8',
+//                            'min' => 3,
+//                            'max' => 60,
+//                        ),
+//                    ),
+//                ),
+//            ));
             
             $inputFilter->add(array(
                 'name' => 'firstNameMale',
@@ -413,24 +413,24 @@ class MarriagesFilter implements InputFilterAwareInterface {
                 ),
             ));
             
-            $inputFilter->add(array(
-                'name' => 'attestPriest',
-                'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 3,
-                            'max' => 60,
-                        ),
-                    ),
-                ),
-            )); 
+//            $inputFilter->add(array(
+//                'name' => 'attestPriest',
+//                'required' => true,
+//                'filters' => array(
+//                    array('name' => 'StripTags'),
+//                    array('name' => 'StringTrim'),
+//                ),
+//                'validators' => array(
+//                    array(
+//                        'name' => 'StringLength',
+//                        'options' => array(
+//                            'encoding' => 'UTF-8',
+//                            'min' => 3,
+//                            'max' => 60,
+//                        ),
+//                    ),
+//                ),
+//            )); 
             
             $this->inputFilter = $inputFilter;
         }

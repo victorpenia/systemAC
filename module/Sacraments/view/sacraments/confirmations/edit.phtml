@@ -28,18 +28,24 @@ $form->setAttributes(array(
                         <h3 style="color:#178acc">Informaci&oacute;n confirmaci&oacute;n</h3> 
                             <?php $id= $form->get('id');
                                 echo $this->formInput($id);
-                            ?>                           
+                            ?> 
+                            <?php $idParish= $form->get('idParish');
+                                echo $this->formInput($idParish);
+                            ?> 
+                            <?php $idPerson = $form->get('idPerson');
+                                echo $this->formInput($idPerson);
+                            ?>
                             <div class="form-group">
                                 <label>* Parroquia:</label>
-                                <?php $idParishes= $form->get('idParishes');
-                                    echo $this->formSelect($idParishes);
-                                    echo $this->formElementErrors($idParishes);
+                                <?php $parishName= $form->get('parishName');
+                                    echo $this->formInput($parishName);
+                                    echo $this->formElementErrors($parishName);
                                 ?>
                             </div>
                             <div class="form-group">
                                 <label>* Libro:</label>
                                 <?php $idBookofsacraments= $form->get('idBookofsacraments');
-                                    echo $this->formSelect($idBookofsacraments);
+                                    echo $this->formInput($idBookofsacraments);
                                     echo $this->formElementErrors($idBookofsacraments);
 //                                    echo $this->messages;
                                 ?>
@@ -47,14 +53,14 @@ $form->setAttributes(array(
                             <div class="form-group">
                                 <label>* P&aacute;gina:</label>
                                 <?php $page= $form->get('page');
-                                    echo $this->formSelect($page);
+                                    echo $this->formInput($page);
                                     echo $this->formElementErrors($page);
                                 ?>
                             </div>
                             <div class="form-group">
                                 <label>* Partida:</label>
                                 <?php $item= $form->get('item');
-                                    echo $this->formSelect($item);
+                                    echo $this->formInput($item);
                                     echo $this->formElementErrors($item);
                                 ?>
                             </div>
@@ -223,6 +229,61 @@ $form->setAttributes(array(
 </div>
 <!-- /.row -->
 <script type="text/javascript">
+
+$(document).ready(function () {
+    $("#inputParishName").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputIdBookofsacraments").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputPage").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputItem").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputConfirmationDate").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputBirthDate").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});    
+    
 $(document).ready(function() {
     var nowTemp = new Date();
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
@@ -242,7 +303,46 @@ $(document).ready(function() {
         return date.valueOf() > now.valueOf() ? 'disabled' : '';
       }
     });
-});  
+});
+
+$(document).ready(function () {
+    $("#inputSelectAttestPriest").change(function () {
+        var value = $(this).val();
+        if(value == 'Otros'){
+            $("#inputAttestPriestOthers").show();
+        }else{
+            $("#inputAttestPriestOthers").hide();
+        }    
+    });
+});
+
+$(document).ready(function () {
+    $("#inputBaptismParish").change(function () {
+        var value = $(this).val();
+        if(value == 'Otros'){
+            $("#inputBaptismParishOthers").show();
+        }else{
+            $("#inputBaptismParishOthers").hide();
+        }    
+    });
+});
+
+$(document).ready(function () {
+    $("#inputFirstSurname").keyup(function () {
+        var value = $(this).val();
+//        console.debug(value);
+        $("#inputFatherFirstSurname").val(value);
+    });
+});
+
+$(document).ready(function () {
+    $("#inputSecondSurname").keyup(function () {
+        var value = $(this).val();
+//        console.debug(value);
+        $("#inputMatherFirstSurname").val(value);
+    });
+});
+
 $(document).ready(function() {
 
 $('#inputSelectIdParish').change(function(){

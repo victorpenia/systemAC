@@ -219,6 +219,52 @@ $form->setAttributes(array(
 </div>
 <!-- /.row -->
 <script type="text/javascript">
+
+$(document).ready(function () {
+    $("#inputIdBookofsacraments").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputPage").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputItem").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputConfirmationDate").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputBirthDate").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
 $(document).ready(function() {
     var nowTemp = new Date();
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
@@ -276,25 +322,6 @@ $(document).ready(function () {
     });
 });
 
-//$(document).ready(function() {
-//$('#inputSelectIdBook').change(function(){
-//    var idBook = $(this).val();
-//    if(idBook){
-//    $.ajax({
-//        type: "POST",
-//        url: "<?php // echo $this->url.'/sacraments/confirmations/getElementBookSacrament'; ?>",
-//        data: "idBook="+idBook,
-//        success: function(msg){ 
-////            console.debug(msg.split(",")[0]);
-////            console.debug(msg.split(",")[1]);
-//            $("#inputPage").html('<option value='+msg.split(",")[0]+'>'+msg.split(",")[0]+'</option>');
-//            $("#inputItem").html('<option value='+msg.split(",")[1]+'>'+msg.split(",")[1]+'</option>');
-//        }
-//    });
-//    }
-//});
-//});  
- 
 $(document).ready(function() {
     $('#defaultForm').bootstrapValidator({
 //        live: 'disabled',
@@ -305,24 +332,6 @@ $(document).ready(function() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-//            page: {
-//                validators: {                    
-//                    notEmpty: {
-//                        message: 'La Pagina es requerido'
-//                    },
-//                    regexp: {
-//                        regexp: /^[0-9]*$/,
-//                        message: 'La Pagina solo puede contener numeros'
-//                    }
-//                }
-//            },
-//            idBookofsacraments: {
-//                validators: {
-//                    notEmpty: {
-//                        message: 'El campo libro es obligatorio.'
-//                    }
-//                }
-//            },
             firstName: {
                 validators: {
                     notEmpty: {
@@ -344,35 +353,6 @@ $(document).ready(function() {
                     }
                 }
             }
-//            confirmationDate: {
-//                validators: {
-//                    notEmpty: {
-//                        message: 'El campo fecha de confirmación es obligatorio.'
-//                    },
-//                    date: {
-//                        format: 'YYYY-MM-DD',
-//                        message: 'El formato de la fecha es incorrecto.'
-//                    }
-//                }
-//            },
-//            birthDate: {
-//                validators: {
-//                    notEmpty: {
-//                        message: 'El campo fecha de nacimiento es obligatorio.'
-//                    },
-//                    date: {
-//                        format: 'YYYY-MM-DD',
-//                        message: 'El formato de la fecha es incorrecto.'
-//                    }
-//                }
-//            },
-//            attestPriest: {
-//                validators: {
-//                    notEmpty: {
-//                        message: 'El campo párroco es obligatorio.'
-//                    }
-//                }
-//            }
         }
     });
 

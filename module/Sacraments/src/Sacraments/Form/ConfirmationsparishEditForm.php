@@ -14,10 +14,15 @@ class ConfirmationsparishEditForm extends Form {
 
     protected $dbadapter;
     protected $idParish;
+    protected $attestPriest;
+    protected $baptismParish;
 
-    public function __construct(AdapterInterface $dbAdapter, $idParish) {
+    public function __construct(AdapterInterface $dbAdapter, $idParish, $attestPriest, $baptismParish) {
         $this->dbadapter = $dbAdapter;
         $this->idParish = $idParish;
+        $this->attestPriest = $attestPriest;
+        $this->baptismParish = $baptismParish;
+        
         parent::__construct("confirmations");        
         
         
@@ -47,60 +52,45 @@ class ConfirmationsparishEditForm extends Form {
                 'id' => 'inputId'
             ),
         ));
+        /* input text id person */
+        $this->add(array(
+            'name' => 'idPerson',
+            'attributes' => array(
+                'type' => 'hidden',
+                'id' => 'inputIdPerson'
+            ),
+        ));
         /* input text Page */
         $this->add(array(
             'name' => 'page',
             'attributes' => array(
                 'type' => 'text',
-                'readonly' => 'readonly',
-//                'maxlength' => '4',
+                'maxlength' => '0',
+                'autocomplete' => 'off',
                 'class' => 'form-control',
                 'id' => 'inputPage',
                 'placeholder' => 'Página'
             ),
         ));
-//        $this->add(array(
-//            'type' => 'Zend\Form\Element\Select',
-//            'name' => 'page',
-//            'attributes' => array(
-//                'id' => 'inputPage',
-//                'class' => 'form-control'
-//            ),
-//            'options' => array(
-//                'value_options' => array(),
-//                'disable_inarray_validator' => true,
-//            )
-//        ));
         /* input text Item */
         $this->add(array(
             'name' => 'item',
             'attributes' => array(
                 'type' => 'text',
-                'readonly' => 'readonly',
-//                'maxlength' => '5',
+                'autocomplete' => 'off',
+                'maxlength' => '0',
                 'class' => 'form-control',
-                'id' => 'inpuItem',
+                'id' => 'inputItem',
                 'placeholder' => 'Partida'
             ),
         ));
-//        $this->add(array(
-//            'type' => 'Zend\Form\Element\Select',
-//            'name' => 'item',
-//            'attributes' => array(
-//                'id' => 'inputItem',
-//                'class' => 'form-control'
-//            ),
-//            'options' => array(
-//                'value_options' => array(),
-//                'disable_inarray_validator' => true,
-//            )
-//        ));
         /* input text Confirmation Date */
         $this->add(array(
             'name' => 'confirmationDate',
             'attributes' => array(
                 'type' => 'text',
-                'readonly' => 'readonly',
+                'autocomplete' => 'off',
+                'maxlength' => '0',
                 'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
@@ -113,6 +103,7 @@ class ConfirmationsparishEditForm extends Form {
             'name' => 'ci',
             'attributes' => array(
                 'type' => 'text',
+                'autocomplete' => 'off',
                 'maxlength' => '15',
                 'class' => 'form-control',
                 'id' => 'inputCI',
@@ -135,6 +126,7 @@ class ConfirmationsparishEditForm extends Form {
             'name' => 'firstSurname',
             'attributes' => array(
                 'type' => 'text',
+                'autocomplete' => 'off',
                 'maxlength' => '30',
                 'class' => 'form-control',
                 'id' => 'inputFirstSurname',
@@ -146,6 +138,7 @@ class ConfirmationsparishEditForm extends Form {
             'name' => 'secondSurname',
             'attributes' => array(
                 'type' => 'text',
+                'autocomplete' => 'off',
                 'maxlength' => '30',
                 'class' => 'form-control',
                 'id' => 'inputSecondSurname',
@@ -157,26 +150,15 @@ class ConfirmationsparishEditForm extends Form {
             'name' => 'birthDate',
             'attributes' => array(
                 'type' => 'text',
-                'readonly' => 'readonly',
+                'autocomplete' => 'off',
+                'maxlength' => '0',
                 'data-date-format' => "yyyy-mm-dd",
                 'value' => date("Y-m-d"),
                 'class' => 'form-control',
                 'id' => 'inputBirthDate',
-//                'placeholder' => 'Fecha de nacimiento'
             ),
         ));
-        /* input text baptism parish*/
-//        $this->add(array(
-//            'name' => 'baptismParish',
-//            'attributes' => array(
-//                'type' => 'text',
-//                'maxlength' => '60',
-//                'class' => 'form-control',
-//                'id' => 'inputBaptismParishMale',
-//                'placeholder' => 'Parroquia bautismo'
-//            ),
-//        ));
-        
+        /* input text baptism parish*/        
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',
             'name' => 'baptismParish',
@@ -194,7 +176,7 @@ class ConfirmationsparishEditForm extends Form {
             'name' => 'baptismParishOthers',
             'attributes' => array(
                 'type' => 'text',
-                'style'=> 'display:none',
+                'style'=> ($this->baptismParish == 'Otros') ? '' : 'display:none',
                 'maxlength' => '60',
                 'class' => 'form-control',
                 'id' => 'inputBaptismParishOthers',
@@ -312,17 +294,6 @@ class ConfirmationsparishEditForm extends Form {
             ),
         ));
         /* input text priest  attest */
-//        $this->add(array(
-//            'name' => 'attestPriest',
-//            'attributes' => array(
-//                'type' => 'text',
-////                'value' => $this->getOptionsForSelectParishes(),
-//                'maxlength' => '60',
-//                'class' => 'form-control',
-//                'id' => 'inputAttestPriest',
-//                'placeholder' => 'Obispo o Confirmante'
-//            ),
-//        ));
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',
             'name' => 'attestPriest',
@@ -331,9 +302,7 @@ class ConfirmationsparishEditForm extends Form {
                 'class' => 'form-control'
             ),
             'options' => array(
-//                'empty_option' => 'Seleccione un Parroco',
                 'value_options' => $this->getOptionsForSelectConfirmationPriest(),
-//                'disable_inarray_validator' => true,
             )
         ));
         /* input text attest priest others */
@@ -341,7 +310,7 @@ class ConfirmationsparishEditForm extends Form {
             'name' => 'attestPriestOthers',
             'attributes' => array(
                 'type' => 'text',
-                'style'=> 'display:none',
+                'style'=> ($this->attestPriest == 'Otros') ? '' : 'display:none',
                 'maxlength' => '60',
                 'class' => 'form-control',
                 'id' => 'inputAttestPriestOthers',
@@ -359,6 +328,16 @@ class ConfirmationsparishEditForm extends Form {
             ),
         ));
         /* input combobox idBook */
+        $this->add(array(
+            'name' => 'idBookofsacraments',
+            'attributes' => array(
+                'type' => 'text',
+                'maxlength' => '0',
+                'autocomplete' => 'off',
+                'class' => 'form-control',
+                'id' => 'inputIdBookofsacraments',
+            ),
+        ));
 //        $this->add(array(
 //            'type' => 'Zend\Form\Element\Select',
 //            'name' => 'idBookofsacraments',
@@ -372,32 +351,21 @@ class ConfirmationsparishEditForm extends Form {
 ////                'disable_inarray_validator' => true,
 //            )
 //        ));
-        $this->add(array(
-            'name' => 'book',
-            'attributes' => array(
-                'type' => 'text',
-                'readonly' => 'readonly',
-//                'maxlength' => '5',
-                'class' => 'form-control',
-                'id' => 'inputbook',
-                'placeholder' => 'Partida'
-            ),
-        ));
         
     }
     
-//    public function getOptionsForSelectBookofsacraments()
-//    {
-//        $dbAdapter = $this->dbadapter;
-//        $sql = "SELECT id, sacramentName, code, book FROM bookofsacraments where  sacramentName = 'Confirmaciones' and idParishes =".$this->idParish;
-//        $statement = $dbAdapter->query($sql);
-//        $result = $statement->execute();
-//        $selectData = array();
-//        foreach ($result as $res) {
-//            $selectData[$res['id']] = $res['code']." (".$res['sacramentName']." libro ".$res['book']." )";
-//        }
-//        return $selectData;
-//    }
+    public function getOptionsForSelectBookofsacraments()
+    {
+        $dbAdapter = $this->dbadapter;
+        $sql = "SELECT id, sacramentName, code, book FROM bookofsacraments where  sacramentName = 'Confirmaciones' and idParishes =".$this->idParish;
+        $statement = $dbAdapter->query($sql);
+        $result = $statement->execute();
+        $selectData = array();
+        foreach ($result as $res) {
+            $selectData[$res['id']] = $res['code']." (".$res['sacramentName']." libro ".$res['book']." )";
+        }
+        return $selectData;
+    }
     
     public function getOptionsForSelectConfirmationPriest()
     {
@@ -428,4 +396,3 @@ class ConfirmationsparishEditForm extends Form {
     }
 }
 ?>
-

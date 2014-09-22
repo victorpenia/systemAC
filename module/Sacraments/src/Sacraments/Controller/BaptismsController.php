@@ -13,6 +13,7 @@ namespace Sacraments\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Sacraments\Form\BaptismsForm;
+use Sacraments\Form\BaptismsEditForm;
 use Sacraments\Form\BaptismsparishForm;
 use Sacraments\Form\BaptismsparishEditForm;
 use Sacraments\Form\BaptismsFilter;
@@ -242,7 +243,7 @@ class BaptismsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/index');
         }
         try {
-            $baptisms = $this->getBaptismsTable()->getOneBaptisms($id);
+            $baptisms = $this->getBaptismsTable()->getOneBaptismsById($id);
             $priest = $this->getUserTable()->getOnePriest($baptisms->idParishes);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
@@ -296,7 +297,7 @@ class BaptismsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/index');
         }
         try {
-            $baptisms = $this->getBaptismsTable()->getOneBaptisms($id);
+            $baptisms = $this->getBaptismsTable()->getOneBaptismsById($id);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/index');
@@ -350,7 +351,7 @@ class BaptismsController extends AbstractActionController {
                 $baptismsFilter->exchangeArray($form->getData());
                 if ($this->exitsPersonInDatabase($baptismsFilter->ci, $baptismsFilter->firstName, $baptismsFilter->firstSurname, $baptismsFilter->secondSurname)) {
                     $idPerson = $this->getPersonTable()->addPersonBaptisms($baptismsFilter);
-                    $this->getBaptismsTable()->addBaptism($baptismsFilter, $idPerson, $this->authUser->getIdentity()->id, $baptismsFilter->idParishes);
+                    $this->getBaptismsTable()->addBaptism($baptismsFilter, $idPerson, $this->authUser->getIdentity()->id, $baptismsFilter->idParish);
                     return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/index');
                 } else {
                     $messages .= "<p style='color:#a94442' >Error la persona ya realizó el sacramento de bautismo anteriormente.</p>";
@@ -425,20 +426,20 @@ class BaptismsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/index');
         }
         try {
-            $baptism = $this->getBaptismsTable()->getOneBaptisms($id);
+            $baptism = $this->getBaptismsTable()->getOneBaptismsAndPrish($id);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/index');
         }
-
         $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-        $form = new BaptismsForm($this->dbAdapter);
+        $form = new BaptismsEditForm($this->dbAdapter, $baptism->bornIn, $baptism->baptismPriest, $baptism->attestPriest);
         $form->bind($baptism);
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setInputFilter($baptism->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
+                $this->getPersonTable()->updatePersonBaptisms($baptism);
                 $this->getBaptismsTable()->updateBaptism($baptism);
                 return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/index');
             }
@@ -470,7 +471,7 @@ class BaptismsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/indexp');
         }
         $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-        $form = new BaptismsparishForm($this->dbAdapter, $this->authUser->getIdentity()->idParishes);
+        $form = new BaptismsparishEditForm($this->dbAdapter, $this->authUser->getIdentity()->idParishes, $baptism->bornIn, $baptism->baptismPriest, $baptism->attestPriest);
         $form->bind($baptism);
         $request = $this->getRequest();
         if ($request->isPost()) {

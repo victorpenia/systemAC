@@ -197,11 +197,11 @@ class BaptismsparishForm extends Form {
                 'class' => 'form-control'
             ),
             'options' => array(
-                'empty_option' => 'Seleccione un ciudad',
+//                'empty_option' => 'Seleccione un ciudad',
                 'value_options' => array(
-                    'Beni' => 'Beni',                    
-                    'Chuquisaca' => 'Chuquisaca',
                     'Cochabamba' => 'Cochabamba',
+                    'Beni' => 'Beni',                    
+                    'Chuquisaca' => 'Chuquisaca',                    
                     'La Paz' => 'La Paz',
                     'Oruro' => 'Oruro',
                     'Pando' => 'Pando',
@@ -221,7 +221,24 @@ class BaptismsparishForm extends Form {
                 'class' => 'form-control'
             ),
             'options' => array(
-                'value_options' => array(),
+                'value_options' => array(
+                    'Arani' => 'Arani',
+                    'Arque' => 'Arque',                    
+                    'Ayopaya' => 'Ayopaya',                    
+                    'Bolívar' => 'Bolívar',
+                    'Campero' => 'Campero',
+                    'Capinota' => 'Capinota',
+                    'Carrasco' => 'Carrasco',
+                    'Cercado' => 'Cercado',
+                    'Chapare' => 'Chapare',
+                    'Esteban Arce' => 'Esteban Arce',
+                    'Germán Jordán' => 'Germán Jordán',
+                    'Mizque' => 'Mizque',
+                    'Punata' => 'Punata',
+                    'Quillacollo' => 'Quillacollo',
+                    'Tapacarí' => 'Tapacarí',
+                    'Tiraque' => 'Tiraque',
+                ),
                 'disable_inarray_validator' => true,
             )
         ));

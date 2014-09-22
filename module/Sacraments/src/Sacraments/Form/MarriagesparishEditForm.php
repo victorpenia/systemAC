@@ -10,14 +10,23 @@ namespace Sacraments\Form;
 use Zend\Form\Form;
 use Zend\Db\Adapter\AdapterInterface;
 
-class MarriagesparishForm extends Form {
+class MarriagesparishEditForm extends Form {
 
     protected $dbadapter;
     protected $idParish;
+    protected $marriagePriest;
+    protected $attestPriets;
+    protected $baptismParishMale;
+    protected $baptismParishFemale;
 
-    public function __construct(AdapterInterface $dbAdapter, $idParish) {
+    public function __construct(AdapterInterface $dbAdapter, $idParish, $marriagePriest, $attestPriest, $baptismParishMale, $baptismParishFemale) {
         $this->dbadapter = $dbAdapter;
         $this->idParish = $idParish;
+        $this->marriagePriest = $marriagePriest;
+        $this->attestPriets = $attestPriest;
+        $this->baptismParishMale = $baptismParishMale;
+        $this->baptismParishFemale = $baptismParishFemale;
+        
         parent::__construct("marriage");        
         
         
@@ -45,6 +54,22 @@ class MarriagesparishForm extends Form {
             'attributes' => array(
                 'type' => 'hidden',
                 'id' => 'inputId'
+            ),
+        ));
+        /* input text id Person Male */
+        $this->add(array(
+            'name' => 'idPersonMale',
+            'attributes' => array(
+                'type' => 'hidden',
+                'id' => 'inputIdPersonMale'
+            ),
+        ));
+        /* input text id Person Female */
+        $this->add(array(
+            'name' => 'idPersonFemale',
+            'attributes' => array(
+                'type' => 'hidden',
+                'id' => 'inputIdPersonFemale'
             ),
         ));
         /* input text Page */
@@ -101,7 +126,7 @@ class MarriagesparishForm extends Form {
             'name' => 'marriagePriestOthers',
             'attributes' => array(
                 'type' => 'text',
-                'style'=> 'display:none',
+                'style'=> ($this->marriagePriest == 'Otros') ? '' : 'display:none',
                 'maxlength' => '60',
                 'class' => 'form-control',
                 'id' => 'inputMarriagePriestOthers',
@@ -276,7 +301,7 @@ class MarriagesparishForm extends Form {
             'name' => 'baptismParishMaleOthers',
             'attributes' => array(
                 'type' => 'text',
-                'style'=> 'display:none',
+                'style'=> ($this->baptismParishMale == 'Otros') ? '' : 'display:none',
                 'maxlength' => '60',
                 'class' => 'form-control',
                 'id' => 'inputBaptismParishMaleOthers',
@@ -300,7 +325,7 @@ class MarriagesparishForm extends Form {
             'name' => 'baptismParishFemaleOthers',
             'attributes' => array(
                 'type' => 'text',
-                'style'=> 'display:none',
+                'style'=> ($this->baptismParishFemale == 'Otros') ? '' : 'display:none',
                 'maxlength' => '60',
                 'class' => 'form-control',
                 'id' => 'inputBaptismParishFemaleOthers',
@@ -545,7 +570,7 @@ class MarriagesparishForm extends Form {
             'name' => 'attestPriestOthers',
             'attributes' => array(
                 'type' => 'text',
-                'style'=> 'display:none',
+                'style'=> ($this->attestPriets == 'Otros') ? '' : 'display:none',
                 'maxlength' => '60',
                 'class' => 'form-control',
                 'id' => 'inputAttestPriestOthers',
@@ -564,18 +589,28 @@ class MarriagesparishForm extends Form {
         ));
         /* input combobox idBook */
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
             'name' => 'idBookofsacraments',
             'attributes' => array(
-                'id' => 'inputSelectIdBook',
-                'class' => 'form-control'
+                'type' => 'text',
+                'maxlength' => '0',
+                'autocomplete' => 'off',
+                'class' => 'form-control',
+                'id' => 'inputIdBookofsacraments',
             ),
-            'options' => array(
-                'empty_option' => 'Seleccione un libro',
-                'value_options' => $this->getOptionsForSelectBookofsacraments(),
-//                'disable_inarray_validator' => true,
-            )
         ));
+//        $this->add(array(
+//            'type' => 'Zend\Form\Element\Select',
+//            'name' => 'idBookofsacraments',
+//            'attributes' => array(
+//                'id' => 'inputSelectIdBook',
+//                'class' => 'form-control'
+//            ),
+//            'options' => array(
+//                'empty_option' => 'Seleccione un libro',
+//                'value_options' => $this->getOptionsForSelectBookofsacraments(),
+////                'disable_inarray_validator' => true,
+//            )
+//        ));
         
     }
     

@@ -10,12 +10,18 @@ namespace Sacraments\Form;
 use Zend\Form\Form;
 use Zend\Db\Adapter\AdapterInterface;
 
-class BaptismsForm extends Form {
+class BaptismsEditForm extends Form {
 
     protected $dbadapter;
+    protected $bornIn;
+    protected $baptismPriest;
+    protected $attestPriest;
 
-    public function __construct(AdapterInterface $dbAdapter) {
+    public function __construct(AdapterInterface $dbAdapter, $bornIn, $baptismPriest, $attestPriest) {
         $this->dbadapter = $dbAdapter;
+        $this->bornIn = $bornIn;
+        $this->baptismPriest = $baptismPriest;
+        $this->attestPriest = $attestPriest;
         parent::__construct("baptism");        
         
         
@@ -119,7 +125,7 @@ class BaptismsForm extends Form {
             'name' => 'baptismPriestOthers',
             'attributes' => array(
                 'type' => 'text',
-                'style'=> 'display:none',
+                'style'=> ($this->baptismPriest == 'Otros') ? '' : 'display:none',
                 'maxlength' => '60',
                 'class' => 'form-control',
                 'id' => 'inputBaptismPriestOthers',
@@ -213,27 +219,11 @@ class BaptismsForm extends Form {
             'name' => 'bornInProvince',
             'attributes' => array(
                 'id' => 'inputBornInProvince',
+                'style'=> ($this->bornIn == 'Otros') ? 'display:none' : '',
                 'class' => 'form-control'
             ),
-            'options' => array(
-                'value_options' => array(
-                    'Arani' => 'Arani',
-                    'Arque' => 'Arque',                    
-                    'Ayopaya' => 'Ayopaya',                    
-                    'Bolívar' => 'Bolívar',
-                    'Campero' => 'Campero',
-                    'Capinota' => 'Capinota',
-                    'Carrasco' => 'Carrasco',
-                    'Cercado' => 'Cercado',
-                    'Chapare' => 'Chapare',
-                    'Esteban Arce' => 'Esteban Arce',
-                    'Germán Jordán' => 'Germán Jordán',
-                    'Mizque' => 'Mizque',
-                    'Punata' => 'Punata',
-                    'Quillacollo' => 'Quillacollo',
-                    'Tapacarí' => 'Tapacarí',
-                    'Tiraque' => 'Tiraque',
-                ),
+            'options' => array( 
+                'value_options' => $this->getProvinceByCity($this->bornIn),
                 'disable_inarray_validator' => true,
             )
         ));
@@ -242,7 +232,7 @@ class BaptismsForm extends Form {
             'name' => 'bornInOthers',
             'attributes' => array(
                 'type' => 'text',
-                'style'=> 'display:none',
+                'style'=> ($this->bornIn == 'Otros') ? '' : 'display:none',
                 'maxlength' => '50',
                 'class' => 'form-control',
                 'id' => 'inputBornInOthers',
@@ -460,7 +450,7 @@ class BaptismsForm extends Form {
             'name' => 'attestPriestOthers',
             'attributes' => array(
                 'type' => 'text',
-                'style'=> 'display:none',
+                'style'=> ($this->attestPriest == 'Otros') ? '' : 'display:none',
                 'maxlength' => '60',
                 'class' => 'form-control',
                 'id' => 'inputAttestPriestOthers',
@@ -479,31 +469,59 @@ class BaptismsForm extends Form {
         ));
         /* input combobox idBook */
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
             'name' => 'idBookofsacraments',
             'attributes' => array(
-                'id' => 'inputSelectIdBook',
-                'class' => 'form-control'
+                'type' => 'text',
+                'maxlength' => '0',
+                'autocomplete' => 'off',
+                'class' => 'form-control',
+                'id' => 'inputIdBookofsacraments',
             ),
-            'options' => array(
-                'empty_option' => 'Seleccione un libro',
-                'value_options' => array(),
-                'disable_inarray_validator' => true,
-            )
         ));
+//        $this->add(array(
+//            'type' => 'Zend\Form\Element\Select',
+//            'name' => 'idBookofsacraments',
+//            'attributes' => array(
+//                'id' => 'inputSelectIdBook',
+//                'class' => 'form-control'
+//            ),
+//            'options' => array(
+//                'empty_option' => 'Seleccione un libro',
+//                'value_options' => array(),
+//                'disable_inarray_validator' => true,
+//            )
+//        ));
         /* input comboBox idParishes */
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
             'name' => 'idParish',
             'attributes' => array(
-                'id' => 'inputSelectIdParish',
-                'class' => 'form-control'
+                'type' => 'hidden',
+                'class' => 'form-control',
+                'id' => 'inputIdParish',
             ),
-            'options' => array(
-                'empty_option' => 'Seleccione un parroquia',
-                'value_options' => $this->getOptionsForSelectParishes(),
-            )
-        ));        
+        ));
+        $this->add(array(
+            'name' => 'parishName',
+            'attributes' => array(
+                'type' => 'text',
+                'maxlength' => '0',
+                'autocomplete' => 'off',
+                'class' => 'form-control',
+                'id' => 'inputParishName',
+            ),
+        ));
+//        $this->add(array(
+//            'type' => 'Zend\Form\Element\Select',
+//            'name' => 'idParishes',
+//            'attributes' => array(
+//                'id' => 'inputSelectIdParish',
+//                'class' => 'form-control'
+//            ),
+//            'options' => array(
+//                'empty_option' => 'Seleccione un parroquia',
+//                'value_options' => $this->getOptionsForSelectParishes(),
+//            )
+//        ));        
     }
 
     
@@ -543,7 +561,145 @@ class BaptismsForm extends Form {
         }
         $selectData["Otros"] = "Otros";
         return $selectData;
-    }    
+    }
+    
+    public function getProvinceByCity($bornIn){
+        $selectData = array();
+        if($bornIn == 'Beni'){
+            $selectData["Antonio Vaca Díez"] = "Antonio Vaca Díez";
+            $selectData["Cercado"] = "Cercado";
+            $selectData["General José Ballivián"] = "General José Ballivián";
+            $selectData["Iténez"] = "Iténez";
+            $selectData["Mamoré"] = "Mamoré";
+            $selectData["Marbán"] = "Marbán";
+            $selectData["Moxos"] = "Moxos";
+            $selectData["Yacuma"] = "Yacuma";
+        }
+        if($bornIn == 'Chuquisaca'){
+            $selectData["Belisario Boeto"] = "Belisario Boeto";
+            $selectData["Hernando Siles"] = "Hernando Siles";
+            $selectData["Jaime Zudáñez"] = "Jaime Zudáñez";
+            $selectData["Juana Azurduy"] = "Juana Azurduy";
+            $selectData["Luis Calvo"] = "Luis Calvo";
+            $selectData["Nor Cinti"] = "Nor Cinti";
+            $selectData["Oropeza"] = "Oropeza";
+            $selectData["Sud Cinti"] = "Sud Cinti";
+            $selectData["Tomina"] = "Tomina";
+            $selectData["Yamparáez"] = "Yamparáez";
+        }
+        if($bornIn == 'Cochabamba'){
+            $selectData["Arani"] = "Arani";
+            $selectData["Arque"] = "Arque";
+            $selectData["Ayopaya"] = "Ayopaya";
+            $selectData["Bolívar"] = "Bolívar";
+            $selectData["Campero"] = "Campero";
+            $selectData["Capinota"] = "Capinota";
+            $selectData["Carrasco"] = "Carrasco";
+            $selectData["Cercado"] = "Cercado";
+            $selectData["Chapare"] = "Chapare";
+            $selectData["Esteban Arce"] = "Esteban Arce";
+            $selectData["Germán Jordán"] = "Germán Jordán";
+            $selectData["Mizque"] = "Mizque";
+            $selectData["Punata"] = "Punata";
+            $selectData["Quillacollo"] = "Quillacollo";
+            $selectData["Tapacarí"] = "Tapacarí";
+            $selectData["Tiraque"] = "Tiraque";
+        }
+        if($bornIn == 'La Paz'){
+            $selectData["Abel Iturralde"] = "Abel Iturralde";
+            $selectData["Aroma"] = "Aroma";
+            $selectData["Bautista Saavedra"] = "Bautista Saavedra";
+            $selectData["Caranavi"] = "Caranavi";
+            $selectData["Eliodoro Camacho"] = "Eliodoro Camacho";
+            $selectData["Franz Tamayo"] = "Franz Tamayo";
+            $selectData["General José Manuel Pando"] = "General José Manuel Pando";
+            $selectData["Gualberto Villaroel"] = "Gualberto Villaroel";
+            $selectData["Ingavi"] = "Ingavi";
+            $selectData["Inquisivi"] = "Inquisivi";
+            $selectData["José Ramón Loayza"] = "José Ramón Loayza";
+            $selectData["Larecaja"] = "Larecaja";
+            $selectData["Los Andes"] = "Los Andes";
+            $selectData["Manco Kapac"] = "Manco Kapac";
+            $selectData["Muñecas"] = "Muñecas";
+            $selectData["Nor Yungas"] = "Nor Yungas";
+            $selectData["Omasuyos"] = "Omasuyos";
+            $selectData["Pacajes"] = "Pacajes";
+            $selectData["Pedro Domingo Murillo"] = "Pedro Domingo Murillo";
+            $selectData["Sud Yungas"] = "Sud Yungas";         
+        }
+        if($bornIn == 'Oruro'){
+            $selectData["Carangas"] = "Carangas";
+            $selectData["Cercado"] = "Cercado";
+            $selectData["Eduardo Avaroa"] = "Eduardo Avaroa";
+            $selectData["Ladislao Cabrera"] = "Ladislao Cabrera";
+            $selectData["Litoral"] = "Litoral";
+            $selectData["Mejillones"] = "Mejillones";
+            $selectData["Nor Carangas"] = "Nor Carangas";
+            $selectData["Pantaleón Dalence"] = "Pantaleón Dalence";
+            $selectData["Poopó"] = "Poopó";
+            $selectData["Sabaya"] = "Sabaya";
+            $selectData["Sajama"] = "Sajama";
+            $selectData["San Pedro de Totora"] = "San Pedro de Totora";
+            $selectData["Saucarí"] = "Saucarí";
+            $selectData["Sebastian Pagador"] = "Sebastian Pagador";
+            $selectData["Sud Carangas"] = "Sud Carangas";
+            $selectData["Tomas Barrón"] = "Tomas Barrón";            
+        }
+        if($bornIn == 'Pando'){
+            $selectData["Abuná"] = "Abuná";
+            $selectData["Federico Román"] = "Federico Román";
+            $selectData["Madre de Dios"] = "Madre de Dios";
+            $selectData["Manuripi"] = "Manuripi";
+            $selectData["Nicolás Suárez"] = "Nicolás Suárez";
+        }
+        if($bornIn == 'Potosi'){
+            $selectData["Alonso de Ibáñez"] = "Alonso de Ibáñez";
+            $selectData["Antonio Quijarro"] = "Antonio Quijarro";
+            $selectData["Bernardino Bilbao"] = "Bernardino Bilbao";
+            $selectData["Charcas"] = "Charcas";
+            $selectData["Chayanta"] = "Chayanta";
+            $selectData["Cornelio Saavedra"] = "Cornelio Saavedra";
+            $selectData["Daniel Campos"] = "Daniel Campos";
+            $selectData["Enrique Baldivieso"] = "Enrique Baldivieso";
+            $selectData["José María Linares"] = "José María Linares";
+            $selectData["Modesto Omiste"] = "Modesto Omiste";
+            $selectData["Nor Chichas"] = "Nor Chichas";
+            $selectData["Nor Lípez"] = "Nor Lípez";
+            $selectData["Rafael Bustillo"] = "Rafael Bustillo";
+            $selectData["Sud Chichas"] = "Sud Chichas";
+            $selectData["Sud Lípez"] = "Sud Lípez";
+            $selectData["Tomás Frías"] = "Tomás Frías";
+        }
+        if($bornIn == 'Santa Cruz'){
+            $selectData["Andrés Ibáñez"] = "Andrés Ibáñez";
+            $selectData["Angel sandoval"] = "Angel sandoval";
+            $selectData["Chiquitos"] = "Chiquitos";
+            $selectData["Cordillera"] = "Cordillera";
+            $selectData["Florida"] = "Florida";
+            $selectData["German Bush"] = "German Bush";
+            $selectData["Guarayos"] = "Guarayos";
+            $selectData["Ichilo"] = "Ichilo";
+            $selectData["Manuel Maria Caballero"] = "Manuel Maria Caballero";
+            $selectData["Ñuflo de Chávez"] = "Ñuflo de Chávez";
+            $selectData["Obispo Santisteban"] = "Obispo Santisteban";
+            $selectData["Sara"] = "Sara";
+            $selectData["Velasco"] = "Velasco";
+            $selectData["Vallegrande"] = "Vallegrande";
+            $selectData["Warnes"] = "Warnes";
+        }
+        if($bornIn == 'Tarija'){
+            $selectData["Aniceto Arce"] = "Aniceto Arce";
+            $selectData["Burdet O'Connor"] = "Burdet O'Connor";
+            $selectData["Cercado"] = "Cercado";
+            $selectData["Eustaquio Méndez"] = "Eustaquio Méndez";
+            $selectData["Gran Chaco"] = "Gran Chaco";
+            $selectData["José María Avilés"] = "José María Avilés";
+        }
+        if($bornIn == 'Otros'){
+            $selectData["Otros"] = "Otros";
+        }
+        return $selectData;
+    }
 }
 ?>
 

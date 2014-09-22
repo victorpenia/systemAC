@@ -15,22 +15,21 @@
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
-                            <tr>                                
+                            <tr>
+                                <th>CI</th>
                                 <th>Esposo</th>
                                 <th>CI</th>
                                 <th>Esposa</th>
-                                <th>CI</th>
-                                <!--<th>Libro</th>-->
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach($this->data as $data_item){ ?>                           
-                            <tr class="gradeC"> 
-                                <td><?php echo  $data_item->firstNameMale." ".$data_item->firstSurnameMale." ".$data_item->secondSurnameMale?></td>
+                            <tr class="gradeC">
                                 <td><?php echo  $data_item->ciMale ?></td>
-                                <td><?php echo  $data_item->firstNameFemale." ".$data_item->firstSurnameFemale." ".$data_item->secondSurnameFemale?></td>
+                                <td><?php echo  $data_item->firstNameMale." ".$data_item->firstSurnameMale." ".$data_item->secondSurnameMale?></td>
                                 <td><?php echo  $data_item->ciFemale ?></td>
+                                <td><?php echo  $data_item->firstNameFemale." ".$data_item->firstSurnameFemale." ".$data_item->secondSurnameFemale?></td>                                
                                 <!--<td><?php echo  "Libro Nº: <strong>".$data_item->book."</strong>" ?></td>-->
                                 <td>
                                 <a href="<?php echo $this->basePath() ?>/sacraments/marriages/viewp/<?php echo  $data_item->id?>" title="Ver" style="color:#178acc"><span class="glyphicon glyphicon-eye-open"></span></a>

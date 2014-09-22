@@ -28,9 +28,9 @@ $form->setAttributes(array(
                         <h3 style="color:#178acc">Informaci&oacute;n bautismo</h3>                            
                             <div class="form-group">
                                 <label>* Parroquia:</label>
-                                <?php $idParishes= $form->get('idParishes');
-                                    echo $this->formSelect($idParishes);
-                                    echo $this->formElementErrors($idParishes);
+                                <?php $idParish= $form->get('idParish');
+                                    echo $this->formSelect($idParish);
+                                    echo $this->formElementErrors($idParish);
                                 ?>
                             </div>
                             <div class="form-group">
@@ -43,14 +43,14 @@ $form->setAttributes(array(
                             <div class="form-group">
                                 <label>* P&aacute;gina:</label>
                                 <?php $page= $form->get('page');
-                                    echo $this->formSelect($page);
+                                    echo $this->formInput($page);
                                     echo $this->formElementErrors($page);
                                 ?>
                             </div>
                             <div class="form-group">
                                 <label>* Partida:</label>
                                 <?php $item= $form->get('item');
-                                    echo $this->formSelect($item);
+                                    echo $this->formInput($item);;
                                     echo $this->formElementErrors($item);
                                 ?>
                             </div>
@@ -269,6 +269,43 @@ $form->setAttributes(array(
 </div>
 <!-- /.row -->
 <script type="text/javascript">
+    
+$(document).ready(function () {
+    $("#inputPage").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputItem").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputBaptismDate").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputBirthDate").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
 $(document).ready(function() {
     var nowTemp = new Date();
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
@@ -358,11 +395,9 @@ $('#inputSelectIdBook').change(function(){
         type: "POST",
         url: "<?php echo $this->url.'/sacraments/baptisms/getElementBookSacrament'; ?>",
         data: "idBook="+idBook,
-        success: function(msg){ 
-//            console.debug(msg.split(",")[0]);
-//            console.debug(msg.split(",")[1]);
-            $("#inputPage").html('<option value='+msg.split(",")[0]+'>'+msg.split(",")[0]+'</option>');
-            $("#inputItem").html('<option value='+msg.split(",")[1]+'>'+msg.split(",")[1]+'</option>');
+        success: function(msg){
+            $("#inputPage").val(msg.split(",")[0]);
+            $("#inputItem").val(msg.split(",")[1]);
         }
     });
     }
