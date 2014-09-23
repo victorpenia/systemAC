@@ -16,18 +16,26 @@
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr>
-                                <th>Persona</th> 
-                                <th>CI/Rua</th>                                 
-                                <th>Fecha de Nacimiento</th>
+                                <th>CI/Rua</th> 
+                                <th>Persona</th>                                                                 
+                                <th>Fecha nacimiento</th>
+                                <th>Parroquia</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach($this->data as $data_item){ ?>                           
-                            <tr class="gradeC">                                
-                                <td><?php echo  $data_item->firstName." ".$data_item->firstSurname." ".$data_item->secondSurname ?></td>
+                            <tr class="gradeC"> 
                                 <td><?php echo  $data_item->ci?></td>
+                                <td><?php echo  $data_item->firstName." ".$data_item->firstSurname." ".$data_item->secondSurname ?></td>                                
                                 <td><?php echo  $data_item->birthDate ?></td>
+                                <?php if(!empty($data_item->parishNameBaptism)){?>
+                                <td><?php echo  $data_item->parishNameBaptism ?></td>
+                                <?php }if(!empty($data_item->parishNameConfirmation)){?>
+                                <td><?php echo  $data_item->parishNameConfirmation ?></td>
+                                <?php }if(!empty($data_item->parishNameMarriage)){?>
+                                <td><?php echo  $data_item->parishNameMarriage ?></td>
+                                <?php } ?>
                                 <td>
                                 <a href="<?php echo $this->basePath() ?>/sacraments/person/viewp/<?php echo  $data_item->id?>" title="Ver" style="color:#178acc"><span class="glyphicon glyphicon-eye-open"></span></a>
                                 </td>

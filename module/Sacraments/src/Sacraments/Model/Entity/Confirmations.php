@@ -167,7 +167,17 @@ class Confirmations extends TableGateway {
             throw new \Exception("No hay registros asociados al valor $id");
         }
         return $row;
-    }   
+    }
+    
+    public function getIdBookofSacrament($id) {
+        $id = (int) $id;
+        $rowset = $this->tableGateway->select(array('idBookofsacraments' => $id));
+        $row = $rowset->current();
+        if (!$row) {
+            return false;
+        }
+        return true;
+    } 
 
     public function addConfirmations(ConfirmationsFilter $confirmationsFilter, $idPerson, $idUser, $idParish) {
         if(empty($confirmationsFilter->observation)){

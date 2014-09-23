@@ -88,7 +88,7 @@ class ConfirmationsController extends AbstractActionController {
             $idParish = $request->getPost('idParish');
             error_log('logC. Ajx idParish = '.$idParish);
             $data = $this->getBookTable()->getBookByIdParish($idParish, 'Confirmaciones');
-            $buffer = "<option value='0'>Seleccione un Libro</option>";
+            $buffer = "<option value=''>Seleccione un libro</option>";
             foreach ($data as $item_data) {
                 $buffer.='<option value=' . $item_data->id . '>' . $item_data->code . ' (' . $item_data->sacramentName . ' libro ' . $item_data->book . ')' . '</option>';
             }

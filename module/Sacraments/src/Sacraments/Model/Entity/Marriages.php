@@ -78,6 +78,51 @@ class Marriages extends TableGateway {
         return $resultSet;
     }
     
+    public function getOneMariageAndParish($id) {
+        $id = (int) $id;
+        $select = new Select();
+        $select->from('marriages')
+               ->join(array('personMale' => 'person'), 'marriages.idPersonMale = personMale.id', array('idPersonMale' => 'id', 'ciMale' => 'ci', 'firstNameMale' =>'firstName', 'firstSurnameMale' =>'firstSurname', 'secondSurnameMale' =>'secondSurname', 
+                      'birthDateMale' => 'birthDate', 'maritalStatusMale' => 'maritalStatus', 'fatherNameMale' => 'fatherName', 'fatherFirstSurnameMale' => 'fatherFirstSurname', 'fatherSecondSurnameMale' => 'fatherSecondSurname',
+                      'matherNameMale' => 'matherName', 'matherFirstSurnameMale' => 'matherFirstSurname', 'matherSecondSurnameMale' => 'matherSecondSurname'))
+               ->join(array('personFemale' => 'person'), 'marriages.idPersonFemale = personFemale.id', array('idPersonFemale' => 'id', 'ciFemale' => 'ci', 'firstNameFemale' =>'firstName', 'firstSurnameFemale' =>'firstSurname', 'secondSurnameFemale' =>'secondSurname', 
+                      'birthDateFemale' => 'birthDate', 'maritalStatusFemale' => 'maritalStatus', 'fatherNameFemale' => 'fatherName', 'fatherFirstSurnameFemale' => 'fatherFirstSurname', 'fatherSecondSurnameFemale' => 'fatherSecondSurname',
+                      'matherNameFemale' => 'matherName', 'matherFirstSurnameFemale' => 'matherFirstSurname', 'matherSecondSurnameFemale' => 'matherSecondSurname')) 
+               ->join('parishes', 'marriages.idParish = parishes.id', array('parishName'))
+               ->where(array('marriages.id' => $id));
+        $rowset = $this->tableGateway->selectWith($select);
+        $resultSet = $rowset->current();
+        if (!$resultSet) {
+            throw new \Exception("Could not find row $id");
+        }
+        return $resultSet;
+    }
+    
+    public function getOneMarriageById($id) {
+        $id = (int) $id;
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from('marriages')
+               ->join(array('personMale' => 'person'), 'marriages.idPersonMale = personMale.id', array('ciMale' => 'ci', 'firstNameMale' =>'firstName', 'firstSurnameMale' =>'firstSurname', 'secondSurnameMale' =>'secondSurname', 
+                      'birthDateMale' => 'birthDate', 'maritalStatusMale' => 'maritalStatus', 'fatherNameMale' => 'fatherName', 'fatherFirstSurnameMale' => 'fatherFirstSurname', 'fatherSecondSurnameMale' => 'fatherSecondSurname',
+                      'matherNameMale' => 'matherName', 'matherFirstSurnameMale' => 'matherFirstSurname', 'matherSecondSurnameMale' => 'matherSecondSurname'))
+               ->join(array('personFemale' => 'person'), 'marriages.idPersonFemale = personFemale.id', array('ciFemale' => 'ci', 'firstNameFemale' =>'firstName', 'firstSurnameFemale' =>'firstSurname', 'secondSurnameFemale' =>'secondSurname', 
+                      'birthDateFemale' => 'birthDate', 'maritalStatusFemale' => 'maritalStatus', 'fatherNameFemale' => 'fatherName', 'fatherFirstSurnameFemale' => 'fatherFirstSurname', 'fatherSecondSurnameFemale' => 'fatherSecondSurname',
+                      'matherNameFemale' => 'matherName', 'matherFirstSurnameFemale' => 'matherFirstSurname', 'matherSecondSurnameFemale' => 'matherSecondSurname')) 
+               ->join('bookofsacraments', 'bookofsacraments.id = marriages.idBookofsacraments', array('code', 'book', 'idParishes'))
+               ->join('parishes', 'bookofsacraments.idParishes = parishes.id', array('parishName'))
+               ->join('Users', 'marriages.idUserCertificate = users.id', array('idRoles'), 'left')
+               ->join('Certificates', 'Certificates.idUsers = users.id', array('certificateName', 'privateKey'), 'left') 
+               ->where(array('marriages.id' => $id));
+        $selectString = $sql->getSqlStringForSqlObject($select); 
+        $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        $results = $resultSet->current();
+        if (!$results) {
+            throw new \Exception("Could not find row $id");
+        }
+        return $results;        
+    }
+    
     public function getOneMarriageByParish($id, $idParish) {
         $id = (int) $id;
         $sql = new Sql($this->tableGateway->getAdapter());
@@ -112,6 +157,16 @@ class Marriages extends TableGateway {
         }
         return $row;
     }   
+    
+    public function getIdBookofSacrament($id) {
+        $id = (int) $id;
+        $rowset = $this->tableGateway->select(array('idBookofsacraments' => $id));
+        $row = $rowset->current();
+        if (!$row) {
+            return false;
+        }
+        return true;
+    } 
 
     public function addMarriage(MarriagesFilter $marriagesFilter, $idPersonMale, $idPersonFemale, $idUser, $idParish) {
         if(empty($marriagesFilter->observation)){
@@ -220,6 +275,14 @@ class Marriages extends TableGateway {
     }
 
     public function updateMarriages(MarriagesFilter $marriagesFilter) {
+        if($marriagesFilter->marriagePriest != 'Otros')
+            $marriagesFilter->marriagePriestOthers = '';
+        if($marriagesFilter->attestPriest != 'Otros')
+            $marriagesFilter->attestPriestOthers = '';
+        if($marriagesFilter->baptismParishMale != 'Otros')
+            $marriagesFilter->baptismParishMaleOthers = '';
+        if($marriagesFilter->baptismParishFemale != 'Otros')
+            $marriagesFilter->baptismParishFemaleOthers = '';
         $values = array(
             'marriagePriest' => $marriagesFilter->marriagePriest,
             'marriagePriestOthers' => $marriagesFilter->marriagePriestOthers,

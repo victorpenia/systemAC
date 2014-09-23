@@ -13,6 +13,7 @@ namespace Sacraments\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Sacraments\Form\MarriagesForm;
+use Sacraments\Form\MarriagesEditForm;
 use Sacraments\Form\MarriagesparishForm;
 use Sacraments\Form\MarriagesparishEditForm;
 use Sacraments\Form\MarriagesFilter;
@@ -87,7 +88,7 @@ class MarriagesController extends AbstractActionController {
             $idParish = $request->getPost('idParish');
             error_log('logC Ajx idParish = '.$idParish);
             $data = $this->getBookTable()->getBookByIdParish($idParish, 'Matrimonios');
-            $buffer = "<option value='0'>Seleccione un Libro</option>";
+            $buffer = "<option value=''>Seleccione un libro</option>";
             foreach ($data as $item_data) {
                 $buffer.='<option value=' . $item_data->id . '>' . $item_data->code . ' (' . $item_data->sacramentName . ' libro ' . $item_data->book . ')' . '</option>';
             }
@@ -244,10 +245,8 @@ class MarriagesController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
         }
         try {
-            $marriage = $this->getMarriagesTable()->getOneMarriage($id);
+            $marriage = $this->getMarriagesTable()->getOneMarriageById($id);
             $priest = $this->getUserTable()->getOnePriest($marriage->idParishes);
-            $personMale = $this->getPersonTable()->getOnePersonById($marriage['idPersonMale']);
-            $personFemale = $this->getPersonTable()->getOnePersonById($marriage['idPersonFemale']);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
@@ -255,13 +254,11 @@ class MarriagesController extends AbstractActionController {
         $values = array(
             'data' => $marriage,
             'priest' => $priest,
-            'personMale' => $personMale,
-            'personFemale' => $personFemale,
             'url' => $this->getRequest()->getBaseUrl()
         );
         $viewModel = new ViewModel($values);
         $viewModel->setVariables(array('key' => 'value'))
-                ->setTerminal(true);
+                  ->setTerminal(true);
         return $viewModel;
     }
     
@@ -302,9 +299,7 @@ class MarriagesController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
         }
         try {
-            $marriage = $this->getMarriagesTable()->getOneMarriage($id);
-            $personMale = $this->getPersonTable()->getOnePersonById($marriage['idPersonMale']);
-            $personFemale = $this->getPersonTable()->getOnePersonById($marriage['idPersonFemale']);
+            $marriage = $this->getMarriagesTable()->getOneMarriageById($id);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
@@ -312,8 +307,6 @@ class MarriagesController extends AbstractActionController {
         $values = array(
             'title' => 'SACRAMENTO DE MATRIMONIO',
             'data' => $marriage,
-            'personMale' => $personMale,
-            'personFemale' => $personFemale,
         );
         $this->layout()->setVariable('authUser', $this->authUser);
         $this->layout()->setVariable('parishName', $this->parishName);
@@ -348,32 +341,40 @@ class MarriagesController extends AbstractActionController {
         if (!$this->authenticationService()) {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/');
         }
-        $messages = null;
+        $messagesOne = null;
+        $messagesTwo = null;
         $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
         $form = new MarriagesForm($this->dbAdapter);
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $marriagesFilter = new MarriagesFilter();
-            $form->setInputFilter($marriagesFilter->getInputFilter());
+            $marriageFilter = new MarriagesFilter();
+            $form->setInputFilter($marriageFilter->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $marriagesFilter->exchangeArray($form->getData());
-                if ($marriagesFilter->idBookofsacraments != 0) {
-                    error_log('post...');
-                    $idPersonMale = $this->getPersonTable()->addPersonMarriagesMale($marriagesFilter);
-                    $idPersonFemale = $this->getPersonTable()->addPersonMarriagesFemale($marriagesFilter);
-                    error_log('post..  45');
-                    $this->getMarriagesTable()->addMarriage($marriagesFilter, $idPersonMale, $idPersonFemale, $this->authUser->getIdentity()->id, $this->authUser->getIdentity()->idParishes);
-                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
+                $marriageFilter->exchangeArray($form->getData());
+                if ($this->exitsPersonInDatabaseMale($marriageFilter->ciMale, $marriageFilter->firstNameMale, $marriageFilter->firstSurnameMale, $marriageFilter->secondSurnameMale)) {
+                    if ($this->exitsPersonInDatabaseFemale($marriageFilter->ciFemale, $marriageFilter->firstNameFemale, $marriageFilter->firstSurnameFemale, $marriageFilter->secondSurnameFemale)) {
+                        error_log('post...');
+                        $idPersonMale = $this->getPersonTable()->addPersonMarriagesMale($marriageFilter);
+                        $idPersonFemale = $this->getPersonTable()->addPersonMarriagesFemale($marriageFilter);
+                        $this->getMarriagesTable()->addMarriage($marriageFilter, $idPersonMale, $idPersonFemale, $this->authUser->getIdentity()->id, $marriageFilter->idParish);
+                        return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
+                    } else {
+                        $messagesTwo .= "<p style='color:#a94442' >Error la persona (Mujer) ya realizó el sacramento de matrimonio anteriormente.</p>";
+                    }
                 } else {
-                    $messages.="<p style='color:#a94442' >El campo libro es requerido</p>";
+                    $messagesOne .= "<p style='color:#a94442' >Error la persona (Hombre) ya realizó el sacramento de matrimonio anteriormente.</p>";
+                    if (!$this->exitsPersonInDatabaseFemale($marriageFilter->ciFemale, $marriageFilter->firstNameFemale, $marriageFilter->firstSurnameFemale, $marriageFilter->secondSurnameFemale)) {
+                        $messagesTwo .= "<p style='color:#a94442' >Error la persona (Mujer) ya realizó el sacramento de matrimonio anteriormente.</p>";
+                    }
                 }
             }
         }
         $values = array(
             'title' => 'SACRAMENTO DE MATRIMONIO',
             'form' => $form,
-            'messages' => $messages,
+            'messagesOne' => $messagesOne,
+            'messagesTwo' => $messagesTwo,
             'url' => $this->getRequest()->getBaseUrl(),
         );
         $this->layout()->setVariable('authUser', $this->authUser);
@@ -461,21 +462,23 @@ class MarriagesController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
         }
         try {
-            $marriage = $this->getMarriagesTable()->getOneMarriage($id);
+            $marriage = $this->getMarriagesTable()->getOneMariageAndParish($id);
         } catch (\Exception $exception) {
             error_log('logC error exception = '.$exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
         }
-
         $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-        $form = new MarriagesForm($this->dbAdapter);
+        $form = new MarriagesEditForm($this->dbAdapter, $marriage->marriagePriest, $marriage->attestPriest, $marriage->baptismParishMale, $marriage->baptismParishFemale);
         $form->bind($marriage);
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setInputFilter($marriage->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getMarriagesTable()->updateBaptism($marriage);
+                error_log('LLega matrimonio');
+                $this->getPersonTable()->updatePersonMarriagesMale($marriage);
+                $this->getPersonTable()->updatePersonMarriagesFemale($marriage);
+                $this->getMarriagesTable()->updateMarriages($marriage);
                 return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
             }
         }
@@ -512,8 +515,7 @@ class MarriagesController extends AbstractActionController {
         if ($request->isPost()) {
             $form->setInputFilter($marriage->getInputFilter());
             $form->setData($request->getPost());
-            if ($form->isValid()) {
-                error_log('LLega matrimonio');
+            if ($form->isValid()) {                
                 $this->getPersonTable()->updatePersonMarriagesMale($marriage);
                 $this->getPersonTable()->updatePersonMarriagesFemale($marriage);
                 $this->getMarriagesTable()->updateMarriages($marriage);

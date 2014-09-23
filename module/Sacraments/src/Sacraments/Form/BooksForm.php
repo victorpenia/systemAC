@@ -57,16 +57,15 @@ class BooksForm extends Form {
         ));
         /* input text book */
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
             'name' => 'book',
             'attributes' => array(
+                'type' => 'text',
+                'maxlength' => '0',
+                'autocomplete' => 'off',
+                'class' => 'form-control',
                 'id' => 'inputBook',
-                'class' => 'form-control'
+                'placeholder' => 'Página'
             ),
-            'options' => array(
-                'value_options' => array(),
-                'disable_inarray_validator' => true,
-            )
         ));
         /* input select Sacrament Name */
         $this->add(array(
@@ -119,9 +118,9 @@ class BooksForm extends Form {
         /* input select idParish */
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',
-            'name' => 'idParishes',
+            'name' => 'idParish',
             'attributes' => array(
-                'id' => 'inputSelectIdvicarious',
+                'id' => 'inputSelectIdParishes',
                 'class' => 'form-control'
             ),
             'options' => array(

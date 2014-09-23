@@ -167,7 +167,17 @@ class Baptisms extends TableGateway {
             throw new \Exception("No hay registros asociados al valor $id");
         }
         return $row;
-    }   
+    }  
+    
+    public function getIdBookofSacrament($id) {
+        $id = (int) $id;
+        $rowset = $this->tableGateway->select(array('idBookofsacraments' => $id));
+        $row = $rowset->current();
+        if (!$row) {
+            return false;
+        }
+        return true;
+    } 
 
     public function addBaptism(BaptismsFilter $baptismsFilter, $idPerson, $idUser, $idParish) {
         if(empty($baptismsFilter->observation)){

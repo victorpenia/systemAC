@@ -62,6 +62,7 @@ class MarriagesFilter implements InputFilterAwareInterface {
     public $idPersonMale;
     public $idPersonFemale;
     public $idParish;
+    public $parishName;
     
     protected $inputFilter;
 
@@ -115,6 +116,7 @@ class MarriagesFilter implements InputFilterAwareInterface {
         $this->idPersonMale = (isset($data['idPersonMale'])) ? $data['idPersonMale'] : null;
         $this->idPersonFemale = (isset($data['idPersonFemale'])) ? $data['idPersonFemale'] : null;
         $this->idParish = (isset($data['idParish'])) ? $data['idParish'] : null;
+        $this->parishName = (isset($data['parishName'])) ? $data['parishName'] : null;
     }
 
     public function getArrayCopy() {

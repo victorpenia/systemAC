@@ -20,6 +20,9 @@ use Zend\Authentication\AuthenticationService;
 class BooksController extends AbstractActionController {
 
     protected $booksTable;
+    protected $baptismsTable;
+    protected $confirmationsTable;
+    protected $marriagesTable;
     public $dbAdapter;
     public $authUser;
     public $parishName = "Arzobispado de Cochabamba";
@@ -30,6 +33,30 @@ class BooksController extends AbstractActionController {
             $this->booksTable = $sm->get('Sacraments\Model\Entity\Books');
         }
         return $this->booksTable;
+    }
+    
+    public function getBaptismsTable() {
+        if (!$this->baptismsTable) {
+            $sm = $this->getServiceLocator();
+            $this->baptismsTable = $sm->get('Sacraments\Model\Entity\Baptisms');
+        }
+        return $this->baptismsTable;
+    }
+    
+    public function getConfirmationsTable() {
+        if (!$this->confirmationsTable) {
+            $sm = $this->getServiceLocator();
+            $this->confirmationsTable = $sm->get('Sacraments\Model\Entity\Confirmations');
+        }
+        return $this->confirmationsTable;
+    }
+    
+    public function getMarriagesTable() {
+        if (!$this->marriagesTable) {
+            $sm = $this->getServiceLocator();
+            $this->marriagesTable = $sm->get('Sacraments\Model\Entity\Marriages');
+        }
+        return $this->marriagesTable;
     }
 
     private function authenticationService() {
@@ -68,7 +95,32 @@ class BooksController extends AbstractActionController {
                 $bookNumber = $res['bookNumber'];
             }
             $bookNumber = $bookNumber + 1;
-            $bookNumber = '<option value=' . $bookNumber . '>' . $bookNumber . '</option>';
+            $response->setContent($bookNumber);
+            $headers = $response->getHeaders();
+        }
+        return $response;
+    }
+    
+    public function getBookSacramentByParishAction() {
+        if (!$this->authenticationService()) {
+            return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/');
+        }
+        error_log('Llega ... book');
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+        if ($request->isPost()) {
+            $response->setStatusCode(200);
+            $sacrament = $request->getPost('sacrament');
+            $idParish = $request->getPost('idParish');
+            error_log('logC. Ajx sacrament = ' . $sacrament);
+            $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+            $sql = 'SELECT MAX(book) as bookNumber FROM bookofsacraments where sacramentName = \'' . $sacrament . '\' and idParishes = ' . $idParish;
+            $statement = $dbAdapter->query($sql);
+            $result = $statement->execute();
+            foreach ($result as $res) {
+                $bookNumber = $res['bookNumber'];
+            }
+            $bookNumber = $bookNumber + 1;
             $response->setContent($bookNumber);
             $headers = $response->getHeaders();
         }
@@ -256,6 +308,7 @@ class BooksController extends AbstractActionController {
         if (!$this->authenticationService()) {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/');
         }
+        $messages = null;
         $id = (int) $this->params()->fromRoute('id', 0);
         error_log('logC id = ' . $id);
         if (!$id) {
@@ -267,7 +320,6 @@ class BooksController extends AbstractActionController {
             error_log('logC error exception = ' . $exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/books/indexp');
         }
-
         $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
         $form = new BooksparishForm($this->dbAdapter);
         $form->bind($book);
@@ -276,19 +328,43 @@ class BooksController extends AbstractActionController {
             $form->setInputFilter($book->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getBooksTable()->updatepBook($book, $this->authUser->getIdentity()->idParishes);
-                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/books/indexp');
+                if ($this->exitBookofSacramentsInDataBase($book)) {
+                    $this->getBooksTable()->updatepBook($book, $this->authUser->getIdentity()->idParishes);
+                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/books/indexp');
+                }else{
+                    $messages .= "<p style='color:#a94442' >Error no se puede cambiar la partida inicial porque ya está siendo usada.</p>";
+                }
             }
         }
         $values = array(
             'title' => 'LIBROS PARROQUIALES',
             'form' => $form,
+            'messages' => $messages,
             'id' => $id,
             'url' => $this->getRequest()->getBaseUrl(),
         );
         $this->layout()->setVariable('authUser', $this->authUser);
         $this->layout()->setVariable('parishName', $this->parishName);
         return new ViewModel($values);
+    }
+    
+    private function exitBookofSacramentsInDataBase($book){
+        if($book->sacramentName== 'Bautismos'){
+            error_log('bau '. $book->id);
+            if ($this->getBaptismsTable()->getIdBookofSacrament($book->id))
+                return false;
+        }
+        if($book->sacramentName== 'Confirmaciones'){
+            error_log('confi '. $book->id);
+            if($this->getConfirmationsTable()->getIdBookofSacrament($book->id))
+                return false;
+        }
+        if($book->sacramentName== 'Matrimonios'){
+            error_log('matri '. $book->id);
+            if($this->getMarriagesTable()->getIdBookofSacrament($book->id))
+                return false;
+        }
+        return true;
     }
 
     public function deleteAction() {

@@ -27,9 +27,9 @@ $form->setAttributes(array(
                         <h3 style="color:#178acc">Informaci&oacute;n b&aacute;sica</h3>
                             <div class="form-group">
                                 <label>* Parroquia:</label>
-                                <?php $idParishes= $form->get('idParishes');
-                                    echo $this->formSelect($idParishes);
-                                    echo $this->formElementErrors($idParishes);
+                                <?php $idParish= $form->get('idParish');
+                                    echo $this->formSelect($idParish);
+                                    echo $this->formElementErrors($idParish);
                                 ?>
                             </div>
                             <div class="form-group">
@@ -42,12 +42,12 @@ $form->setAttributes(array(
                             <div class="form-group">
                                 <label>* N&uacute;mero de libro:</label>
                                 <?php $book= $form->get('book');
-                                    echo $this->formSelect($book);
+                                    echo $this->formInput($book);
                                     echo $this->formElementErrors($book);
                                 ?> 
                             </div>
                             <div class="form-group">
-                                <label>Partida inicial:</label>
+                                <label>* Partida inicial:</label>
                                 <?php $startItem= $form->get('startItem');
                                     echo $this->formInput($startItem);
                                     echo $this->formElementErrors($startItem);
@@ -84,20 +84,32 @@ $form->setAttributes(array(
 <!-- /.row -->
 <script type="text/javascript">
 
+$(document).ready(function () {
+    $("#inputBook").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
 $(document).ready(function() {
     $( "#inputRegistrationDate" ).datepicker();
 });
     
 $(document).ready(function() {
 $('#inputSelectSacrament').change(function(){
+    var idParish = $('#inputSelectIdParishes').val();
+    console.debug(idParish);
     var sacrament = $(this).val();
+    var data ={ 'sacrament': sacrament, 'idParish': idParish };
     $.ajax({
         type: "POST",
-        url: "<?php echo $this->url.'/sacraments/books/getBookSacrament'; ?>",
-        data: "sacrament="+sacrament,
+        url: "<?php echo $this->url.'/sacraments/books/getBookSacramentByParish'; ?>",
+        data: data,
         success: function(msg){ 
             console.debug(msg);
-            $("#inputBook").html(msg);
+            $("#inputBook").val(msg);
         }
     });
 });

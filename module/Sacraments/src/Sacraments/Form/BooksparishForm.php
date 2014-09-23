@@ -55,30 +55,17 @@ class BooksparishForm extends Form {
                 'placeholder' => 'Partida inicial'
             ),
         ));
-        /* input text registration Date */
-//        $this->add(array(
-//            'name' => 'registrationDate',
-//            'attributes' => array(
-//                'type' => 'text',
-//                'maxlength' => '10',
-//                'value' => date("Y-m-d"),
-//                'class' => 'form-control',
-//                'id' => 'inputRegistrationDate',
-//                'placeholder' => 'Fecha registro'
-//            ),
-//        ));
         /* input text book */
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
             'name' => 'book',
             'attributes' => array(
+                'type' => 'text',
+                'maxlength' => '0',
+                'autocomplete' => 'off',
+                'class' => 'form-control',
                 'id' => 'inputBook',
-                'class' => 'form-control'
+                'placeholder' => 'Página'
             ),
-            'options' => array(
-                'value_options' => array(),
-                'disable_inarray_validator' => true,
-            )
         ));
         /* input select Sacrament Name */
         $this->add(array(

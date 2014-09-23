@@ -89,6 +89,7 @@ return array(
         '/sacraments/baptisms/getBookSacrament',
         '/sacraments/baptisms/getBornIn',
         '/sacraments/baptisms/getElementBookSacrament',
+        '/sacraments/baptisms/getBookSacramentByParish',
         '/sacraments/baptisms/indexp',
         '/sacraments/baptisms/viewp',
         '/sacraments/baptisms/addp',

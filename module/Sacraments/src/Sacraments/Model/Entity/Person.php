@@ -23,8 +23,23 @@ class Person extends TableGateway {
     }
     
     public function fetchAll($paginated = false){
-        $resultSet = $this->tableGateway->select();
-        return $resultSet;
+//        $resultSet = $this->tableGateway->select();
+//        return $resultSet;
+//        $idBook = (int) $idBook;
+//        error_log('logM. idBook ='.$idBook);
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from('person')
+               ->join('baptisms', 'person.id = baptisms.idPerson', array('idBaptism' => 'id'), 'left')
+               ->join(array('parishesBaptisms' => 'parishes'), 'baptisms.idParish = parishesBaptisms.id', array('parishNameBaptism' => 'parishName'), 'left') 
+               ->join('confirmations', 'person.id = confirmations.idPerson', array('idConfirmation' => 'id'), 'left')
+               ->join(array('parishesConfirmation' => 'parishes'), 'confirmations.idParish = parishesConfirmation.id', array('parishNameConfirmation' => 'parishName'), 'left')
+               ->join('marriages', 'person.id = marriages.idPersonMale or person.id = marriages.idPersonFemale', array('idParish'), 'left')
+               ->join(array('parishesMarriage' => 'parishes'), 'marriages.idParish = parishesMarriage.id', array('parishNameMarriage' => 'parishName'), 'left');
+        $selectString = $sql->getSqlStringForSqlObject($select); 
+        $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+//        $results = $resultSet->current();
+        return $resultSet; 
     }  
     
     public function getOnePerson($id) {
@@ -33,8 +48,11 @@ class Person extends TableGateway {
         $select = $sql->select();
         $select->from('person')
                ->join('baptisms', 'person.id = baptisms.idPerson', array('idBaptism' => 'id'), 'left')
+               ->join(array('parishesBaptisms' => 'parishes'), 'baptisms.idParish = parishesBaptisms.id', array('parishNameBaptism' => 'parishName'), 'left') 
                ->join('confirmations', 'person.id = confirmations.idPerson', array('idConfirmation' => 'id'), 'left')
-               ->join('marriages', 'person.id = marriages.idPersonMale or person.id = marriages.idPersonFemale', array('idMarriage' => 'id'), 'left') 
+               ->join(array('parishesConfirmation' => 'parishes'), 'confirmations.idParish = parishesConfirmation.id', array('parishNameConfirmation' => 'parishName'), 'left')
+               ->join('marriages', 'person.id = marriages.idPersonMale or person.id = marriages.idPersonFemale', array('idParish'), 'left')
+               ->join(array('parishesMarriage' => 'parishes'), 'marriages.idParish = parishesMarriage.id', array('parishNameMarriage' => 'parishName'), 'left')
                ->where(array('person.id' => $id));
         $selectString = $sql->getSqlStringForSqlObject($select); 
         $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);

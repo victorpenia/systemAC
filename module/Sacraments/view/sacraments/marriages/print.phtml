@@ -114,30 +114,30 @@ function CalculaEdad($birthDate) {
     return( date("md") < $m.$d ? date("Y")-$Y-1 : date("Y")-$Y );
 }
 
-$yearMale = CalculaEdad($this->personMale->birthDate);
-$yearFemale = CalculaEdad($this->personFemale->birthDate);
+$yearMale = CalculaEdad($this->data->birthDateMale);
+$yearFemale = CalculaEdad($this->data->birthDateFemale);
 
 
 $parentMalePrint = '';
-if(!empty($this->personMale->fatherName)){
-    if(!empty($this->personMale->matherName)){
-        $parentMalePrint = $this->personMale->fatherName." ".$this->personMale->fatherFirstSurname." ".$this->personMale->fatherSecondSurname."</strong> y de: <strong>".$this->personMale->matherName." ".$this->personMale->matherFirstSurname." ".$this->personMale->matherSecondSurname;
+if(!empty($this->data->fatherNameMale)){
+    if(!empty($this->data->matherNameMale)){
+        $parentMalePrint = $this->data->fatherNameMale." ".$this->data->fatherFirstSurnameMale." ".$this->data->fatherSecondSurnameMale."</strong> y de: <strong>".$this->data->matherNameMale." ".$this->data->matherFirstSurnameMale." ".$this->data->matherSecondSurnameMale;
     }else{
-        $parentMalePrint = $this->personMale->fatherName." ".$this->personMale->fatherFirstSurname." ".$this->personMale->fatherSecondSurname;
+        $parentMalePrint = $this->data->fatherNameMale." ".$this->data->fatherFirstSurnameMale." ".$this->data->fatherSecondSurnameMale;
     }
 }else{
-    $parentMalePrint = $this->personMale->matherName." ".$this->personMale->matherFirstSurname." ".$this->personMale->matherSecondSurname;
+    $parentMalePrint = $this->data->matherNameMale." ".$this->data->matherFirstSurnameMale." ".$this->data->matherSecondSurnameMale;
 }
 
 $parentFemalePrint = '';
-if(!empty($this->personFemale->fatherName)){
-    if(!empty($this->personFemale->matherName)){
-        $parentFemalePrint = $this->personFemale->fatherName." ".$this->personFemale->fatherFirstSurname." ".$this->personFemale->fatherSecondSurname."</strong> y de: <strong>".$this->personFemale->matherName." ".$this->personFemale->matherFirstSurname." ".$this->personFemale->matherSecondSurname;
+if(!empty($this->data->fatherNameFemale)){
+    if(!empty($this->data->matherNameFemale)){
+        $parentFemalePrint = $this->data->fatherNameFemale." ".$this->data->fatherFirstSurnameFemale." ".$this->data->fatherSecondSurnameFemale."</strong> y de: <strong>".$this->data->matherNameFemale." ".$this->data->matherFirstSurnameFemale." ".$this->data->matherSecondSurnameFemale;
     }else{
-        $parentFemalePrint = $this->personFemale->fatherName." ".$this->personFemale->fatherFirstSurname." ".$this->personFemale->fatherSecondSurname;
+        $parentFemalePrint = $this->data->fatherNameFemale." ".$this->data->fatherFirstSurnameFemale." ".$this->data->fatherSecondSurnameFemale;
     }
 }else{
-    $parentFemalePrint = $this->personFemale->matherName." ".$this->personFemale->matherFirstSurname." ".$this->personFemale->matherSecondSurname;
+    $parentFemalePrint = $this->data->matherNameFemale." ".$this->data->matherFirstSurnameFemale." ".$this->data->matherSecondSurnameFemale;
 }
 
 if($this->data->marriagePriest == 'Otros')
@@ -207,17 +207,17 @@ El Presbítero que suscribe: <strong>".$this->priest->charge." ".$this->priest->
 ";
 $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, false, true, 'J', false);
 
-$html1 = "<br /><strong>\"".strtoupper($this->personMale->firstName)." CON ".strtoupper($this->personFemale->firstName)."\"</strong>";
+$html1 = "<br /><strong>\"".strtoupper($this->data->firstNameMale)." CON ".strtoupper($this->data->firstNameFemale)."\"</strong>";
 $pdf->writeHTMLCell(0, 0, '', '', $html1, 0, 1, false, true, 'C', false);
 $html2 = "
 <br />
 <br />En esta Parroquia del <strong>\"".$this->data->parishName."\"</strong>, el día <strong>".$day.", ".strftime("%d de %B del %Y",strtotime($this->data->marriageDate)).".</strong>
 Previa la información de libertad y solteria dada por los testigos abajo nombrados, publicadas y dispensadas las proclamas, y llenados todos los requisitos de derecho, no resultando impedimento
-alguno o dispensado el impedimento abajo indicado. El suscrito párroco <strong>".$marriagePriestPrint."</strong>, bendijo el matrimonio de: <strong>".strtoupper($this->personMale->firstName." ".$this->personMale->firstSurname." ".$this->personMale->secondSurname)."</strong> 
-de <strong>".$yearMale." años </strong>de edad, <strong>".$this->personMale->maritalStatus."</strong> bautizado en la parroquia de (la): <strong>".$baptismParishMalePrint."</strong> hijo de:
+alguno o dispensado el impedimento abajo indicado. El suscrito párroco <strong>".$marriagePriestPrint."</strong>, bendijo el matrimonio de: <strong>".strtoupper($this->data->firstNameMale." ".$this->data->firstSurnameMale." ".$this->data->secondSurnameMale)."</strong> 
+de <strong>".$yearMale." años </strong>de edad, <strong>".$this->data->maritalStatusMale."</strong> bautizado en la parroquia de (la): <strong>".$baptismParishMalePrint."</strong> hijo de:
 <strong>".$parentMalePrint."</strong>. 
-Con <strong>".strtoupper($this->personFemale->firstName." ".$this->personFemale->firstSurname." ".$this->personFemale->secondSurname)."</strong>
-de <strong>".$yearFemale." años </strong>de edad, <strong>".$this->personFemale->maritalStatus."</strong> bautizada en la parroquia de (la): <strong>".$baptismParishFemalePrint."</strong> hija de:
+Con <strong>".strtoupper($this->data->firstNameFemale." ".$this->data->firstSurnameFemale." ".$this->data->secondSurnameFemale)."</strong>
+de <strong>".$yearFemale." años </strong>de edad, <strong>".$this->data->maritalStatusFemale."</strong> bautizada en la parroquia de (la): <strong>".$baptismParishFemalePrint."</strong> hija de:
 <strong>".$parentFemalePrint."</strong>.
 <br />
 <br />Fueron testigos de información: <strong>".$this->data->godfatherNameOneInformation." ".$this->data->godfatherSurnameOneInformation."</strong> y <strong>".$this->data->godfatherNameTwoInformation." ".$this->data->godfatherSurnameTwoInformation."</strong>.

@@ -31,7 +31,7 @@ $form->setAttributes(array(
                             <div class="form-group">
                                 <label>* Sacramento:</label>
                                 <?php $sacramentName= $form->get('sacramentName');
-                                    echo $this->formSelect($sacramentName);
+                                    echo $this->formInput($sacramentName);
                                     echo $this->formElementErrors($sacramentName);
                                 ?>
                             </div>
@@ -41,7 +41,19 @@ $form->setAttributes(array(
                                     echo $this->formInput($book);
                                     echo $this->formElementErrors($book);
                                 ?> 
-                            </div>                    
+                            </div>
+                            <div class="form-group">
+                                <label>* Partida inicial:</label>
+                                <?php $startItem= $form->get('startItem');
+                                    echo $this->formInput($startItem);
+                                    echo $this->formElementErrors($startItem);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <?php 
+                                    echo $this->messages;
+                                ?>
+                            </div>
                         <?php echo $this->formElement($form->get('modify')) ?>
                         <a href="<?php echo $this->basePath() ?>/sacraments/books/indexp" class="btn btn-default" role="button">Cancelar</a>
                     </div>
@@ -58,6 +70,25 @@ $form->setAttributes(array(
 </div>
 <!-- /.row -->
 <script type="text/javascript">
+    
+$(document).ready(function () {
+    $("#inputSelectSacrament").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
+$(document).ready(function () {
+    $("#inputBook").keydown(function (e) {
+        if (e.which == 9) {
+            return true;
+        }
+        return false;
+    });
+});
+
 $(document).ready(function() {
     $('#defaultForm').bootstrapValidator({
 //        live: 'disabled',
@@ -72,6 +103,17 @@ $(document).ready(function() {
                 validators: {
                     notEmpty: {
                         message: 'El libro es requerido'
+                    }
+                }
+            },
+            startItem: {
+                validators: {
+                    notEmpty: {
+                        message: 'El campo partida es obligatorio.'
+                    },
+                    regexp: {
+                        regexp: /^[0-9]*$/,
+                        message: 'El campo partida solo puede contener números enteros.'
                     }
                 }
             },

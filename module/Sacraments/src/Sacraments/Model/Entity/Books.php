@@ -142,12 +142,14 @@ class Books extends TableGateway {
     }
 
     public function addBook(BooksFilter $booksFilter) {
-        $code = $this->getCodeSacrament($booksFilter, $booksFilter->idParishes);
+        $code = $this->getCodeSacrament($booksFilter, $booksFilter->idParish);
         error_log('AddM code = '.$code);
         $values = array(
-            'idParishes' => $booksFilter->idParishes,
+            'idParishes' => $booksFilter->idParish,
             'sacramentName' => $booksFilter->sacramentName,
             'book' => $booksFilter->book,
+            'startItem' => $booksFilter->startItem,
+            'registrationDate' => date("Y-m-d"),
             'statusBook' => $booksFilter->statusBook,
             'typeBook' => $booksFilter->typeBook,
             'code' => $code,
@@ -200,10 +202,7 @@ class Books extends TableGateway {
     public function updatepBook(BooksFilter $booksFilter, $idParish) {
         $code = $this->getCodeSacrament($booksFilter, $idParish);
         $values = array(
-//            'idParishes' => $idParish,
-            'sacramentName' => $booksFilter->sacramentName,
-            'book' => $booksFilter->book,
-            'code' => $code,
+            'startItem' => $booksFilter->startItem,
         );
         $id = (int) $booksFilter->id;
         $this->tableGateway->update($values, array('id' => $id));

@@ -102,7 +102,7 @@ class BaptismsController extends AbstractActionController {
             $response->setStatusCode(200);
             $idParish = $request->getPost('idParish');
             $data = $this->getBookTable()->getBookByIdParish($idParish, 'Bautismos');
-            $buffer = "<option value=''>Seleccione un Libro</option>";
+            $buffer = "<option value=''>Seleccione un libro</option>";
             foreach ($data as $item_data) {
                 $buffer.='<option value=' . $item_data->id . '>' . $item_data->code . ' (' . $item_data->sacramentName . ' libro ' . $item_data->book . ')' . '</option>';
             }
