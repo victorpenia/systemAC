@@ -5,7 +5,8 @@ $form->setAttributes(array(
     'action' => $this->url.'/application/dashboard/chartsone',
     'method' => 'post',
     'name'   => 'myForm',
-    'id'  => 'defaultForm'
+    'id'  => 'defaultForm',
+    'class' => 'form-horizontal'
 ));
 ?>
 <div class="row">
@@ -22,37 +23,43 @@ $form->setAttributes(array(
                 <i class="fa fa-bar-chart-o fa-fw"></i> Gr&aacute;fica de l&iacute;neas
                 <?php echo $this->form()->openTag($form)?>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-1 control-label">Vicaría</label>
-                    <div class="col-sm-3">
-                      <?php $idVicarious = $form->get('idVicarious');
-                          echo $this->formSelect($idVicarious);
-                          echo $this->formElementErrors($idVicarious);
-                      ?>
-                    </div>
-                    <label for="inputEmail3" class="col-sm-1 control-label">Parroquia</label>
-                    <div class="col-sm-3">
-                      <?php $idParishes = $form->get('idParishes');
-                          echo $this->formSelect($idParishes);
-                          echo $this->formElementErrors($idParishes);
-                      ?>
-                    </div>
-                    <label for="inputEmail3" class="col-sm-1 control-label">Sacramento</label>
-                    <div class="col-sm-3">
+                    <label class="col-md-2 control-label">Sacramento</label>
+                    <div class="col-md-3">
                       <?php $sacrament = $form->get('sacrament');
                           echo $this->formSelect($sacrament);
                           echo $this->formElementErrors($sacrament);
                       ?>
                     </div>
-                    <label for="inputEmail3" class="col-sm-1 control-label">Gestión</label>
-                    <div class="col-sm-2">
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Vicaría</label>
+                    <div class="col-md-4">
+                      <?php $idVicarious = $form->get('idVicarious');
+                          echo $this->formSelect($idVicarious);
+                          echo $this->formElementErrors($idVicarious);
+                      ?>
+                    </div>
+                    <label class="col-md-2 control-label">Parroquia</label>
+                    <div class="col-md-4">
+                      <?php $idParishes = $form->get('idParishes');
+                          echo $this->formSelect($idParishes);
+                          echo $this->formElementErrors($idParishes);
+                      ?>
+                    </div>
+                </div>
+                <div class="form-group">  
+                    <label class="col-md-2 control-label">Gestión</label>
+                    <div class="col-md-2">
                       <?php $year = $form->get('year');
                           echo $this->formSelect($year);
                           echo $this->formElementErrors($year);
                        ?>
-                    </div>                   
+                    </div>
+            </div>
+                <div class="form-group"> 
+                <label class="col-md-2 control-label"></label>    
                 <?php echo $this->formElement($form->get('send')) ?>
-                <?php echo $this->form()->closeTag() ?>
-                
+                <?php echo $this->form()->closeTag() ?>                
             </div>
             </div>
             <!-- /.panel-heading -->
@@ -92,7 +99,7 @@ $valueM10 = "0";
 $valueM11 = "0";
 $valueM12 = "0";
 //echo $this->year;
-
+  
 foreach($this->data as $data_item){ 
 //    echo $data_item['bap']." ";
 //    echo $data_item['month']." ";
@@ -120,7 +127,7 @@ foreach($this->data as $data_item){
         $value11 = $data_item['bap'];
     if($data_item['month'] == 12)
         $value12 = $data_item['bap'];
-}
+        }
 
 foreach($this->data1 as $data_item){ 
 //    echo $data_item['marri']." ";
@@ -149,14 +156,41 @@ foreach($this->data1 as $data_item){
         $valueM11 = $data_item['marri'];
     if($data_item['monthM'] == 12)
         $valueM12 = $data_item['marri'];
-}
+        }
 ?> 
 
-  
-
+       
+ 
 <script type="text/javascript">
+        
+$(document).ready(function() {
+$('#inputSelectIdVicarious').change(function(){
+    var idVicarious = $(this).val();
+    $.ajax({
+        type: "POST",
+        url: "<?php echo $this->url.'/application/dashboard/getParishesByVicarious'; ?>",
+        data: "idVicarious="+idVicarious,
+        success: function(msg){ 
+            console.debug(msg);
+            $("#inputSelectIdParish").html(msg);
+        }
+    });
+});
+});
+
+//$(document).ready(function () {
+//    $("#inputSelectType").change(function () {
+//        var value = $(this).val();
+//        if(value == 'Reportes por torta'){
+//            $("#inputStartDate").show();
+//        }else{
+//            $("#inputStartDate").hide();
+//        }    
+//    });
+//});
+        
 <?php if($this->sacrament == 'Bautismos & Matrimonios') {?>
-$(function() {
+$(function() {   
     
     Morris.Line({
         element: 'morris-line-chart',    

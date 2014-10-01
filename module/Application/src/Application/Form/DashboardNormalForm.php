@@ -10,7 +10,7 @@ namespace Application\Form;
 use Zend\Form\Form;
 use Zend\Db\Adapter\AdapterInterface;
 
-class DashboardForm extends Form {
+class DashboardNormalForm extends Form {
 
     protected $dbadapter;
 
@@ -46,49 +46,48 @@ class DashboardForm extends Form {
 //        ));
         
         /* input select year */
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
-            'name' => 'year',
-            'attributes' => array(
-                'id' => 'inputSelectBornIn',
-                'class' => 'form-control'
-            ),
-            'options' => array(
-                'value_options' => array(
-                    '2011' => '2011',
-                    '2012' => '2012',
-                    '2013' => '2013',
-                    '2014' => '2014',
-                ),
-            )
-        ));
+//        $this->add(array(
+//            'type' => 'Zend\Form\Element\Select',
+//            'name' => 'year',
+//            'attributes' => array(
+//                'id' => 'inputSelectBornIn',
+//                'class' => 'form-control'
+//            ),
+//            'options' => array(
+//                'value_options' => array(
+//                    '2011' => '2011',
+//                    '2012' => '2012',
+//                    '2013' => '2013',
+//                    '2014' => '2014',
+//                ),
+//            )
+//        ));
         /* input text start Date */
-//        $this->add(array(
-//            'name' => 'startDate',
-//            'attributes' => array(
-//                'type' => 'text',
-//                'style'=> 'display:none',
-//                'autocomplete' => 'off',
-//                'maxlength' => '0',
-//                'data-date-format' => "yyyy-mm-dd",
-//                'value' => date("Y-m-d"),
-//                'class' => 'form-control',
-//                'id' => 'inputStartDate',
-//            ),
-//        ));
-//        /* input text end Date */
-//        $this->add(array(
-//            'name' => 'endDate',
-//            'attributes' => array(
-//                'type' => 'text',
-//                'autocomplete' => 'off',
-//                'maxlength' => '0',
-//                'data-date-format' => "yyyy-mm-dd",
-//                'value' => date("Y-m-d"),
-//                'class' => 'form-control',
-//                'id' => 'inputEndDate',
-//            ),
-//        ));
+        $this->add(array(
+            'name' => 'startDate',
+            'attributes' => array(
+                'type' => 'text',
+                'autocomplete' => 'off',
+                'maxlength' => '0',
+                'data-date-format' => "yyyy-mm-dd",
+                'value' => '2014-01-01',
+                'class' => 'form-control',
+                'id' => 'inputStartDate',
+            ),
+        ));
+        /* input text end Date */
+        $this->add(array(
+            'name' => 'endDate',
+            'attributes' => array(
+                'type' => 'text',
+                'autocomplete' => 'off',
+                'maxlength' => '0',
+                'data-date-format' => "yyyy-mm-dd",
+                'value' => date("Y-m-d"),
+                'class' => 'form-control',
+                'id' => 'inputEndDate',
+            ),
+        ));
         
         /* input select sacrament */
         $this->add(array(
@@ -100,8 +99,8 @@ class DashboardForm extends Form {
             ),
             'options' => array(
                 'value_options' => array(
-                    'Bautismos & Matrimonios' => 'Bautismos & Matrimonios',
                     'Bautismos' => 'Bautismos',
+                    'Confirmaciones' => 'Confirmaciones',
                     'Matrimonios' => 'Matrimonios'
                 ),
             )

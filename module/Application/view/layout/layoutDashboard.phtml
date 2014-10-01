@@ -14,6 +14,7 @@
         <!-- Le styles -->
         <?php
         echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/img.ico'))//              
+                ->prependStylesheet($this->basePath() . '/css/datepicker.css')
                 ->prependStylesheet($this->basePath() . '/css/sb-admin.css')
                 ->prependStylesheet($this->basePath() . '/css/plugins/morris/morris-0.4.3.min.css')
                 ->prependStylesheet($this->basePath() . '/css/plugins/timeline/timeline.css') 
@@ -25,7 +26,7 @@
         <!-- Scripts -->
         <?php
         echo $this->headScript()
-                
+                ->prependFile($this->basePath() . '/js/bootstrap-datepicker.js')
                 ->prependFile($this->basePath() . '/js/plugins/morris/morris.js')
                 ->prependFile($this->basePath() . '/js/plugins/morris/raphael-2.1.0.min.js')                
                 ->prependFile($this->basePath() . '/js/sb-admin.js')                
@@ -84,10 +85,13 @@
                         <a href="#"><span class="glyphicon glyphicon-stats"></span> Reportes<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="<?php echo $this->basePath() ?>/application/dashboard/chartsone">Reportes en Line</a>
+                                <a href="<?php echo $this->basePath() ?>/application/dashboard/chartsone">Reportes (Lineal)</a>
                             </li>
                             <li>
-                                <a href="<?php echo $this->basePath() ?>/application/dashboard/chartsthree">Reportes en Pie</a>
+                                <a href="<?php echo $this->basePath() ?>/application/dashboard/chartsthree">Reportes (Torta)</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath() ?>/application/dashboard/normal">Reportes (Tablas)</a>
                             </li>
                         </ul>
                     </li>

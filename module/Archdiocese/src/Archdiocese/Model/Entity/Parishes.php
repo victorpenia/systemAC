@@ -47,6 +47,17 @@ class Parishes extends TableGateway {
         return $row;
     }
     
+    public function fetchAllParishesByIdVicarious($idVicarious) {
+        $idVicarious = (int) $idVicarious;
+        $rowset = $this->tableGateway->select(array('idVicarious' => $idVicarious));
+        return $rowset;
+//        $row = $rowset->current();
+//        if (!$row) {
+//            throw new \Exception("No hay registros asociados al valor $id");
+//        }
+//        return $row;
+    }
+    
     public function getOneParish($id) {
         $id = (int) $id;
         $sql = new Sql($this->tableGateway->getAdapter());

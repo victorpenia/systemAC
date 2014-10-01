@@ -18,6 +18,7 @@ use Sacraments\Form\MarriagesparishForm;
 use Sacraments\Form\MarriagesparishEditForm;
 use Sacraments\Form\MarriagesFilter;
 use Zend\Authentication\AuthenticationService;
+use Zend\Validator\Db\RecordExists;
 
 class MarriagesController extends AbstractActionController {
 
@@ -458,6 +459,7 @@ class MarriagesController extends AbstractActionController {
         }
         $id = (int) $this->params()->fromRoute('id', 0);
         error_log('logC id = '.$id);
+        $messages = null;
         if (!$id) {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
         }
@@ -475,16 +477,22 @@ class MarriagesController extends AbstractActionController {
             $form->setInputFilter($marriage->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                error_log('LLega matrimonio');
-                $this->getPersonTable()->updatePersonMarriagesMale($marriage);
-                $this->getPersonTable()->updatePersonMarriagesFemale($marriage);
-                $this->getMarriagesTable()->updateMarriages($marriage);
-                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
+                if ($this->exitsCiInDatabaseEdit($marriage->ciMale, $marriage->idPersonMale) || $this->exitsCiInDatabaseEdit($marriage->ciFemale, $marriage->idPersonFemale)) {
+                    error_log('yes yesyasdasdas');
+                    $this->getPersonTable()->updatePersonMarriagesMale($marriage);
+                    $this->getPersonTable()->updatePersonMarriagesFemale($marriage);
+                    $this->getMarriagesTable()->updateMarriages($marriage);
+                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/index');
+                } else {
+                    error_log(' nooooooooo');
+                    $messages .= "<p style='color:#a94442' >El CI ya existe en la base de datos</p>";
+                }
             }
         }
         $values = array(
             'title' => 'SACRAMENTO DE MATRIMONIO',
             'form' => $form,
+            'messages' => $messages,
             'id' => $id,
             'url' => $this->getRequest()->getBaseUrl(),
         );
@@ -499,6 +507,7 @@ class MarriagesController extends AbstractActionController {
         }
         $id = (int) $this->params()->fromRoute('id', 0);
         error_log('logC id = '.$id);
+        $messages = null;
         if (!$id) {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/indexp');
         }
@@ -515,22 +524,51 @@ class MarriagesController extends AbstractActionController {
         if ($request->isPost()) {
             $form->setInputFilter($marriage->getInputFilter());
             $form->setData($request->getPost());
-            if ($form->isValid()) {                
-                $this->getPersonTable()->updatePersonMarriagesMale($marriage);
-                $this->getPersonTable()->updatePersonMarriagesFemale($marriage);
-                $this->getMarriagesTable()->updateMarriages($marriage);
-                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/indexp');
+            if ($form->isValid()) {
+                if ($this->exitsCiInDatabaseEdit($marriage->ciMale, $marriage->idPersonMale) || $this->exitsCiInDatabaseEdit($marriage->ciFemale, $marriage->idPersonFemale)) {
+                    error_log('yes yesyasdasdas');
+                    $this->getPersonTable()->updatePersonMarriagesMale($marriage);
+                    $this->getPersonTable()->updatePersonMarriagesFemale($marriage);
+                    $this->getMarriagesTable()->updateMarriages($marriage);
+                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/marriages/indexp');
+                } else {
+                    error_log(' nooooooooo');
+                    $messages .= "<p style='color:#a94442' >El CI ya existe en la base de datos</p>";
+                }
             }
         }
         $values = array(
             'title' => 'SACRAMENTO DE MATRIMONIO',
             'form' => $form,
+            'messages' => $messages,
             'id' => $id,
             'url' => $this->getRequest()->getBaseUrl(),
         );
         $this->layout()->setVariable('authUser', $this->authUser);
         $this->layout()->setVariable('parishName', $this->parishName);
         return new ViewModel($values);
+    }
+    
+    public function exitsCiInDatabaseEdit($ci, $idPerson) {
+        error_log('entraaaa '.$idPerson);
+        $validator = new RecordExists(
+            array(
+                'table' => 'person',
+                'field' => 'ci',
+                'adapter' => $this->dbAdapter,
+                'exclude' => array(
+                    'field' => 'id',
+                    'value' => $idPerson,
+                )
+            )
+        );
+        if ($validator->isValid($ci)) {
+            error_log('exit');
+            return false;
+        } else {
+            error_log('no exit');
+            return true;
+        }
     }
 
     public function deleteAction() {

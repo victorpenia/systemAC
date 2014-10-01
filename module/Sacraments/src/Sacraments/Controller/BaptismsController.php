@@ -421,6 +421,7 @@ class BaptismsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/');
         }
         $id = (int) $this->params()->fromRoute('id', 0);
+        $messages = null;
         error_log('logC id = '.$id);
         if (!$id) {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/index');
@@ -439,14 +440,19 @@ class BaptismsController extends AbstractActionController {
             $form->setInputFilter($baptism->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getPersonTable()->updatePersonBaptisms($baptism);
-                $this->getBaptismsTable()->updateBaptism($baptism);
-                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/index');
+                if ($this->exitsCiInDatabaseEdit($baptism->ci, $baptism->idPerson)) {
+                    $this->getPersonTable()->updatePersonBaptisms($baptism);
+                    $this->getBaptismsTable()->updateBaptism($baptism);
+                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/index');
+                } else {
+                    $messages .= "<p style='color:#a94442' >El CI ya existe en la base de datos</p>";
+                }
             }
         }
         $values = array(
             'title' => 'SACRAMENTO DE BAUTISMO',
             'form' => $form,
+            'messages' => $messages,
             'id' => $id,
             'url' => $this->getRequest()->getBaseUrl(),
         );
@@ -460,6 +466,7 @@ class BaptismsController extends AbstractActionController {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/');
         }
         $id = (int) $this->params()->fromRoute('id', 0);
+        $messages = null;
         error_log('logC id = '.$id);
         if (!$id) {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/indexp');
@@ -478,20 +485,46 @@ class BaptismsController extends AbstractActionController {
             $form->setInputFilter($baptism->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getPersonTable()->updatePersonBaptisms($baptism);
-                $this->getBaptismsTable()->updateBaptism($baptism);
-                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/indexp');
+                if ($this->exitsCiInDatabaseEdit($baptism->ci, $baptism->idPerson)) {
+                    $this->getPersonTable()->updatePersonBaptisms($baptism);
+                    $this->getBaptismsTable()->updateBaptism($baptism);
+                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/baptisms/indexp');
+                } else {
+                    $messages .= "<p style='color:#a94442' >El CI ya existe en la base de datos</p>";
+                }
             }
         }
         $values = array(
             'title' => 'SACRAMENTO DE BAUTISMO',
             'form' => $form,
+            'messages' => $messages,
             'id' => $id,
             'url' => $this->getRequest()->getBaseUrl(),
         );
         $this->layout()->setVariable('authUser', $this->authUser);
         $this->layout()->setVariable('parishName', $this->parishName);
         return new ViewModel($values);
+    }
+    
+    public function exitsCiInDatabaseEdit($ci, $idPerson) {
+        $validator = new RecordExists(
+            array(
+                'table' => 'person',
+                'field' => 'ci',
+                'adapter' => $this->dbAdapter,
+                'exclude' => array(
+                    'field' => 'id',
+                    'value' => $idPerson,
+                )
+            )
+        );
+        if ($validator->isValid($ci)) {
+            error_log('exit');
+            return false;
+        } else {
+            error_log('no exit');
+            return true;
+        }
     }
     
     public function deleteAction() {

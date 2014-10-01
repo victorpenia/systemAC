@@ -18,6 +18,7 @@ use Sacraments\Form\ConfirmationsparishForm;
 use Sacraments\Form\ConfirmationsparishEditForm;
 use Sacraments\Form\ConfirmationsFilter;
 use Zend\Authentication\AuthenticationService;
+use Zend\Validator\Db\RecordExists;
 
 class ConfirmationsController extends AbstractActionController {
 
@@ -407,6 +408,7 @@ class ConfirmationsController extends AbstractActionController {
         }
         $id = (int) $this->params()->fromRoute('id', 0);
         error_log('logC id = '.$id);
+        $messages = null;
         if (!$id) {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
         }
@@ -424,14 +426,19 @@ class ConfirmationsController extends AbstractActionController {
             $form->setInputFilter($confirmation->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getPersonTable()->updatePersonConfirmations($confirmation);
-                $this->getConfirmationsTable()->updateConfirmation($confirmation);
-                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
+                if ($this->exitsCiInDatabaseEdit($confirmation->ci, $confirmation->idPerson)) {
+                    $this->getPersonTable()->updatePersonConfirmations($confirmation);
+                    $this->getConfirmationsTable()->updateConfirmation($confirmation);
+                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/index');
+                } else {
+                    $messages .= "<p style='color:#a94442' >El CI ya existe en la base de datos</p>";
+                }
             }
         }
         $values = array(
             'title' => 'SACRAMENTO DE CONFIRMACI&Oacute;N',
             'form' => $form,
+            'messages' => $messages,
             'id' => $id,
             'url' => $this->getRequest()->getBaseUrl(),
         );
@@ -446,6 +453,7 @@ class ConfirmationsController extends AbstractActionController {
         }
         $id = (int) $this->params()->fromRoute('id', 0);
         error_log('logC id = '.$id);
+        $messages = null;
         if (!$id) {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
         }
@@ -464,20 +472,46 @@ class ConfirmationsController extends AbstractActionController {
             $form->setInputFilter($confirmation->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getPersonTable()->updatePersonConfirmations($confirmation);
-                $this->getConfirmationsTable()->updateConfirmation($confirmation);
-                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
+                if ($this->exitsCiInDatabaseEdit($confirmation->ci, $confirmation->idPerson)) {
+                    $this->getPersonTable()->updatePersonConfirmations($confirmation);
+                    $this->getConfirmationsTable()->updateConfirmation($confirmation);
+                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/confirmations/indexp');
+                } else {
+                    $messages .= "<p style='color:#a94442' >El CI ya existe en la base de datos</p>";
+                }
             }
         }
         $values = array(
             'title' => 'SACRAMENTO DE CONFIRMACI&Oacute;N',
             'form' => $form,
+            'messages' => $messages,
             'id' => $id,
             'url' => $this->getRequest()->getBaseUrl(),
         );
         $this->layout()->setVariable('authUser', $this->authUser);
         $this->layout()->setVariable('parishName', $this->parishName);
         return new ViewModel($values);
+    }
+    
+    public function exitsCiInDatabaseEdit($ci, $idPerson) {
+        $validator = new RecordExists(
+            array(
+                'table' => 'person',
+                'field' => 'ci',
+                'adapter' => $this->dbAdapter,
+                'exclude' => array(
+                    'field' => 'id',
+                    'value' => $idPerson,
+                )
+            )
+        );
+        if ($validator->isValid($ci)) {
+            error_log('exit');
+            return false;
+        } else {
+            error_log('no exit');
+            return true;
+        }
     }
 
     public function deleteAction() {
