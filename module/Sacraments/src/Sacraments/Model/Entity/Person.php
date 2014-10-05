@@ -51,7 +51,7 @@ class Person extends TableGateway {
                ->join(array('parishesBaptisms' => 'parishes'), 'baptisms.idParish = parishesBaptisms.id', array('parishNameBaptism' => 'parishName'), 'left') 
                ->join('confirmations', 'person.id = confirmations.idPerson', array('idConfirmation' => 'id'), 'left')
                ->join(array('parishesConfirmation' => 'parishes'), 'confirmations.idParish = parishesConfirmation.id', array('parishNameConfirmation' => 'parishName'), 'left')
-               ->join('marriages', 'person.id = marriages.idPersonMale or person.id = marriages.idPersonFemale', array('idParish'), 'left')
+               ->join('marriages', 'person.id = marriages.idPersonMale or person.id = marriages.idPersonFemale', array('idMarriage' => 'id'), 'left')
                ->join(array('parishesMarriage' => 'parishes'), 'marriages.idParish = parishesMarriage.id', array('parishNameMarriage' => 'parishName'), 'left')
                ->where(array('person.id' => $id));
         $selectString = $sql->getSqlStringForSqlObject($select); 

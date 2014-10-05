@@ -13,6 +13,7 @@ namespace Sacraments\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Sacraments\Form\BooksForm;
+use Sacraments\Form\BooksEditForm;
 use Sacraments\Form\BooksparishForm;
 use Sacraments\Form\BooksFilter;
 use Zend\Authentication\AuthenticationService;
@@ -269,33 +270,39 @@ class BooksController extends AbstractActionController {
         if (!$this->authenticationService()) {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/');
         }
+        $messages = null;
         $id = (int) $this->params()->fromRoute('id', 0);
         error_log('logC id = ' . $id);
         if (!$id) {
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/books/index');
         }
         try {
-            $book = $this->getBooksTable()->fetchOneBook($id);
+            $book = $this->getBooksTable()->getOneBook($id);
         } catch (\Exception $exception) {
             error_log('logC error exception = ' . $exception);
             return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/books/index');
         }
 
         $this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-        $form = new BooksForm($this->dbAdapter);
+        $form = new BooksEditForm($this->dbAdapter);
         $form->bind($book);
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setInputFilter($book->getInputFilter());
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $this->getBooksTable()->updateBook($book);
-                return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/books/index');
+                if ($this->exitBookofSacramentsInDataBase($book)) {
+                    $this->getBooksTable()->updatepBook($book, $book->idParish);
+                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/sacraments/books/index');
+                }else{
+                    $messages .= "<p style='color:#a94442' >Error no se puede cambiar la partida inicial porque ya está siendo usada.</p>";
+                }
             }
         }
         $values = array(
             'title' => 'LIBROS PARROQUIALES',
             'form' => $form,
+            'messages' => $messages,
             'id' => $id,
             'url' => $this->getRequest()->getBaseUrl(),
         );

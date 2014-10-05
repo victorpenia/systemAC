@@ -103,23 +103,20 @@ class Books extends TableGateway {
             throw new \Exception("No hay registros asociados al valor $id");
         }
         return $row;
-    }
+    }   
     
     public function getOneBook($id) {
         $id = (int) $id;
-        error_log('logM. id ='.$id);
-        $sql = new Sql($this->tableGateway->getAdapter());
-        $select = $sql->select();
-        $select->from('bookofsacraments')
-               ->join('parishes', 'parishes.id = bookofsacraments.idParishes', array('parishName', 'idParish' => 'id'))
-               ->where(array('bookofsacraments.id' => $id));
-        $selectString = $sql->getSqlStringForSqlObject($select); 
-        $resultSet = $this->tableGateway->getAdapter()->query($selectString, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
-        $results = $resultSet->current();
-        if (!$results) {
+        $select = new Select();
+        $select->from('bookofsacraments');
+        $select->join('parishes', 'parishes.id = bookofsacraments.idParishes', array('parishName', 'idParish' => 'id'));
+        $select->where(array('bookofsacraments.id' => $id));
+        $rowset = $this->tableGateway->selectWith($select);
+        $resultSet = $rowset->current();
+        if (!$resultSet) {
             throw new \Exception("Could not find row $id");
         }
-        return $results;        
+        return $resultSet;
     }
     
     public function getOneBookByParish($id, $idParish) {

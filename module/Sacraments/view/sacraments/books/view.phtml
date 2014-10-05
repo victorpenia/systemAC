@@ -20,6 +20,8 @@
                     <p>Parroquia: <strong><a href="<?php echo $this->basePath() ?>/archdiocese/parishes/view/<?php echo $this->data->idParish ?>" style="color:#178acc"><?php echo $this->data->parishName?></a></strong></p>
                     <p>Libro: <strong><?php echo "Libro de ".$this->data->sacramentName." Nº: ".$this->data->book ?></strong></p>
                     <p>C&oacute;digo del libro: <strong><?php echo $this->data->code ?></strong></p>
+                    <p>Partida inicial: <strong><?php echo $this->data->startItem ?></strong></p>
+                    <p>Fecha de registro: <strong><?php echo $this->data->registrationDate ?></strong></p>
                     <p>Tipo del libro: <strong><?php echo $this->data->statusBook." ".$this->data->typeBook ?></strong></p>                    
                     <a href="<?php echo $this->basePath() ?>/sacraments/books/edit/<?php echo  $this->data->id ?>" class="btn btn-primary" role="button">Editar</a> 
                     </br>                    

@@ -22,6 +22,7 @@ class BooksFilter implements InputFilterAwareInterface {
     public $typeBook;
     public $statusBook;
     public $idParish;
+    public $parishName;
     
     protected $inputFilter;
 
@@ -35,6 +36,7 @@ class BooksFilter implements InputFilterAwareInterface {
         $this->typeBook = (isset($data['typeBook'])) ? $data['typeBook'] : null;
         $this->statusBook = (isset($data['statusBook'])) ? $data['statusBook'] : null;
         $this->idParish = (isset($data['idParish'])) ? $data['idParish'] : null;
+        $this->parishName = (isset($data['parishName'])) ? $data['parishName'] : null;
     }
 
     public function getArrayCopy() {
